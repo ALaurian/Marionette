@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Fight</id>
+    <version>1.0.5.20</version>
+    <authors>Fight</authors>
+    <description>Package Description</description>
+    <dependencies>
+      <group targetFramework="net7.0-windows10.0.17763">
+        <dependency id="FlaUI.Core" version="4.0.0" exclude="Build,Analyzers" />
+        <dependency id="FlaUI.UIA3" version="4.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Playwright" version="1.26.0" exclude="Build,Analyzers" />
+        <dependency id="Polly" version="7.2.3" exclude="Build,Analyzers" />
+        <dependency id="log4net" version="2.0.15" exclude="Build,Analyzers" />
+        <dependency id="morelinq" version="3.3.2" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\l.avrigeanu\RiderProjects\Fight\Fight\bin\Debug\net7.0-windows10.0.17763.0\Fight.dll" target="lib\net7.0-windows10.0.17763\Fight.dll" />
+  </files>
+</package>
