@@ -2,18 +2,21 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using Flanium;
 using Microsoft.Office.Interop.Excel;
 using Microsoft.VisualBasic;
-using static Flanium.WinEvents;
 using Application = Microsoft.Office.Interop.Excel.Application;
 using Clipboard = System.Windows.Forms.Clipboard;
 using DataColumn = System.Data.DataColumn;
 using DataTable = System.Data.DataTable;
-using Range = System.Range;
+using Range = Microsoft.Office.Interop.Excel.Range;
+using Worksheets = Microsoft.Office.Interop.Excel.Worksheet;
+using workbook = Microsoft.Office.Interop.Excel.Workbook;
+using Cells = Microsoft.Office.Interop.Excel.Range;
 
 #pragma warning disable CS0168
 
-namespace Flanium;
+namespace Fight;
 
 [SuppressMessage("ReSharper", "AssignNullToNotNullAttribute")]
 public class Blocks
@@ -34,7 +37,7 @@ public class Blocks
         {
             if (_dispatcher is not null)
             {
-                Range range = new(startIndex, endIndex);
+                System.Range range = new(startIndex, endIndex);
                 //use Range to cut the dispatcher
                 _dispatcher = _dispatcher[range];  
             }
@@ -49,7 +52,7 @@ public class Blocks
             return this;
         }
 
-        public Engine Next(string actionName)
+        public async Task<Engine> Next(string actionName)
         {
             try
             {
@@ -66,9 +69,14 @@ public class Blocks
             }
         }
 
-        public object GetCurrent()
+        public async Task<object> GetCurrent()
         {
-            return _dispatcher[DispatcherIndex];
+            return await Task.Run(() => _dispatcher[DispatcherIndex]);
+        }
+
+        public async Task<object> GetValue(string actionName)
+        {
+            return await Task.Run(() => this[actionName]);
         }
         
         
@@ -94,7 +102,7 @@ public class Blocks
             return this;
         }
 
-        public Engine AddAction(Func<object, object> action)
+        public Engine AddAction(Func<object, Task<object>> action)
         {
             if (IsRunning)
             {
@@ -108,7 +116,7 @@ public class Blocks
             return this;
         }
 
-        public Engine AddActions(Func<object, object>[] actions)
+        public Engine AddActions(Func<object, Task<object>>[] actions)
         {
             if (IsRunning)
             {
@@ -244,7 +252,7 @@ public class Blocks
             return this;
         }
 
-        public Engine Execute()
+        public async Task<Engine> Execute()
         {
             if (_actions.Length == 0)
                 throw new Exception("No actions to execute");
@@ -267,11 +275,11 @@ public class Blocks
 
             for (var executeIndex = Index; executeIndex < _actions.Length; executeIndex++)
             {
-                var a = _actions[executeIndex];
+                var a =_actions[executeIndex];
 
                 try
                 {
-                    var funcOutput = a.Invoke(a);
+                    var funcOutput = a.Invoke(null);
                     this[a.Method.GetParameters()[0].Name] = funcOutput;
                     if (Jumping)
                     {
@@ -338,51 +346,51 @@ public class Blocks
 
         public object GetCellValue(object sheet, int row, int column)
         {
-            return workbook.Worksheets[sheet].Cells[row, column].Value2;
+            return ((workbook.Worksheets[sheet] as Worksheet).Cells[row, column] as Range).Value2;
         }
 
         public object GetRangeValue(object sheet, string range)
         {
-            return workbook.Worksheets[sheet].Range[range].Value2;
+            return ((workbook.Worksheets[sheet] as Worksheet).Range[range] as Range).Value2;
         }
 
         public object GetRowValue(object sheet, int index)
         {
-            return (workbook.Worksheets[sheet].Rows[index].Value2 as object[,]).Cast<object>().ToList();
+            return (((workbook.Worksheets[sheet] as Worksheet).Rows[index] as Range).Value2 as object[,]).Cast<object>().ToList();
         }
 
         public object GetColumnValue(object sheet, int index)
         {
-            return (workbook.Worksheets[sheet].Columns[index].Value2 as object[,]).Cast<object>().ToList();
+            return (((workbook.Worksheets[sheet] as Worksheet).Columns[index] as Range).Value2 as object[,]).Cast<object>().ToList();
         }
 
         public string SetCellValue(object sheet, int row, int column, string value)
         {
-            workbook.Worksheets[sheet].Cells[row, column].Value2 = value;
+            ((workbook.Worksheets[sheet] as Worksheet).Cells[row, column] as Range).Value2 = value;
             return "Edited cell on row " + row + " and column " + column + " to " + value + ".";
         }
 
         public string SetRangeValue(object sheet, string range, string value)
         {
-            workbook.Worksheets[sheet].Range[range].Value2 = value;
+            ((workbook.Worksheets[sheet] as Worksheet).Range[range] as Range).Value2 = value;
             return "Edited range " + range + " to " + value + ".";
         }
 
         public string DeleteCell(object sheet, int row, int column, XlDeleteShiftDirection direction)
         {
-            workbook.Worksheets[sheet].Cells[row, column].Delete(direction);
+            ((workbook.Worksheets[sheet] as Worksheet).Cells[row, column] as Range).Delete(direction);
             return "Deleted cell on row " + row + " and column " + column + ".";
         }
 
         public string DeleteRange(object sheet, string range, XlDeleteShiftDirection direction)
         {
-            workbook.Worksheets[sheet].Range[range].Delete(direction);
+            ((workbook.Worksheets[sheet] as Worksheet).Range[range] as Range).Delete(direction);
             return "Deleted range " + range + ".";
         }
 
         public string DeleteRow(object sheet, int row, XlDeleteShiftDirection direction)
         {
-            workbook.Worksheets[sheet].Rows[row].EntireRow.Delete(direction);
+            ((workbook.Worksheets[sheet] as Worksheet).Rows[row] as Range).EntireRow.Delete(direction);
             return "Deleted row " + row + ".";
         }
 
@@ -663,8 +671,8 @@ public class Blocks
 
         public string Save()
         {
-            var window = Search.GetWindow("*[contains(@Name,'" + workbook.Name + "')]");
-            var saveButton = Search.FindElement(window, "//*[@Name='Save']");
+            var window = WinEvents.Search.GetWindow("*[contains(@Name,'" + workbook.Name + "')]");
+            var saveButton = WinEvents.Search.FindElement(window, "//*[@Name='Save']");
             WinEvents.Action.Click(saveButton, true);
 
             return "Saved Excel file.";

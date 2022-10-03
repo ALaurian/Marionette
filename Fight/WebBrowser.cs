@@ -11,29 +11,19 @@ namespace Fight;
 public class WebBrowser
 {
     private IBrowser _browser;
-    private IBrowserContext _context;
-    private IPage _page;
-    private bool _force;
+    private IBrowserContext _context { get; set; }
+    private IPage _page { get; set; }
+    private bool _force = false;
+    private LoadState _pageWaitType = LoadState.DOMContentLoaded;
     private List<IDownload> downloadedFiles = new();
     private List<string> fileDownloadSession = new();
+    private IDialog _dialog { get; set; }
 
-    public void EagerMode()
-    {
-        _force = true;
-    }
+    public void ForceActions(bool state) => _force = state;
 
-    public enum BrowserType
-    {
-        Chrome,
-        Firefox,
-    }
+    public void SetPageWaitType(LoadState PageWaitType) => _pageWaitType = PageWaitType;
 
-    public IPage GetPage()
-    {
-        return _page;
-    }
-
-    public WebBrowser(BrowserType browserType = BrowserType.Chrome, bool headlessMode = false)
+    public WebBrowser(BrowserType browserType = BrowserType.Chrome, LoadState pageWaitType = LoadState.DOMContentLoaded, bool headlessMode = false)
     {
         var playwright = Playwright.CreateAsync().Result;
 
@@ -46,11 +36,23 @@ public class WebBrowser
 
         _context = _browser.NewContextAsync().Result;
         _page = _context.NewPageAsync().Result;
+        _pageWaitType = pageWaitType;
         _page.Download += downloadHandler;
+        _page.Dialog += dialogHandler;
 
         Console.WriteLine("WebBrowser was successfully started.");
     }
 
+    public enum BrowserType
+    {
+        Chrome,
+        Firefox,
+    }
+
+    public IPage GetPage() => _page;
+
+
+    #region Handlers
     private async void downloadHandler(object sender, IDownload download)
     {
         fileDownloadSession.Add(await download.PathAsync());
@@ -59,15 +61,27 @@ public class WebBrowser
         fileDownloadSession.Remove(fileDownloadSession.First());
     }
 
-    public List<IDownload> GetDownloadedFiles()
+    private void dialogHandler(object sender, IDialog dialog)
     {
-        Thread.Sleep(3000);
+        _dialog = dialog;
+    }
+
+    #endregion
+
+
+    public List<IDownload> GetDownloadedFiles(string pathToSaveTo)
+    {
+        while (!fileDownloadSession.Any())
+        {
+        }
+
         while (fileDownloadSession.Any())
         {
         }
 
         var downloadedFilesList = downloadedFiles;
         downloadedFiles = new List<IDownload>();
+        downloadedFiles.ForEach(x => x.SaveAsAsync(pathToSaveTo).Wait());
         return downloadedFilesList;
     }
 
@@ -85,60 +99,132 @@ public class WebBrowser
     }
 
 
+    #region Dialogs
+
+    public IDialog GetDialog() => _dialog;
+
+    public void AcceptDialogIf(List<string> dialogTexts)
+    {
+        if (_dialog != null && dialogTexts.Any(x => _dialog.Message.Contains(x)))
+        {
+            _dialog.AcceptAsync().Wait();
+            _dialog = null;
+        }
+    }
+
+    public void AcceptDialog()
+    {
+        if (_dialog != null)
+        {
+            _dialog.AcceptAsync().Wait();
+            _dialog = null;
+        }
+    }
+
+    public void DismissDialog()
+    {
+        if (_dialog != null)
+        {
+            _dialog.DismissAsync().Wait();
+            _dialog = null;
+        }
+    }
+
+    public void DismissDialogIf(List<string> dialogTexts)
+    {
+        if (_dialog != null && dialogTexts.Any(x => _dialog.Message.Contains(x)))
+        {
+            _dialog.DismissAsync().Wait();
+            _dialog = null;
+        }
+    }
+
+    #endregion
+
     #region Actions
 
-    public async Task<IElementHandle> Click(string selector, int retries = 15, int retryInterval = 1)
+    public IElementHandle WaitElementAppear(string selector)
     {
-        var element = await Policy.HandleResult<IElementHandle>(result => result == null)
-            .WaitAndRetryAsync(retries, interval => TimeSpan.FromSeconds(retryInterval))
-            .ExecuteAsync(async () =>
-            {
-                var element = await FindElement(selector);
-                if (element != null)
-                {
-                    try
-                    {
-                        await element.ClickAsync(new ElementHandleClickOptions() {Force = _force});
-                        await element.DisposeAsync();
-                        return element;
-                    }
-                    catch (Exception e)
-                    {
-                        return null;
-                    }
-                }
+        return FindElement(selector) ?? null;
+    }
 
-                return element;
-            });
+    public IElementHandle Click(string selector)
+    {
+        var element = FindElement(selector);
+        if (element is null)
+            throw new NullReferenceException();
+
+        element.ClickAsync(new ElementHandleClickOptions() {Force = _force}).Wait();
+        element.DisposeAsync().AsTask().Wait();
+        return element;
+    }
+
+    public IElementHandle Hover(string selector)
+    {
+        var element = FindElement(selector);
+        if (element is null)
+            throw new NullReferenceException();
+
+        element.HoverAsync(new() {Force = _force}).Wait();
+        element.DisposeAsync().AsTask().Wait();
+        return element;
+    }
+
+    public IElementHandle DoubleClick(string selector)
+    {
+        var element = FindElement(selector);
+        if (element is null)
+            throw new NullReferenceException();
+
+        element.DblClickAsync(new() {Force = _force}).Wait();
+        element.DisposeAsync().AsTask().Wait();
+        return element;
+    }
+
+    public IElementHandle SetText(string selector, string value, bool typeInto = false)
+    {
+        var element = FindElement(selector);
+        if (element is null)
+            throw new NullReferenceException();
+
+
+        element.FillAsync("", new() {Force = _force}).Wait();
+        if (typeInto)
+            element.TypeAsync(value).Wait();
+        else
+            element.FillAsync(value, new() {Force = _force}).Wait();
+
+        element.DisposeAsync().AsTask().Wait();
+
 
         return element;
     }
 
-    public async Task<string> GetText(IElementHandle elementHandle, int retries = 15, int retryInterval = 1)
+    public string GetAttribute(string selector, string attributeName)
     {
-        var element = await Policy.HandleResult<string>(result => result == null)
-            .WaitAndRetryAsync(retries, interval => TimeSpan.FromSeconds(retryInterval))
-            .ExecuteAsync(async () =>
-            {
-                var text = false;
-                var innerText = false;
-                
-                if (await elementHandle.TextContentAsync() != "")
-                    text = true;
+        var element = FindElement(selector);
+        if (element is null)
+            throw new NullReferenceException();
 
-                if (await elementHandle.InnerTextAsync() != "")
-                    innerText = true;
+        var attrValue = element.GetAttributeAsync(attributeName).Result;
+        element.DisposeAsync().AsTask().Start();
+        return attrValue;
+    }
 
-                if (text)
-                    return await elementHandle.TextContentAsync();
+    public string GetText(string selector)
+    {
+        var element = FindElement(selector);
+        if (element is null)
+            throw new NullReferenceException();
 
-                if (innerText)
-                    return await elementHandle.InnerTextAsync();
+        if (element.TextContentAsync().Result != "")
+            return element.TextContentAsync().Result;
+        if (element.GetAttributeAsync("value").Result != "")
+            return element.GetAttributeAsync("value").Result;
+        if (element.InnerTextAsync().Result != "")
+            return element.InnerTextAsync().Result;
 
-                return "";
-            });
-
-        return element;
+        return "";
     }
 
     #endregion
@@ -146,80 +232,81 @@ public class WebBrowser
 
     #region Searchers
 
-    public async Task<IElementHandle> FindElement(string selector)
+    public IElementHandle FindElement(string selector, int retries = 120, double retryInterval = 0.125)
     {
-        IElementHandle element = null;
-
-        var Pages = _context.Pages.ToArray();
-
-        foreach (var w in Pages)
-        {
-            //============================================================
-            element = await w.QuerySelectorAsync(selector);
-            if (element != null)
+        var element = Policy.HandleResult<IElementHandle>(result => result == null)
+            .WaitAndRetry(retries, interval => TimeSpan.FromSeconds(retryInterval))
+            .Execute(() =>
             {
-                return element;
-            }
+                IElementHandle element = null;
+                var pages = _context.Pages.ToArray();
 
-            //============================================================
-            var iframes = w.Frames.ToList();
-            var index = 0;
-
-            for (; index < iframes.Count; index++)
-            {
-                var frame = iframes[index];
-
-
-                element = await frame.QuerySelectorAsync(selector);
-                if (element is not null)
+                foreach (var w in pages)
                 {
-                    return element;
-                }
+                    _page.WaitForLoadStateAsync(_pageWaitType, new PageWaitForLoadStateOptions() {Timeout = 60}).Wait();
+                    //============================================================
+                    try
+                    {
+                        element = w.QuerySelectorAsync(selector).Result;
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
 
-                var children = frame.ChildFrames;
+                    if (element != null)
+                    {
+                        return element;
+                    }
 
-                if (children.Count > 0 && iframes.Any(x => children.Any(y => y.Equals(x))) == false)
-                {
-                    iframes.InsertRange(index + 1, children);
-                    index--;
-                }
-            }
-        }
+                    //============================================================
+                    var iframes = w.Frames.ToList();
+                    var index = 0;
 
-        return element;
-    }
+                    for (; index < iframes.Count; index++)
+                    {
+                        var frame = iframes[index];
 
-    public async Task<List<IElementHandle>> FindAllDescendants(IElementHandle element)
-    {
-        var descendants = (await element.QuerySelectorAllAsync("*")).ToList();
-        return descendants;
-    }
+                        try
+                        {
+                            element = frame.QuerySelectorAsync(selector).Result;
+                        }
+                        catch
+                        {
+                            // ignored
+                        }
 
-    public async Task<List<IElementHandle>> FindAllChildren(IElementHandle element)
-    {
-        var children = (await element.QuerySelectorAllAsync("xpath=child::*")).ToList();
-        return children;
-    }
+                        if (element is not null)
+                        {
+                            return element;
+                        }
 
-    public async Task<IElementHandle> WaitElementAppear(string selector, int retries = 15,
-        int retryInterval = 1, string FrameType = "iframe")
-    {
-        var element = await Policy.HandleResult<IElementHandle>(result => result == null)
-            .WaitAndRetryAsync(retries, interval => TimeSpan.FromSeconds(retryInterval))
-            .ExecuteAsync(async () =>
-            {
-                var element = await FindElement(selector);
-                if (element != null)
-                {
-                    return element;
+                        var children = frame.ChildFrames;
+
+                        if (children.Count > 0 && iframes.Any(x => children.Any(y => y.Equals(x))) == false)
+                        {
+                            iframes.InsertRange(index + 1, children);
+                            index--;
+                        }
+                    }
                 }
 
                 return null;
             });
 
-        if (element != null) return element;
+        return element;
+    }
 
-        return null;
+    public List<IElementHandle> FindAllDescendants(string selector)
+    {
+        var descendants = FindElement(selector).QuerySelectorAllAsync("*").Result.ToList();
+        return descendants;
+    }
+
+    public List<IElementHandle> FindAllChildren(string selector)
+    {
+        var children = FindElement(selector).QuerySelectorAllAsync("xpath=child::*").Result.ToList();
+        return children;
     }
 
     #endregion
