@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="200" height="200" src="https://user-images.githubusercontent.com/110975879/193436689-e9ae7f89-c98c-4c2d-9852-815127936140.png">
+  <img width="200" height="200" src="https://cdn-icons-png.flaticon.com/512/609/609105.png">
 </p>
 
 # Marionette
