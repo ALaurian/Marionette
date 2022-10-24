@@ -5,7 +5,7 @@
   },
   "projects": {
     "C:\\Users\\lauri\\Documents\\GitHub\\Fight\\Marionette\\Marionette.csproj": {
-      "version": "1.0.5.99",
+      "version": "1.0.6.16",
       "restore": {
         "projectUniqueName": "C:\\Users\\lauri\\Documents\\GitHub\\Fight\\Marionette\\Marionette.csproj",
         "projectName": "Marionette",
@@ -20,7 +20,7 @@
           "net7.0-windows10.0.17763.0"
         ],
         "sources": {
-          "C:\\Users\\lauri\\Documents\\GitHub\\Fight\\Fight\\bin\\Debug": {},
+          "C:\\Users\\lauri\\Documents\\GitHub\\Fight\\Marionette\\bin\\Debug": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

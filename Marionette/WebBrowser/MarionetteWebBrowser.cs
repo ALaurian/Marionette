@@ -14,6 +14,10 @@ public partial class PlayWebBrowser
     private List<IDownload> downloadedFiles = new();
     private List<string> fileDownloadSession = new();
     private IDialog _dialog { get; set; }
+    
+    public bool DebugMode = false;
+    public int DebugMode_Duration = 3;
+    public bool LoggingEnabled = false;
 
     public void ForceActions(bool state) => _force = state;
 
@@ -24,7 +28,7 @@ public partial class PlayWebBrowser
     /// </summary>
     /// <param name="browserType"></param>
     /// <param name="pageWaitType"></param>
-    public PlayWebBrowser(int port = 8080, bool connectSession = false,
+    public PlayWebBrowser(bool connectSession = false, int port = 8080,
         string browserPath = @"C:\Program Files\Google\Chrome\Application\chrome.exe",
         BrowserType browserType = BrowserType.Chrome, LoadState pageWaitType = LoadState.DOMContentLoaded)
     {
@@ -76,7 +80,7 @@ public partial class PlayWebBrowser
         }
 
 
-        Console.WriteLine("WebBrowser connected to port" + port + ". With " + browserType + " browser.");
+        Console.WriteLine("WebBrowser connected to port " + port + ". With " + browserType + " browser.");
     }
 
     public PlayWebBrowser(BrowserType browserType, LoadState pageWaitType = LoadState.DOMContentLoaded,

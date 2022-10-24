@@ -5,9 +5,6 @@ namespace Marionette.WebBrowser;
 
 public partial class PlayWebBrowser
 {
-    public bool DebugMode = false;
-    public int DebugMode_Duration = 3;
-
     public IElementHandle FindElement(string selector, int retries = 120, double retryInterval = 0.125)
     {
         var element = Policy.HandleResult<IElementHandle>(result => result == null)
@@ -15,7 +12,7 @@ public partial class PlayWebBrowser
             .Execute(() =>
             {
                 IElementHandle element = null;
-                var pages = _context.Pages.ToArray();
+                var pages = _context.Pages.Reverse().ToArray();
 
                 foreach (var w in pages)
                 {
@@ -33,7 +30,7 @@ public partial class PlayWebBrowser
 
                     if (element != null)
                     {
-                        w.BringToFrontAsync();
+                        w.BringToFrontAsync().Wait();
                         if (DebugMode)
                             Highlight(element, DebugMode_Duration);
                         return element;
@@ -58,7 +55,7 @@ public partial class PlayWebBrowser
 
                         if (element is not null)
                         {
-                            w.BringToFrontAsync();
+                            w.BringToFrontAsync().Wait();
                             if (DebugMode)
                                 Highlight(element, DebugMode_Duration);
                             return element;

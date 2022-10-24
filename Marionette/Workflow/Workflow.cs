@@ -9,7 +9,8 @@ public partial class Workflow : Dictionary<string, object>
     private Func<object, object>[] _actions;
     private bool _isRunning;
     private int _currentAction;
-    private IEnumerable _iterator;
+    private object[] _iterator;
+
 
     public Workflow()
     {
@@ -41,7 +42,7 @@ public partial class Workflow : Dictionary<string, object>
     public Workflow Execute()
     {
         if (_isRunning)
-            throw new Exception("Cannot execute workflow while it is running.");
+            throw new Exception("Cannot execute workflow while it is already running.");
 
         try
         {
@@ -52,16 +53,16 @@ public partial class Workflow : Dictionary<string, object>
                 var output = action.Invoke(null);
                 this[action.Method.GetParameters()[0].Name] = output;
 
-                if (output is IEnumerable)
+                if (output is IEnumerable && _iterator is null)
                 {
-                    _iterator ??= output as IEnumerable;
-                    this[action.Method.GetParameters()[0].Name] = _iterator.Cast<object>().ToArray()[_collectionIndex];
+                    _iterator = (output as IEnumerable<object>).ToArray();
+                    _currentItem = _iterator[0];
                 }
             }
         }
         catch (Exception e)
         {
-            // ignored
+            Console.WriteLine(e);
         }
 
         _isRunning = false;
