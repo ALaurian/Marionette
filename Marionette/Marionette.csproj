@@ -18,10 +18,17 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Reference Include="Microsoft.Office.Interop.Excel">
-        <HintPath>..\..\..\..\Downloads\Microsoft.Office.Interop.Excel\Microsoft.Office.Interop.Excel.dll</HintPath>
-          <Private>False</Private>
-          <EmbedInteropTypes>True</EmbedInteropTypes>
+      <Reference Include="Interop.Microsoft.Office.Interop.Excel">
+        <HintPath>..\..\..\Desktop\DLL Files\Interop.Microsoft.Office.Interop.Excel.dll</HintPath>
+          <EmbedInteropTypes>true</EmbedInteropTypes>
+      </Reference>
+      <Reference Include="Interop.SAPFEWSELib">
+        <HintPath>..\..\..\Desktop\DLL Files\Interop.SAPFEWSELib.dll</HintPath>
+          <EmbedInteropTypes>true</EmbedInteropTypes>
+      </Reference>
+      <Reference Include="Interop.SapROTWr">
+        <HintPath>..\..\..\Desktop\DLL Files\Interop.SapROTWr.dll</HintPath>
+          <EmbedInteropTypes>true</EmbedInteropTypes>
       </Reference>
     </ItemGroup>
 

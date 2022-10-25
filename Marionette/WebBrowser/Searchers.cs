@@ -5,7 +5,7 @@ namespace Marionette.WebBrowser;
 
 public partial class PlayWebBrowser
 {
-    public IElementHandle FindElement(string selector, int retries = 120, double retryInterval = 0.125)
+    public IElementHandle FindElement(string selector, bool lockToLastPage = false, int retries = 120, double retryInterval = 0.125)
     {
         var element = Policy.HandleResult<IElementHandle>(result => result == null)
             .WaitAndRetry(retries, interval => TimeSpan.FromSeconds(retryInterval))
@@ -14,9 +14,12 @@ public partial class PlayWebBrowser
                 IElementHandle element = null;
                 var pages = _context.Pages.Reverse().ToArray();
 
+                if (lockToLastPage)
+                    pages = new[] {pages.Last()};
+
                 foreach (var w in pages)
                 {
-                    _page.WaitForLoadStateAsync(_pageWaitType, new PageWaitForLoadStateOptions() { Timeout = 60 })
+                    _page.WaitForLoadStateAsync(_pageWaitType, new PageWaitForLoadStateOptions() {Timeout = 60})
                         .Wait();
                     //============================================================
                     try

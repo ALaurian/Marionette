@@ -5,7 +5,7 @@ namespace Marionette.WebBrowser;
 
 public partial class PlayWebBrowser
 {
-    public IElementHandle WaitElementVanish(string selector, int retries, int timeout)
+    public IElementHandle WaitElementVanish(string selector, int retries, int timeout, bool lockToLastPage = false)
     {
         var retry = Policy.HandleResult<IElementHandle>(x => x != null)
             .WaitAndRetry(retries, retryAttempt => TimeSpan.FromSeconds(timeout))
@@ -24,12 +24,12 @@ public partial class PlayWebBrowser
             new[] { element, origStyle }).Wait();
     }
 
-    public IElementHandle WaitElementAppear(string selector)
+    public IElementHandle WaitElementAppear(string selector, bool lockToLastPage = false)
     {
         return FindElement(selector) ?? null;
     }
 
-    public IElementHandle Click(string selector)
+    public IElementHandle Click(string selector, bool lockToLastPage = false)
     {
         var element = FindElement(selector);
         if (element is null)
@@ -40,7 +40,7 @@ public partial class PlayWebBrowser
         return element;
     }
 
-    public IElementHandle Hover(string selector)
+    public IElementHandle Hover(string selector, bool lockToLastPage = false)
     {
         var element = FindElement(selector);
         if (element is null)
@@ -51,7 +51,7 @@ public partial class PlayWebBrowser
         return element;
     }
 
-    public IElementHandle DoubleClick(string selector)
+    public IElementHandle DoubleClick(string selector, bool lockToLastPage = false)
     {
         var element = FindElement(selector);
         if (element is null)
@@ -62,7 +62,7 @@ public partial class PlayWebBrowser
         return element;
     }
 
-    public IElementHandle SetText(string selector, string value, bool typeInto = false)
+    public IElementHandle SetText(string selector, string value, bool typeInto = false, bool lockToLastPage = false)
     {
         var element = FindElement(selector);
         if (element is null)
@@ -81,7 +81,7 @@ public partial class PlayWebBrowser
         return element;
     }
 
-    public string GetAttribute(string selector, string attributeName)
+    public string GetAttribute(string selector, string attributeName, bool lockToLastPage = false)
     {
         var element = FindElement(selector);
         if (element is null)
@@ -92,9 +92,14 @@ public partial class PlayWebBrowser
         return attrValue;
     }
 
-    public string GetText(string selector)
+    public string GetText(string selector, bool expectBlank = false, bool lockToLastPage = false)
     {
-        var element = FindElement(selector);
+        IElementHandle element = expectBlank switch
+        {
+            true => FindElement(selector, retries: 60),
+            false => FindElement(selector)
+        };
+
         if (element is null)
             throw new NullReferenceException();
 
