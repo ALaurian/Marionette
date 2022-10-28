@@ -1,14 +1,16 @@
 ﻿using System.Diagnostics;
 using Microsoft.Playwright;
 using MoreLinq;
+using Serilog;
 
 namespace Marionette.WebBrowser;
 
-public partial class PlayWebBrowser
+public partial class MarionetteWebBrowser
 {
+
     private IBrowser _browser;
     private IBrowserContext _context { get; set; }
-    private IPage _page { get; set; }
+    public readonly List<IPage> Pages = new();
     private bool _force = false;
     private LoadState _pageWaitType = LoadState.DOMContentLoaded;
     private List<IDownload> downloadedFiles = new();
@@ -28,10 +30,17 @@ public partial class PlayWebBrowser
     /// </summary>
     /// <param name="browserType"></param>
     /// <param name="pageWaitType"></param>
-    public PlayWebBrowser(bool connectSession = false, int port = 8080,
+    public MarionetteWebBrowser(bool connectSession, int port = 8080,
         string browserPath = @"C:\Program Files\Google\Chrome\Application\chrome.exe",
         BrowserType browserType = BrowserType.Chrome, LoadState pageWaitType = LoadState.DOMContentLoaded)
     {
+        
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Debug()
+            .WriteTo.Console()
+            .WriteTo.File("MarionetteLog.txt", rollingInterval: RollingInterval.Minute)
+            .CreateLogger();
+
         //start Chrome process with remote debugging enabled
 
         if (connectSession)
@@ -46,10 +55,10 @@ public partial class PlayWebBrowser
             };
 
             _context = _browser.Contexts.First();
-            _page = _context.NewPageAsync().Result;
+            Pages.Add(_context.Pages.First());
             _pageWaitType = pageWaitType;
-            _page.Download += downloadHandler;
-            _page.Dialog += dialogHandler;
+            Pages[0].Download += DownloadHandler;
+            Pages[0].Dialog += DialogHandler;
         }
         else
         {
@@ -73,19 +82,26 @@ public partial class PlayWebBrowser
             };
 
             _context = _browser.Contexts.First();
-            _page = _context.Pages.First();
+            Pages.Add(_context.Pages.First());
             _pageWaitType = pageWaitType;
-            _page.Download += downloadHandler;
-            _page.Dialog += dialogHandler;
+            Pages[0].Download += DownloadHandler;
+            Pages[0].Dialog += DialogHandler;
         }
 
 
         Console.WriteLine("WebBrowser connected to port " + port + ". With " + browserType + " browser.");
     }
 
-    public PlayWebBrowser(BrowserType browserType, LoadState pageWaitType = LoadState.DOMContentLoaded,
+    public MarionetteWebBrowser(BrowserType browserType, LoadState pageWaitType = LoadState.DOMContentLoaded,
         bool headlessMode = false)
     {
+        
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Debug()
+            .WriteTo.Console()
+            .WriteTo.File("MarionetteLog.txt", rollingInterval: RollingInterval.Minute)
+            .CreateLogger();
+        
         var playwright = Playwright.CreateAsync().Result;
 
         _browser = browserType switch
@@ -98,24 +114,23 @@ public partial class PlayWebBrowser
         };
 
         _context = _browser.NewContextAsync().Result;
-        _page = _context.NewPageAsync().Result;
+        Pages.Add(_context.NewPageAsync().Result);
         _pageWaitType = pageWaitType;
-        _page.Download += downloadHandler;
-        _page.Dialog += dialogHandler;
+        Pages[0].Download += DownloadHandler;
+        Pages[0].Dialog += DialogHandler;
 
         Console.WriteLine("WebBrowser was successfully started.");
     }
+    
 
-    public IPage GetPage() => _page;
-
-    public PlayWebBrowser Navigate(string url)
+    public MarionetteWebBrowser Navigate(string url, IPage page)
     {
-        _page.GotoAsync(url).Wait();
+        page.GotoAsync(url).Wait();
 
         return this;
     }
 
-    public PlayWebBrowser Close(string containedURL)
+    public MarionetteWebBrowser Close(string containedURL)
     {
         var pages = _context.Pages.Where(x => x.Url.Contains(containedURL));
         if (pages.Any())
@@ -124,7 +139,7 @@ public partial class PlayWebBrowser
         return this;
     }
 
-    public PlayWebBrowser CloseLastPage()
+    public MarionetteWebBrowser CloseLastPage()
     {
         var pages = _context.Pages;
         if (pages.Any())
@@ -133,7 +148,7 @@ public partial class PlayWebBrowser
         return this;
     }
 
-    public PlayWebBrowser CloseFirstPage()
+    public MarionetteWebBrowser CloseFirstPage()
     {
         var pages = _context.Pages;
         if (pages.Any())

@@ -1,19 +1,20 @@
 ﻿using Microsoft.Playwright;
-using WinRT;
 
 namespace Marionette.WebBrowser;
 
-public partial class PlayWebBrowser
+public partial class MarionetteWebBrowser
 {
-    private async void downloadHandler(object sender, IDownload download)
+    private async void DownloadHandler(object sender, IDownload download)
     {
+        Serilog.Log.Information("Download started: {0}.", download.SuggestedFilename);
         fileDownloadSession.Add(await download.PathAsync());
         var waiter = download.PathAsync();
         downloadedFiles.Add(download);
+        Serilog.Log.Information("Downloaded file: {0}.", download.SuggestedFilename);
         fileDownloadSession.Remove(fileDownloadSession.First());
     }
 
-    private void dialogHandler(object sender, IDialog dialog)
+    private void DialogHandler(object sender, IDialog dialog)
     {
         _dialog = dialog;
     }
@@ -22,10 +23,12 @@ public partial class PlayWebBrowser
     {
         while (!fileDownloadSession.Any())
         {
+            Thread.Sleep(250);
         }
 
         while (fileDownloadSession.Any())
         {
+            Thread.Sleep(250);
         }
 
         var downloadedFilesList = downloadedFiles;
@@ -33,7 +36,7 @@ public partial class PlayWebBrowser
         return downloadedFilesList;
     }
 
-    public void SetFileLocation(string path, IDownload download)
+    public void SetFilesLocation(string path, IDownload download)
     {
         if (path.Last().ToString() != @"\")
         {

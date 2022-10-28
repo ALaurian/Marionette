@@ -2,34 +2,23 @@
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.WindowsAPI;
 using FlaUI.UIA3;
-using log4net;
 using Polly;
 
 namespace Marionette;
 
 public class WinBrowser
 {
-    private static log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
     private UIA3Automation _uia3Automation { get; set; }
     private AutomationElement _desktop { get; set; }
 
     public WinBrowser(bool debugMode = false)
     {
         
-        if (debugMode == true)
-        {
-            _logger.Info("Debug mode is on.");
-        }
-        else
-        {
-            _logger.Info("Debug mode is off.");
-            var root = ((log4net.Repository.Hierarchy.Hierarchy) LogManager.GetRepository()).Root;
-            root.RemoveAppender("Console");
-        }
+
         
         _uia3Automation = new UIA3Automation();
         _desktop = _uia3Automation.GetDesktop();
-        _logger.Info("WinBrowser was started successfully.");
+
     }
 
     public Window GetWindow(int processID)

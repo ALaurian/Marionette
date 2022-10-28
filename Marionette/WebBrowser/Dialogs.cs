@@ -1,15 +1,12 @@
-﻿using Microsoft.Playwright;
+﻿namespace Marionette.WebBrowser;
 
-namespace Marionette.WebBrowser;
-
-public partial class PlayWebBrowser
+public partial class MarionetteWebBrowser
 {
-    public IDialog GetDialog() => _dialog;
-
     public void AcceptDialogIf(List<string> dialogTexts)
     {
         if (_dialog != null && dialogTexts.Any(x => _dialog.Message.Contains(x)))
         {
+            Serilog.Log.Information("Accepting dialog: {Message}", _dialog.Message);
             _dialog.AcceptAsync().Wait();
             _dialog = null;
         }
@@ -19,6 +16,7 @@ public partial class PlayWebBrowser
     {
         if (_dialog != null && dialogTexts.Any(x => _dialog.Message.Contains(x)))
         {
+            Serilog.Log.Information("Dismissing dialog: {Message}", _dialog.Message);
             _dialog.DismissAsync().Wait();
             _dialog = null;
         }
@@ -28,6 +26,7 @@ public partial class PlayWebBrowser
     {
         if (_dialog != null)
         {
+            Serilog.Log.Information("Accepting dialog: {Message}", _dialog.Message);
             _dialog.AcceptAsync().Wait();
             _dialog = null;
         }
@@ -37,6 +36,7 @@ public partial class PlayWebBrowser
     {
         if (_dialog != null)
         {
+            Serilog.Log.Information("Dismissing dialog: {Message}", _dialog.Message);
             _dialog.DismissAsync().Wait();
             _dialog = null;
         }

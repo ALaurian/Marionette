@@ -1,16 +1,27 @@
-﻿using Microsoft.Playwright;
-using Polly;
+﻿using System.Reflection;
+using Microsoft.Playwright;
 
 namespace Marionette.WebBrowser;
 
-public partial class PlayWebBrowser
+public partial class MarionetteWebBrowser
 {
-    public IElementHandle WaitElementVanish(string selector, int retries, int timeout, bool lockToLastPage = false)
+    public IElementHandle ScrollToElement(string selector, bool lockToLastPage = false)
     {
-        var retry = Policy.HandleResult<IElementHandle>(x => x != null)
-            .WaitAndRetry(retries, retryAttempt => TimeSpan.FromSeconds(timeout))
-            .Execute(() => FindElement(selector));
-        return retry;
+        var element = FindElement(selector, lockToLastPage);
+        
+        element.ScrollIntoViewIfNeededAsync().Wait();
+
+        Serilog.Log.Information($"[{MethodBase.GetCurrentMethod().Name}][{selector}] Scrolled to element.");
+        return element;
+    }
+    
+    public IElementHandle ScrollToElement(IElementHandle element)
+    {
+        element.ScrollIntoViewIfNeededAsync().Wait();
+        
+        Serilog.Log.Information($"[{MethodBase.GetCurrentMethod().Name}] Scrolled to element.");
+        
+        return element;
     }
 
     public void Highlight(IElementHandle element, int duration = 3, int borderWidth = 4)
@@ -24,50 +35,68 @@ public partial class PlayWebBrowser
             new[] { element, origStyle }).Wait();
     }
 
-    public IElementHandle WaitElementAppear(string selector, bool lockToLastPage = false)
-    {
-        return FindElement(selector) ?? null;
-    }
-
     public IElementHandle Click(string selector, bool lockToLastPage = false)
     {
-        var element = FindElement(selector);
-        if (element is null)
-            throw new NullReferenceException();
+        var element = FindElement(selector, lockToLastPage);
 
         element.ClickAsync(new ElementHandleClickOptions() { Force = _force }).Wait();
         element.DisposeAsync().AsTask().Wait();
+        
+        Serilog.Log.Information($"[{MethodBase.GetCurrentMethod().Name}][{selector}] Clicked element.");
+        
+        return element;
+    }
+    
+    public IElementHandle Click(IElementHandle element)
+    {
+        element.ClickAsync(new ElementHandleClickOptions() { Force = _force }).Wait();
+        element.DisposeAsync().AsTask().Wait();
+        
+        Serilog.Log.Information($"[{MethodBase.GetCurrentMethod().Name}] Clicked element.");
+        
         return element;
     }
 
     public IElementHandle Hover(string selector, bool lockToLastPage = false)
     {
-        var element = FindElement(selector);
-        if (element is null)
-            throw new NullReferenceException();
+        var element = FindElement(selector, lockToLastPage);
 
         element.HoverAsync(new() { Force = _force }).Wait();
         element.DisposeAsync().AsTask().Wait();
+        Serilog.Log.Information($"[{MethodBase.GetCurrentMethod().Name}] [{selector}] Hovered over element.");
+        return element;
+    }
+    
+    public IElementHandle Hover(IElementHandle element)
+    {
+        element.HoverAsync(new() { Force = _force }).Wait();
+        element.DisposeAsync().AsTask().Wait();
+        Serilog.Log.Information($"[{MethodBase.GetCurrentMethod().Name}] Hovered over element.");
         return element;
     }
 
     public IElementHandle DoubleClick(string selector, bool lockToLastPage = false)
     {
-        var element = FindElement(selector);
-        if (element is null)
-            throw new NullReferenceException();
-
+        var element = FindElement(selector, lockToLastPage);
+        
         element.DblClickAsync(new() { Force = _force }).Wait();
         element.DisposeAsync().AsTask().Wait();
+        Serilog.Log.Information($"[{MethodBase.GetCurrentMethod().Name}] [{selector}] Double clicked element.");
+
+        return element;
+    }
+    
+    public IElementHandle DoubleClick(IElementHandle element)
+    {
+        element.DblClickAsync(new() { Force = _force }).Wait();
+        element.DisposeAsync().AsTask().Wait();
+        Serilog.Log.Information($"[{MethodBase.GetCurrentMethod().Name}] Double clicked element.");
         return element;
     }
 
     public IElementHandle SetText(string selector, string value, bool typeInto = false, bool lockToLastPage = false)
     {
-        var element = FindElement(selector);
-        if (element is null)
-            throw new NullReferenceException();
-
+        var element = FindElement(selector, lockToLastPage);
 
         element.FillAsync("", new() { Force = _force }).Wait();
         if (typeInto)
@@ -76,19 +105,41 @@ public partial class PlayWebBrowser
             element.FillAsync(value, new() { Force = _force }).Wait();
 
         element.DisposeAsync().AsTask().Wait();
-
+        Serilog.Log.Information($"[{MethodBase.GetCurrentMethod().Name}] [{selector}] Set text to '{value}'.");
 
         return element;
     }
 
+    public IElementHandle SetText(IElementHandle element, string value, bool typeInto = false)
+    {
+        element.FillAsync("", new() { Force = _force }).Wait();
+        if (typeInto)
+            element.TypeAsync(value).Wait();
+        else
+            element.FillAsync(value, new() { Force = _force }).Wait();
+
+        element.DisposeAsync().AsTask().Wait();
+        Serilog.Log.Information($"[{MethodBase.GetCurrentMethod().Name}] Set text to '{value}'.");
+
+        return element;
+    }
+    
+
     public string GetAttribute(string selector, string attributeName, bool lockToLastPage = false)
     {
-        var element = FindElement(selector);
-        if (element is null)
-            throw new NullReferenceException();
+        var element = FindElement(selector, lockToLastPage);
 
         var attrValue = element.GetAttributeAsync(attributeName).Result;
         element.DisposeAsync().AsTask().Start();
+        Serilog.Log.Information($"[{MethodBase.GetCurrentMethod().Name}] [{selector}] Got attribute '{attributeName}' with value '{attrValue}'.");
+        return attrValue;
+    }
+    
+    public string GetAttribute(IElementHandle element, string attributeName)
+    {
+        var attrValue = element.GetAttributeAsync(attributeName).Result;
+        element.DisposeAsync().AsTask().Start();
+        Serilog.Log.Information($"[{MethodBase.GetCurrentMethod().Name}] Got attribute '{attributeName}' with value '{attrValue}'.");
         return attrValue;
     }
 
@@ -96,20 +147,64 @@ public partial class PlayWebBrowser
     {
         IElementHandle element = expectBlank switch
         {
-            true => FindElement(selector, retries: 60),
-            false => FindElement(selector)
+            true => FindElement(selector, retries: 60,lockToLastPage:lockToLastPage),
+            false => FindElement(selector, lockToLastPage:lockToLastPage)
         };
-
-        if (element is null)
-            throw new NullReferenceException();
-
+        
         if (element.TextContentAsync().Result != "")
+        {
+            Serilog.Log.Information( $"[{MethodBase.GetCurrentMethod().Name}] [{selector}] Got text '{element.TextContentAsync().Result}'.");
             return element.TextContentAsync().Result;
+        }
+
         if (element.GetAttributeAsync("value").Result != "")
+        {
+            
+            Serilog.Log.Information( $"[{MethodBase.GetCurrentMethod().Name}] [{selector}] Got text '{element.GetAttributeAsync("value").Result}'.");
             return element.GetAttributeAsync("value").Result;
+        }
+
         if (element.InnerTextAsync().Result != "")
+        {
+            
+            Serilog.Log.Information( $"[{MethodBase.GetCurrentMethod().Name}] [{selector}] Got text '{element.InnerTextAsync().Result}'.");
             return element.InnerTextAsync().Result;
+        }
+
+        
+        return "";
+    }
+    
+    public string GetText(IElementHandle element)
+    {
+        if (element.TextContentAsync().Result != "")
+        {
+            Serilog.Log.Information( $"[{MethodBase.GetCurrentMethod().Name}] Got text '{element.TextContentAsync().Result}'.");
+            return element.TextContentAsync().Result;
+        }
+
+        if (element.GetAttributeAsync("value").Result != "")
+        {
+            Serilog.Log.Information( $"[{MethodBase.GetCurrentMethod().Name}] Got text '{element.GetAttributeAsync("value").Result}'.");
+            return element.GetAttributeAsync("value").Result;
+        }
+
+        if (element.InnerTextAsync().Result != "")
+        {
+            Serilog.Log.Information( $"[{MethodBase.GetCurrentMethod().Name}] Got text '{element.InnerTextAsync().Result}'.");
+            return element.InnerTextAsync().Result;
+        }
 
         return "";
+    }
+    
+    public void SendKey(Key key, IPage page, bool activatePage = false)
+    {
+        if(activatePage)
+            page.BringToFrontAsync().Wait();
+        
+        page.Keyboard.PressAsync(key.ToString()).Wait();
+        
+        Serilog.Log.Information($"[{MethodBase.GetCurrentMethod().Name}] Pressed key '{key}'.");
     }
 }
