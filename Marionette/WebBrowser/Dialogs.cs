@@ -1,44 +1,58 @@
-﻿namespace Marionette.WebBrowser;
+﻿using Microsoft.Playwright;
+
+namespace Marionette.WebBrowser;
 
 public partial class MarionetteWebBrowser
 {
-    public void AcceptDialogIf(List<string> dialogTexts)
+    public bool AcceptDialogIf(List<string> dialogTexts)
     {
         if (_dialog != null && dialogTexts.Any(x => _dialog.Message.Contains(x)))
         {
             Serilog.Log.Information("Accepting dialog: {Message}", _dialog.Message);
             _dialog.AcceptAsync().Wait();
             _dialog = null;
+            return true;
         }
+
+        return false;
     }
 
-    public void DismissDialogIf(List<string> dialogTexts)
+    public bool DismissDialogIf(List<string> dialogTexts)
     {
         if (_dialog != null && dialogTexts.Any(x => _dialog.Message.Contains(x)))
         {
             Serilog.Log.Information("Dismissing dialog: {Message}", _dialog.Message);
             _dialog.DismissAsync().Wait();
             _dialog = null;
+            return true;
         }
+
+        return false;
     }
 
-    public void AcceptDialog()
+    public bool AcceptDialog()
     {
         if (_dialog != null)
         {
             Serilog.Log.Information("Accepting dialog: {Message}", _dialog.Message);
             _dialog.AcceptAsync().Wait();
             _dialog = null;
+            return true;
         }
+        
+        return false;
     }
 
-    public void DismissDialog()
+    public bool DismissDialog()
     {
         if (_dialog != null)
         {
             Serilog.Log.Information("Dismissing dialog: {Message}", _dialog.Message);
             _dialog.DismissAsync().Wait();
             _dialog = null;
+            return true;
         }
+        
+        return false;
     }
 }

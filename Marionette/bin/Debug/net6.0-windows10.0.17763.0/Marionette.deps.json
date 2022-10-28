@@ -12,6 +12,9 @@
           "FlaUI.UIA3": "4.0.0",
           "Microsoft.Playwright": "1.27.0",
           "Polly": "7.2.3",
+          "Serilog": "2.12.1-dev-01587",
+          "Serilog.Sinks.Console": "4.1.1-dev-00896",
+          "Serilog.Sinks.File": "5.0.1-dev-00947",
           "morelinq": "3.3.2",
           "runtimepack.Microsoft.Windows.SDK.NET.Ref": "10.0.17763.26"
         },
@@ -112,6 +115,36 @@
           "lib/netstandard2.0/Polly.dll": {
             "assemblyVersion": "7.0.0.0",
             "fileVersion": "7.2.3.0"
+          }
+        }
+      },
+      "Serilog/2.12.1-dev-01587": {
+        "runtime": {
+          "lib/net6.0/Serilog.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.12.1.0"
+          }
+        }
+      },
+      "Serilog.Sinks.Console/4.1.1-dev-00896": {
+        "dependencies": {
+          "Serilog": "2.12.1-dev-01587"
+        },
+        "runtime": {
+          "lib/net5.0/Serilog.Sinks.Console.dll": {
+            "assemblyVersion": "4.1.1.0",
+            "fileVersion": "4.1.1.0"
+          }
+        }
+      },
+      "Serilog.Sinks.File/5.0.1-dev-00947": {
+        "dependencies": {
+          "Serilog": "2.12.1-dev-01587"
+        },
+        "runtime": {
+          "lib/net5.0/Serilog.Sinks.File.dll": {
+            "assemblyVersion": "5.0.1.0",
+            "fileVersion": "5.0.1.0"
           }
         }
       },
@@ -276,6 +309,27 @@
       "sha512": "sha512-DeCY0OFbNdNxsjntr1gTXHJ5pKUwYzp04Er2LLeN3g6pWhffsGuKVfMBLe1lw7x76HrPkLxKEFxBlpRxS2nDEQ==",
       "path": "polly/7.2.3",
       "hashPath": "polly.7.2.3.nupkg.sha512"
+    },
+    "Serilog/2.12.1-dev-01587": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-PzLed+pR9Xb+Vv7WnA0OpIodmgK8vNxDgPo6CQMy0wxVuul/vJkUjzBo0ICPLVYFX4BxohH/TqIm8uy8zcovpg==",
+      "path": "serilog/2.12.1-dev-01587",
+      "hashPath": "serilog.2.12.1-dev-01587.nupkg.sha512"
+    },
+    "Serilog.Sinks.Console/4.1.1-dev-00896": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-72QU/vM7UYq8YF9/5cyafJhMDgisp13+RY1JS+MLVN/+SsgK6855lRMxsaftsaoAMspeY+DNdes0UOgeJcfpmg==",
+      "path": "serilog.sinks.console/4.1.1-dev-00896",
+      "hashPath": "serilog.sinks.console.4.1.1-dev-00896.nupkg.sha512"
+    },
+    "Serilog.Sinks.File/5.0.1-dev-00947": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rCxuBUTC4v/Mawa2bCD0CkEODiCIJqQvxZfWmZb9O2W1hcZ77WCrNGw2nKnXCuSII4cuWip9QwWbn9wmLzS5sA==",
+      "path": "serilog.sinks.file/5.0.1-dev-00947",
+      "hashPath": "serilog.sinks.file.5.0.1-dev-00947.nupkg.sha512"
     },
     "System.CodeDom/5.0.0": {
       "type": "package",

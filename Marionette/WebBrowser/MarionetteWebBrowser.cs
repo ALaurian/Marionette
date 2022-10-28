@@ -139,21 +139,5 @@ public partial class MarionetteWebBrowser
         return this;
     }
 
-    public MarionetteWebBrowser CloseLastPage()
-    {
-        var pages = _context.Pages;
-        if (pages.Any())
-            pages.Last().CloseAsync().Wait();
 
-        return this;
-    }
-
-    public MarionetteWebBrowser CloseFirstPage()
-    {
-        var pages = _context.Pages;
-        if (pages.Any())
-            pages.First().CloseAsync().Wait();
-
-        return this;
-    }
 }

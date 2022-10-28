@@ -21,6 +21,7 @@ public partial class MarionetteWebBrowser
 
                 foreach (var w in pages)
                 {
+
                     Pages[Pages.IndexOf(w)].WaitForLoadStateAsync(_pageWaitType, new PageWaitForLoadStateOptions() {Timeout = 60})
                         .Wait();
                     //============================================================
@@ -30,7 +31,7 @@ public partial class MarionetteWebBrowser
                     }
                     catch
                     {
-                        // ignored
+                        element = w.Locator(selector).First.ElementHandleAsync().Result;
                     }
 
                     if (element != null)
@@ -57,7 +58,7 @@ public partial class MarionetteWebBrowser
                         }
                         catch
                         {
-                            // ignored
+                            element = w.Locator(selector).First.ElementHandleAsync().Result;
                         }
 
                         if (element is not null)

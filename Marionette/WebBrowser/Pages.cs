@@ -4,39 +4,53 @@ namespace Marionette.WebBrowser;
 
 public partial class MarionetteWebBrowser
 {
-    public void SetPageSize(IPage page, int x, int y)
+    
+    public IPage RefreshPage(IPage page)
+    {
+        page.ReloadAsync().Wait();
+        return page;
+    }
+
+    public IPage RefreshPage(int index)
+    {
+        Pages[index].ReloadAsync().Wait();
+        return Pages[index];
+    }
+    public IPage SetPageSize(IPage page, int x, int y)
     {
         page.SetViewportSizeAsync(x, y).Wait();
+        return page;
     }
 
-    public void SetPageSize(int index, int x, int y)
+    public IPage SetPageSize(int index, int x, int y)
     {
         Pages[index].SetViewportSizeAsync(x, y).Wait();
+        return Pages[index];
     }
 
-    public bool ActivatePage(IPage page)
+    public IPage ActivatePage(IPage page)
     {
         try
         {
             page.BringToFrontAsync().Wait();
-            return true;
+            return page;
         }
         catch (Exception e)
         {
-            return false;
+            return null;
         }
     }
     
-    public bool ActivatePage(int index)
+    public IPage ActivatePage(int index)
     {
         try
         {
             Pages[index].BringToFrontAsync().Wait();
-            return true;
+            return Pages[index];
         }
         catch (Exception e)
         {
-            return false;
+            return null;
         }
     }
 
@@ -48,7 +62,7 @@ public partial class MarionetteWebBrowser
         return newPage;
     }
 
-    public bool ClosePage(string url)
+    public MarionetteWebBrowser ClosePage(string url)
     {
         foreach (var x in Pages)
         {
@@ -58,14 +72,13 @@ public partial class MarionetteWebBrowser
                 x.Dialog -= DialogHandler;
                 x.CloseAsync().Wait();
                 Pages.Remove(x);
-                return true;
             }
         }
 
-        return false;
+        return this;
     }
 
-    public bool ClosePage(int index)
+    public MarionetteWebBrowser ClosePage(int index)
     {
         try
         {
@@ -73,11 +86,30 @@ public partial class MarionetteWebBrowser
             Pages[index].Dialog -= DialogHandler;
             Pages[index].CloseAsync().Wait();
             Pages.RemoveAt(index);
-            return true;
         }
         catch (Exception e)
         {
-            return false;
+            
         }
+        
+        return this;
+    }
+    
+    public MarionetteWebBrowser CloseLastPage()
+    {
+        var pages = _context.Pages;
+        if (pages.Any())
+            pages.Last().CloseAsync().Wait();
+
+        return this;
+    }
+
+    public MarionetteWebBrowser CloseFirstPage()
+    {
+        var pages = _context.Pages;
+        if (pages.Any())
+            pages.First().CloseAsync().Wait();
+
+        return this;
     }
 }
