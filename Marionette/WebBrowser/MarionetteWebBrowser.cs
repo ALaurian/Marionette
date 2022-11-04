@@ -7,11 +7,10 @@ namespace Marionette.WebBrowser;
 
 public partial class MarionetteWebBrowser
 {
-
     private IBrowser _browser;
     private IBrowserContext _context { get; set; }
     public readonly List<IPage> Pages = new();
-    private bool _force = false;
+    private bool _force;
     private LoadState _pageWaitType = LoadState.DOMContentLoaded;
     private List<IDownload> downloadedFiles = new();
     private List<string> fileDownloadSession = new();
@@ -38,7 +37,7 @@ public partial class MarionetteWebBrowser
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Debug()
             .WriteTo.Console()
-            .WriteTo.File("MarionetteLog.txt", rollingInterval: RollingInterval.Minute)
+            .WriteTo.File("MarionetteLog.txt", rollingInterval: RollingInterval.Infinite, outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
             .CreateLogger();
 
         //start Chrome process with remote debugging enabled

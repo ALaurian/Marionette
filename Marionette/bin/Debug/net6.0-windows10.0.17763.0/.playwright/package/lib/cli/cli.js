@@ -290,7 +290,8 @@ if (!process.env.PW_LANG_NAME) {
         hasPlaywrightPackage = true;
       } catch {}
 
-      console.error((0, _utils.wrapInASCIIBox)([`Playwright Test compatibility check failed:`, `@playwright/test version '${pwTestVersion}' does not match ${hasPlaywrightPackage ? 'playwright' : 'playwright-core'} version '${pwCoreVersion}'!`, `To fix this either align the versions or only keep @playwright/test since it depends on playwright-core.`, `If you still receive this error, execute 'npm ci' or delete 'node_modules' and do 'npm install' again.`].join('\n'), 1));
+      const strayPackage = hasPlaywrightPackage ? 'playwright' : 'playwright-core';
+      console.error((0, _utils.wrapInASCIIBox)([`Playwright Test integrity check failed:`, `You have @playwright/test version '${pwTestVersion}' and '${strayPackage}' version '${pwCoreVersion}' installed!`, `You probably added '${strayPackage}' into your package.json by accident, remove it and re-run 'npm install'`].join('\n'), 1));
       process.exit(1);
     }
 

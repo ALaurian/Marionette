@@ -5,7 +5,7 @@ namespace Marionette.Workflow;
 
 public partial class Workflow
 {
-    private int _iteratorIndex = 0;
+    private int _iteratorIndex;
     private object _currentItem;
     
     public bool Next(string label)

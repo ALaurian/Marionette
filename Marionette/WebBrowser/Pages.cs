@@ -4,7 +4,6 @@ namespace Marionette.WebBrowser;
 
 public partial class MarionetteWebBrowser
 {
-    
     public IPage RefreshPage(IPage page)
     {
         page.ReloadAsync().Wait();
@@ -13,9 +12,18 @@ public partial class MarionetteWebBrowser
 
     public IPage RefreshPage(int index)
     {
-        Pages[index].ReloadAsync().Wait();
+        try
+        {
+            Pages[index].ReloadAsync().Wait();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
         return Pages[index];
     }
+
     public IPage SetPageSize(IPage page, int x, int y)
     {
         page.SetViewportSizeAsync(x, y).Wait();
@@ -24,34 +32,37 @@ public partial class MarionetteWebBrowser
 
     public IPage SetPageSize(int index, int x, int y)
     {
-        Pages[index].SetViewportSizeAsync(x, y).Wait();
+        try
+        {
+            Pages[index].SetViewportSizeAsync(x, y).Wait();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
         return Pages[index];
     }
 
     public IPage ActivatePage(IPage page)
     {
-        try
-        {
-            page.BringToFrontAsync().Wait();
-            return page;
-        }
-        catch (Exception e)
-        {
-            return null;
-        }
+        page.BringToFrontAsync().Wait();
+        return page;
     }
-    
+
     public IPage ActivatePage(int index)
     {
         try
         {
             Pages[index].BringToFrontAsync().Wait();
-            return Pages[index];
         }
         catch (Exception e)
         {
-            return null;
+            Console.WriteLine(e);
+            throw;
         }
+
+        return Pages[index];
     }
 
     public IPage NewPage()
@@ -66,13 +77,11 @@ public partial class MarionetteWebBrowser
     {
         foreach (var x in Pages)
         {
-            if (x.Url == url || x.Url.Contains(url))
-            {
-                x.Download -= DownloadHandler;
-                x.Dialog -= DialogHandler;
-                x.CloseAsync().Wait();
-                Pages.Remove(x);
-            }
+            if (x.Url != url && !x.Url.Contains(url)) continue;
+            x.Download -= DownloadHandler;
+            x.Dialog -= DialogHandler;
+            x.CloseAsync().Wait();
+            Pages.Remove(x);
         }
 
         return this;
@@ -89,12 +98,12 @@ public partial class MarionetteWebBrowser
         }
         catch (Exception e)
         {
-            
+            return null;
         }
-        
+
         return this;
     }
-    
+
     public MarionetteWebBrowser CloseLastPage()
     {
         var pages = _context.Pages;

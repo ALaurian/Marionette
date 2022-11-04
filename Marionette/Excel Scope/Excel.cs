@@ -8,8 +8,8 @@ using Microsoft.Office.Interop.Excel;
 using Microsoft.VisualBasic;
 using Polly;
 using Application = Microsoft.Office.Interop.Excel.Application;
-using Range = Microsoft.Office.Interop.Excel.Range;
 using DataTable = System.Data.DataTable;
+using Range = Microsoft.Office.Interop.Excel.Range;
 using Window = FlaUI.Core.AutomationElements.Window;
 
 namespace Marionette.Excel_Scope;
@@ -220,7 +220,7 @@ public class Excel
         return columnName;
     }
 
-    public System.Data.DataTable ToDataTable(object sheet, int headerAt = 1, bool headerless = false)
+    public DataTable ToDataTable(object sheet, int headerAt = 1, bool headerless = false)
     {
         workbook.Worksheets[sheet].Activate();
         workbook.Worksheets[sheet].Cells[headerAt, 1].Select();
@@ -244,7 +244,7 @@ public class Excel
         }
 
 
-        var newDataTable = new System.Data.DataTable();
+        var newDataTable = new DataTable();
 
         switch (headerless)
         {
@@ -381,7 +381,7 @@ public class Excel
     {
         var automation = new UIA3Automation();
         var desktop = automation.GetDesktop();
-        var window = Polly.Policy.HandleResult<Window>(result => result == null)
+        var window = Policy.HandleResult<Window>(result => result == null)
             .WaitAndRetry(15, retryAttempt => TimeSpan.FromSeconds(1))
             .Execute(() => desktop.FindFirstByXPath("*[contains(@Name,'" + workbook.Name + "')]").AsWindow());
 

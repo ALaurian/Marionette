@@ -1,4 +1,5 @@
 ﻿using Microsoft.Playwright;
+using Serilog;
 
 namespace Marionette.WebBrowser;
 
@@ -6,11 +7,11 @@ public partial class MarionetteWebBrowser
 {
     private async void DownloadHandler(object sender, IDownload download)
     {
-        Serilog.Log.Information("Download started: {0}.", download.SuggestedFilename);
+        Log.Information("Download started: {0}.", download.SuggestedFilename);
         fileDownloadSession.Add(await download.PathAsync());
         var waiter = download.PathAsync();
         downloadedFiles.Add(download);
-        Serilog.Log.Information("Downloaded file: {0}.", download.SuggestedFilename);
+        Log.Information("Downloaded file: {0}.", download.SuggestedFilename);
         fileDownloadSession.Remove(fileDownloadSession.First());
     }
 
@@ -19,16 +20,32 @@ public partial class MarionetteWebBrowser
         _dialog = dialog;
     }
 
-    public List<IDownload> GetDownloadedFiles()
+    public List<IDownload> GetDownloadedFiles(string elementToVanish)
     {
         while (!fileDownloadSession.Any())
         {
-            Thread.Sleep(250);
+
         }
 
         while (fileDownloadSession.Any())
         {
-            Thread.Sleep(250);
+
+        }
+
+        var downloadedFilesList = downloadedFiles;
+        downloadedFiles = new List<IDownload>();
+        return downloadedFilesList; 
+    }
+    public List<IDownload> GetDownloadedFiles()
+    {
+        while (!fileDownloadSession.Any())
+        {
+
+        }
+
+        while (fileDownloadSession.Any())
+        {
+
         }
 
         var downloadedFilesList = downloadedFiles;

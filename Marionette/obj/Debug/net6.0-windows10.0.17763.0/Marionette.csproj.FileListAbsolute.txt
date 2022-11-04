@@ -298,3 +298,5 @@ C:\Users\lauri\Documents\GitHub\Fight\Marionette\obj\Debug\net6.0-windows10.0.17
 C:\Users\lauri\Documents\GitHub\Fight\Marionette\obj\Debug\net6.0-windows10.0.17763.0\refint\Marionette.dll
 C:\Users\lauri\Documents\GitHub\Fight\Marionette\obj\Debug\net6.0-windows10.0.17763.0\Marionette.pdb
 C:\Users\lauri\Documents\GitHub\Fight\Marionette\obj\Debug\net6.0-windows10.0.17763.0\ref\Marionette.dll
+C:\Users\lauri\Documents\GitHub\Fight\Marionette\bin\Debug\net6.0-windows10.0.17763.0\.playwright\package\LICENSE
+C:\Users\lauri\Documents\GitHub\Fight\Marionette\bin\Debug\net6.0-windows10.0.17763.0\.playwright\package\NOTICE

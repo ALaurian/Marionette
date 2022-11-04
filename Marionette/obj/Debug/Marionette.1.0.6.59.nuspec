@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Marionette</id>
+    <version>1.0.6.59</version>
+    <authors>Marionette</authors>
+    <description>Package Description</description>
+    <dependencies>
+      <group targetFramework="net6.0-windows10.0.17763">
+        <dependency id="FlaUI.Core" version="4.0.0" exclude="Build,Analyzers" />
+        <dependency id="FlaUI.UIA3" version="4.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Playwright" version="1.27.0" exclude="Build,Analyzers" />
+        <dependency id="Polly" version="7.2.3" exclude="Build,Analyzers" />
+        <dependency id="Serilog" version="2.12.1-dev-01587" exclude="Build,Analyzers" />
+        <dependency id="Serilog.Sinks.Console" version="4.1.1-dev-00896" exclude="Build,Analyzers" />
+        <dependency id="Serilog.Sinks.File" version="5.0.1-dev-00947" exclude="Build,Analyzers" />
+        <dependency id="morelinq" version="3.3.2" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\lauri\Documents\GitHub\Fight\Marionette\bin\Debug\net6.0-windows10.0.17763.0\Marionette.dll" target="lib\net6.0-windows10.0.17763\Marionette.dll" />
+  </files>
+</package>

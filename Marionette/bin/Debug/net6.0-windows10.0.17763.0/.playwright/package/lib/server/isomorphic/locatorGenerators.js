@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.PythonLocatorFactory = exports.JavaScriptLocatorFactory = exports.JavaLocatorFactory = exports.CSharpLocatorFactory = void 0;
 exports.asLocator = asLocator;
+exports.isRegExp = isRegExp;
 
 var _stringUtils = require("../../utils/isomorphic/stringUtils");
 
@@ -91,7 +92,8 @@ function innerAsLocator(factory, selector, isFrameLocator = false) {
       const attrSelector = (0, _selectorParser.parseAttributeSelector)(part.body, true);
       const {
         name,
-        value
+        value,
+        caseSensitive
       } = attrSelector.attributes[0];
 
       if (name === 'data-testid') {
@@ -99,10 +101,8 @@ function innerAsLocator(factory, selector, isFrameLocator = false) {
         continue;
       }
 
-      const {
-        exact,
-        text
-      } = detectExact(value);
+      const text = value;
+      const exact = !!caseSensitive;
 
       if (name === 'placeholder') {
         tokens.push(factory.generateLocator(base, 'placeholder', text, {
@@ -144,6 +144,10 @@ function innerAsLocator(factory, selector, isFrameLocator = false) {
 
 function detectExact(text) {
   let exact = false;
+  const match = text.match(/^\/(.*)\/([igm]*)$/);
+  if (match) return {
+    text: new RegExp(match[1], match[2])
+  };
 
   if (text.startsWith('"') && text.endsWith('"')) {
     text = JSON.parse(text);
@@ -206,7 +210,7 @@ class JavaScriptLocatorFactory {
   }
 
   toCallWithExact(method, body, exact) {
-    if (body.startsWith('/') && (body.endsWith('/') || body.endsWith('/i'))) return `${method}(${body})`;
+    if (isRegExp(body)) return `${method}(${body})`;
     return exact ? `${method}(${this.quote(body)}, { exact: true })` : `${method}(${this.quote(body)})`;
   }
 
@@ -268,10 +272,9 @@ class PythonLocatorFactory {
   }
 
   toCallWithExact(method, body, exact) {
-    if (body.startsWith('/') && (body.endsWith('/') || body.endsWith('/i'))) {
-      const regex = body.substring(1, body.lastIndexOf('/'));
-      const suffix = body.endsWith('i') ? ', re.IGNORECASE' : '';
-      return `${method}(re.compile(r${this.quote(regex)}${suffix}))`;
+    if (isRegExp(body)) {
+      const suffix = body.flags.includes('i') ? ', re.IGNORECASE' : '';
+      return `${method}(re.compile(r${this.quote(body.source)}${suffix}))`;
     }
 
     if (exact) return `${method}(${this.quote(body)}, exact=true)`;
@@ -323,7 +326,7 @@ class JavaLocatorFactory {
         for (const [name, value] of Object.entries(options.attrs)) attrs.push(`.set${(0, _stringUtils.toTitleCase)(name)}(${typeof value === 'string' ? this.quote(value) : value})`);
 
         const attrString = attrs.length ? `, new ${clazz}.GetByRoleOptions()${attrs.join('')}` : '';
-        return `getByRole(${this.quote(body)}${attrString})`;
+        return `getByRole(AriaRole.${(0, _stringUtils.toSnakeCase)(body).toUpperCase()}${attrString})`;
 
       case 'has-text':
         return `locator(${this.quote(body)}, new ${clazz}.LocatorOptions().setHasText(${this.quote(options.hasText)}))`;
@@ -352,10 +355,9 @@ class JavaLocatorFactory {
   }
 
   toCallWithExact(clazz, method, body, exact) {
-    if (body.startsWith('/') && (body.endsWith('/') || body.endsWith('/i'))) {
-      const regex = body.substring(1, body.lastIndexOf('/'));
-      const suffix = body.endsWith('i') ? ', Pattern.CASE_INSENSITIVE' : '';
-      return `${method}(Pattern.compile(${this.quote(regex)}${suffix}))`;
+    if (isRegExp(body)) {
+      const suffix = body.flags.includes('i') ? ', Pattern.CASE_INSENSITIVE' : '';
+      return `${method}(Pattern.compile(${this.quote(body.source)}${suffix}))`;
     }
 
     if (exact) return `${method}(${this.quote(body)}, new ${clazz}.${(0, _stringUtils.toTitleCase)(method)}Options().setExact(exact))`;
@@ -388,13 +390,16 @@ class CSharpLocatorFactory {
       case 'role':
         const attrs = [];
 
-        for (const [name, value] of Object.entries(options.attrs)) attrs.push(`${(0, _stringUtils.toTitleCase)(name)} = ${typeof value === 'string' ? this.quote(value) : value}`);
+        for (const [name, value] of Object.entries(options.attrs)) {
+          const optionKey = name === 'name' ? 'NameString' : (0, _stringUtils.toTitleCase)(name);
+          attrs.push(`${optionKey} = ${typeof value === 'string' ? this.quote(value) : value}`);
+        }
 
-        const attrString = attrs.length ? `, new () { ${attrs.join(', ')} }` : '';
-        return `GetByRole(${this.quote(body)}${attrString})`;
+        const attrString = attrs.length ? `, new() { ${attrs.join(', ')} }` : '';
+        return `GetByRole(AriaRole.${(0, _stringUtils.toTitleCase)(body)}${attrString})`;
 
       case 'has-text':
-        return `Locator(${this.quote(body)}, new () { HasTextString: ${this.quote(options.hasText)} })`;
+        return `Locator(${this.quote(body)}, new() { HasTextString: ${this.quote(options.hasText)} })`;
 
       case 'test-id':
         return `GetByTestId(${this.quote(body)})`;
@@ -420,13 +425,12 @@ class CSharpLocatorFactory {
   }
 
   toCallWithExact(method, body, exact) {
-    if (body.startsWith('/') && (body.endsWith('/') || body.endsWith('/i'))) {
-      const regex = body.substring(1, body.lastIndexOf('/'));
-      const suffix = body.endsWith('i') ? ', RegexOptions.IgnoreCase' : '';
-      return `${method}(new Regex(${this.quote(regex)}${suffix}))`;
+    if (isRegExp(body)) {
+      const suffix = body.flags.includes('i') ? ', RegexOptions.IgnoreCase' : '';
+      return `${method}(new Regex(${this.quote(body.source)}${suffix}))`;
     }
 
-    if (exact) return `${method}(${this.quote(body)}, new () { Exact: true })`;
+    if (exact) return `${method}(${this.quote(body)}, new() { Exact: true })`;
     return `${method}(${this.quote(body)})`;
   }
 
@@ -443,3 +447,7 @@ const generators = {
   java: new JavaLocatorFactory(),
   csharp: new CSharpLocatorFactory()
 };
+
+function isRegExp(obj) {
+  return obj instanceof RegExp;
+}

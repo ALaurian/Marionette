@@ -5,7 +5,7 @@
   },
   "projects": {
     "C:\\Users\\lauri\\Documents\\GitHub\\Fight\\Marionette\\Marionette.csproj": {
-      "version": "1.0.6.57",
+      "version": "1.0.6.77",
       "restore": {
         "projectUniqueName": "C:\\Users\\lauri\\Documents\\GitHub\\Fight\\Marionette\\Marionette.csproj",
         "projectName": "Marionette",
@@ -51,7 +51,11 @@
             },
             "Microsoft.Playwright": {
               "target": "Package",
-              "version": "[1.27.0, )"
+              "version": "[1.27.2, )"
+            },
+            "Microsoft.Playwright.NUnit": {
+              "target": "Package",
+              "version": "[1.27.2, )"
             },
             "Polly": {
               "target": "Package",

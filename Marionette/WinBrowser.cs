@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using FlaUI.Core.AutomationElements;
+using FlaUI.Core.Input;
 using FlaUI.Core.WindowsAPI;
 using FlaUI.UIA3;
 using Polly;
@@ -53,7 +54,7 @@ public class WinBrowser
         {
             var automation = new UIA3Automation();
             var desktop = automation.GetDesktop();
-            var window = Polly.Policy.HandleResult<Window>(result => result == null)
+            var window = Policy.HandleResult<Window>(result => result == null)
                 .WaitAndRetry(retries, retryAttempt => TimeSpan.FromSeconds(retryInterval))
                 .Execute(() => desktop.FindFirstByXPath(xPath).AsWindow());
 
@@ -64,7 +65,7 @@ public class WinBrowser
         {
             var automation = new UIA3Automation();
             var desktop = automation.GetDesktop();
-            var window = Polly.Policy.HandleResult<List<Window>>(result => result.Count == 0)
+            var window = Policy.HandleResult<List<Window>>(result => result.Count == 0)
                 .WaitAndRetry(retries, retryAttempt => TimeSpan.FromSeconds(retryInterval))
                 .Execute(() => desktop.FindAllByXPath(xPath).Cast<Window>().ToList());
 
@@ -153,7 +154,7 @@ public class WinBrowser
             {
                 if (eventTrigger == false)
                 {
-                    var retryClick = Policy.HandleResult<bool>(result => result == true)
+                    var retryClick = Policy.HandleResult<bool>(result => result)
                         .WaitAndRetry(retries, interval => TimeSpan.FromSeconds(retryInterval));
                     var retryResult = retryClick.Execute(() =>
                     {
@@ -175,7 +176,7 @@ public class WinBrowser
                 }
                 else
                 {
-                    var retryClick = Policy.HandleResult<bool>(result => result == true)
+                    var retryClick = Policy.HandleResult<bool>(result => result)
                         .WaitAndRetry(retries, interval => TimeSpan.FromSeconds(retryInterval));
                     var retryResult = retryClick.Execute(() =>
                     {
@@ -207,7 +208,7 @@ public class WinBrowser
             {
                 if (invoke == false)
                 {
-                    var retryClick = Policy.HandleResult<bool>(result => result == true)
+                    var retryClick = Policy.HandleResult<bool>(result => result)
                         .WaitAndRetry(retries, interval => TimeSpan.FromSeconds(retryInterval));
                     var retryResult = retryClick.Execute(() =>
                     {
@@ -228,7 +229,7 @@ public class WinBrowser
                 }
                 else
                 {
-                    var retryClick = Policy.HandleResult<bool>(result => result == true)
+                    var retryClick = Policy.HandleResult<bool>(result => result)
                         .WaitAndRetry(retries, interval => TimeSpan.FromSeconds(retryInterval));
                     var retryResult = retryClick.Execute(() =>
                     {
@@ -259,7 +260,7 @@ public class WinBrowser
             {
                 if (invoke == false)
                 {
-                    var retryClick = Policy.HandleResult<bool>(result => result == true)
+                    var retryClick = Policy.HandleResult<bool>(result => result)
                         .WaitAndRetry(retries, interval => TimeSpan.FromSeconds(retryInterval));
                     var retryResult = retryClick.Execute(() =>
                     {
@@ -280,7 +281,7 @@ public class WinBrowser
                 }
                 else
                 {
-                    var retryClick = Policy.HandleResult<bool>(result => result == true)
+                    var retryClick = Policy.HandleResult<bool>(result => result)
                         .WaitAndRetry(retries, interval => TimeSpan.FromSeconds(retryInterval));
                     var retryResult = retryClick.Execute(() =>
                     {
@@ -312,7 +313,7 @@ public class WinBrowser
             {
                 if (invoke == false)
                 {
-                    var retryClick = Policy.HandleResult<bool>(result => result == true)
+                    var retryClick = Policy.HandleResult<bool>(result => result)
                         .WaitAndRetry(retries, interval => TimeSpan.FromSeconds(retryInterval));
                     var retryResult = retryClick.Execute(() =>
                     {
@@ -339,13 +340,13 @@ public class WinBrowser
 
         public static void SendKeys(VirtualKeyShort keyShort)
         {
-            FlaUI.Core.Input.Keyboard.Press(keyShort);
-            FlaUI.Core.Input.Keyboard.Release(keyShort);
+            Keyboard.Press(keyShort);
+            Keyboard.Release(keyShort);
         }
 
         public static void SendKeyCombination(VirtualKeyShort[] keyShorts)
         {
-            var keyCombination = FlaUI.Core.Input.Keyboard.Pressing(keyShorts);
+            var keyCombination = Keyboard.Pressing(keyShorts);
             keyCombination.Dispose();
         }
     }
