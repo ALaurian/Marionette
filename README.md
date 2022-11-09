@@ -2,10 +2,6 @@
   <img width="150" height="150" src="https://cdn-icons-png.flaticon.com/512/3473/3473718.png">
 </p>
 
-# Marionette
-An all-purpose RPA library created for Windows, based on FlaUi and Playwright.
-
-
 # What is Marionette?
 
 https://user-images.githubusercontent.com/110975879/200892174-3b32a835-8e14-490e-9ee8-497836ea86fc.mp4
