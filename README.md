@@ -4,3 +4,13 @@
 
 # Marionette
 An all-purpose RPA library created for Windows, based on FlaUi and Playwright.
+
+
+# What is Marionette?
+
+https://user-images.githubusercontent.com/110975879/200892174-3b32a835-8e14-490e-9ee8-497836ea86fc.mp4
+
+# What is RPA?
+
+https://user-images.githubusercontent.com/110975879/200891613-2d3211c4-5395-405b-84e9-da4aaf61cfbc.mp4
+
