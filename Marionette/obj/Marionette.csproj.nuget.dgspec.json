@@ -5,7 +5,7 @@
   },
   "projects": {
     "C:\\Users\\lauri\\Documents\\GitHub\\Fight\\Marionette\\Marionette.csproj": {
-      "version": "1.0.6.77",
+      "version": "1.0.7.5",
       "restore": {
         "projectUniqueName": "C:\\Users\\lauri\\Documents\\GitHub\\Fight\\Marionette\\Marionette.csproj",
         "projectName": "Marionette",
@@ -49,6 +49,10 @@
               "target": "Package",
               "version": "[4.0.0, )"
             },
+            "Microsoft.Office.Interop.Excel": {
+              "target": "Package",
+              "version": "[15.0.4795.1001, )"
+            },
             "Microsoft.Playwright": {
               "target": "Package",
               "version": "[1.27.2, )"
@@ -57,17 +61,21 @@
               "target": "Package",
               "version": "[1.27.2, )"
             },
+            "MySqlConnector": {
+              "target": "Package",
+              "version": "[2.3.0-beta.1, )"
+            },
             "Polly": {
               "target": "Package",
               "version": "[7.2.3, )"
             },
             "Serilog": {
               "target": "Package",
-              "version": "[2.12.1-dev-01587, )"
+              "version": "[3.0.0-dev-01958, )"
             },
             "Serilog.Sinks.Console": {
               "target": "Package",
-              "version": "[4.1.1-dev-00896, )"
+              "version": "[4.1.1-dev-00910, )"
             },
             "Serilog.Sinks.File": {
               "target": "Package",
@@ -91,20 +99,8 @@
           "warn": true,
           "downloadDependencies": [
             {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[6.0.9, 6.0.9]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[6.0.9, 6.0.9]"
-            },
-            {
               "name": "Microsoft.Windows.SDK.NET.Ref",
-              "version": "[10.0.17763.26, 10.0.17763.26]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[6.0.9, 6.0.9]"
+              "version": "[10.0.17763.27, 10.0.17763.27]"
             }
           ],
           "frameworkReferences": {
@@ -115,7 +111,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100-rc.1.22431.12\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,0 +1,5 @@
+C:\Users\lauri\Documents\GitHub\Fight\Marionette\obj\Debug\net481\Marionette.csproj.AssemblyReference.cache
+C:\Users\lauri\Documents\GitHub\Fight\Marionette\obj\Debug\net481\Marionette.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\lauri\Documents\GitHub\Fight\Marionette\obj\Debug\net481\Marionette.AssemblyInfoInputs.cache
+C:\Users\lauri\Documents\GitHub\Fight\Marionette\obj\Debug\net481\Marionette.AssemblyInfo.cs
+C:\Users\lauri\Documents\GitHub\Fight\Marionette\obj\Debug\net481\Marionette.csproj.CoreCompileInputs.cache

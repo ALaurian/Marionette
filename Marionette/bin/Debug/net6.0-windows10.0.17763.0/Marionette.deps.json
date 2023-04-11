@@ -10,28 +10,30 @@
         "dependencies": {
           "FlaUI.Core": "4.0.0",
           "FlaUI.UIA3": "4.0.0",
+          "Microsoft.Office.Interop.Excel": "15.0.4795.1001",
           "Microsoft.Playwright": "1.27.2",
           "Microsoft.Playwright.NUnit": "1.27.2",
+          "MySqlConnector": "2.3.0-beta.1",
           "Polly": "7.2.3",
-          "Serilog": "2.12.1-dev-01587",
-          "Serilog.Sinks.Console": "4.1.1-dev-00896",
+          "Serilog": "3.0.0-dev-01958",
+          "Serilog.Sinks.Console": "4.1.1-dev-00910",
           "Serilog.Sinks.File": "5.0.1-dev-00947",
           "morelinq": "3.3.2",
-          "runtimepack.Microsoft.Windows.SDK.NET.Ref": "10.0.17763.26"
+          "runtimepack.Microsoft.Windows.SDK.NET.Ref": "10.0.17763.27"
         },
         "runtime": {
           "Marionette.dll": {}
         }
       },
-      "runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.17763.26": {
+      "runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.17763.27": {
         "runtime": {
           "Microsoft.Windows.SDK.NET.dll": {
             "assemblyVersion": "10.0.17763.24",
-            "fileVersion": "10.0.17763.26"
+            "fileVersion": "10.0.17763.27"
           },
           "WinRT.Runtime.dll": {
-            "assemblyVersion": "1.6.0.0",
-            "fileVersion": "1.6.4.39141"
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.39961"
           }
         }
       },
@@ -106,6 +108,14 @@
           "System.Threading": "4.0.11"
         }
       },
+      "Microsoft.Extensions.Logging.Abstractions/7.0.0": {
+        "runtime": {
+          "lib/net6.0/Microsoft.Extensions.Logging.Abstractions.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.51805"
+          }
+        }
+      },
       "Microsoft.NET.Test.Sdk/16.11.0": {
         "dependencies": {
           "Microsoft.CodeCoverage": "16.11.0",
@@ -114,6 +124,14 @@
       },
       "Microsoft.NETCore.Platforms/5.0.1": {},
       "Microsoft.NETCore.Targets/1.0.1": {},
+      "Microsoft.Office.Interop.Excel/15.0.4795.1001": {
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Office.Interop.Excel.dll": {
+            "assemblyVersion": "15.0.0.0",
+            "fileVersion": "15.0.4795.1000"
+          }
+        }
+      },
       "Microsoft.Playwright/1.27.2": {
         "dependencies": {
           "Microsoft.Bcl.AsyncInterfaces": "6.0.0",
@@ -432,6 +450,17 @@
           }
         }
       },
+      "MySqlConnector/2.3.0-beta.1": {
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "7.0.0"
+        },
+        "runtime": {
+          "lib/net6.0/MySqlConnector.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.3.0.0"
+          }
+        }
+      },
       "NETStandard.Library/2.0.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "5.0.1"
@@ -497,17 +526,17 @@
           }
         }
       },
-      "Serilog/2.12.1-dev-01587": {
+      "Serilog/3.0.0-dev-01958": {
         "runtime": {
           "lib/net6.0/Serilog.dll": {
             "assemblyVersion": "2.0.0.0",
-            "fileVersion": "2.12.1.0"
+            "fileVersion": "3.0.0.0"
           }
         }
       },
-      "Serilog.Sinks.Console/4.1.1-dev-00896": {
+      "Serilog.Sinks.Console/4.1.1-dev-00910": {
         "dependencies": {
-          "Serilog": "2.12.1-dev-01587"
+          "Serilog": "3.0.0-dev-01958"
         },
         "runtime": {
           "lib/net5.0/Serilog.Sinks.Console.dll": {
@@ -518,7 +547,7 @@
       },
       "Serilog.Sinks.File/5.0.1-dev-00947": {
         "dependencies": {
-          "Serilog": "2.12.1-dev-01587"
+          "Serilog": "3.0.0-dev-01958"
         },
         "runtime": {
           "lib/net5.0/Serilog.Sinks.File.dll": {
@@ -906,7 +935,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.17763.26": {
+    "runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.17763.27": {
       "type": "runtimepack",
       "serviceable": false,
       "sha512": ""
@@ -953,6 +982,13 @@
       "path": "microsoft.csharp/4.0.1",
       "hashPath": "microsoft.csharp.4.0.1.nupkg.sha512"
     },
+    "Microsoft.Extensions.Logging.Abstractions/7.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kmn78+LPVMOWeITUjIlfxUPDsI0R6G0RkeAMBmQxAJ7vBJn4q2dTva7pWi65ceN5vPGjJ9q/Uae2WKgvfktJAw==",
+      "path": "microsoft.extensions.logging.abstractions/7.0.0",
+      "hashPath": "microsoft.extensions.logging.abstractions.7.0.0.nupkg.sha512"
+    },
     "Microsoft.NET.Test.Sdk/16.11.0": {
       "type": "package",
       "serviceable": true,
@@ -973,6 +1009,13 @@
       "sha512": "sha512-rkn+fKobF/cbWfnnfBOQHKVKIOpxMZBvlSHkqDWgBpwGDcLRduvs3D9OLGeV6GWGvVwNlVi2CBbTjuPmtHvyNw==",
       "path": "microsoft.netcore.targets/1.0.1",
       "hashPath": "microsoft.netcore.targets.1.0.1.nupkg.sha512"
+    },
+    "Microsoft.Office.Interop.Excel/15.0.4795.1001": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-cuvqi/U5MYSM0gvR2l90q0m/urRgmg69EiwP5VWp1RcaJ0YT5G26Va5LaOZ3KJFc22FNihS5CUjeePUp2YpGQA==",
+      "path": "microsoft.office.interop.excel/15.0.4795.1001",
+      "hashPath": "microsoft.office.interop.excel.15.0.4795.1001.nupkg.sha512"
     },
     "Microsoft.Playwright/1.27.2": {
       "type": "package",
@@ -1030,6 +1073,13 @@
       "path": "morelinq/3.3.2",
       "hashPath": "morelinq.3.3.2.nupkg.sha512"
     },
+    "MySqlConnector/2.3.0-beta.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-nQ7nW4TFp1rE1HowCWOGRKrBPcKIWMOFQBs/1cI76REm4X6cQ808E5aMgW4VdvPM6y17LPFvakmwWuU65CXMpg==",
+      "path": "mysqlconnector/2.3.0-beta.1",
+      "hashPath": "mysqlconnector.2.3.0-beta.1.nupkg.sha512"
+    },
     "NETStandard.Library/2.0.0": {
       "type": "package",
       "serviceable": true,
@@ -1072,19 +1122,19 @@
       "path": "polly/7.2.3",
       "hashPath": "polly.7.2.3.nupkg.sha512"
     },
-    "Serilog/2.12.1-dev-01587": {
+    "Serilog/3.0.0-dev-01958": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-PzLed+pR9Xb+Vv7WnA0OpIodmgK8vNxDgPo6CQMy0wxVuul/vJkUjzBo0ICPLVYFX4BxohH/TqIm8uy8zcovpg==",
-      "path": "serilog/2.12.1-dev-01587",
-      "hashPath": "serilog.2.12.1-dev-01587.nupkg.sha512"
+      "sha512": "sha512-8Ql53IEEe88H8eVrZnJMlkzcKViEwu/qO7hebXluslEwL9zPqRErOy/FH2W/n9jUV/QtyRXKROOKEJ803su9ZA==",
+      "path": "serilog/3.0.0-dev-01958",
+      "hashPath": "serilog.3.0.0-dev-01958.nupkg.sha512"
     },
-    "Serilog.Sinks.Console/4.1.1-dev-00896": {
+    "Serilog.Sinks.Console/4.1.1-dev-00910": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-72QU/vM7UYq8YF9/5cyafJhMDgisp13+RY1JS+MLVN/+SsgK6855lRMxsaftsaoAMspeY+DNdes0UOgeJcfpmg==",
-      "path": "serilog.sinks.console/4.1.1-dev-00896",
-      "hashPath": "serilog.sinks.console.4.1.1-dev-00896.nupkg.sha512"
+      "sha512": "sha512-Lri9i0Vv7MXpLAf5aXq+oBzX/ca5vl+fBAiLtXMJQu9xYyNv++8q+VhzePnOreES4GnwChg6Zrm8ARkVHE/kmA==",
+      "path": "serilog.sinks.console/4.1.1-dev-00910",
+      "hashPath": "serilog.sinks.console.4.1.1-dev-00910.nupkg.sha512"
     },
     "Serilog.Sinks.File/5.0.1-dev-00947": {
       "type": "package",

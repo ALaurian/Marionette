@@ -5,7 +5,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>1.0.6.98</PackageVersion>
+        <PackageVersion>1.0.7.09</PackageVersion>
+        <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
 
@@ -13,12 +14,14 @@
     <ItemGroup>
       <PackageReference Include="FlaUI.Core" Version="4.0.0" />
       <PackageReference Include="FlaUI.UIA3" Version="4.0.0" />
+      <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
       <PackageReference Include="Microsoft.Playwright" Version="1.27.2" />
       <PackageReference Include="Microsoft.Playwright.NUnit" Version="1.27.2" />
       <PackageReference Include="morelinq" Version="3.3.2" />
+      <PackageReference Include="MySqlConnector" Version="2.3.0-beta.1" />
       <PackageReference Include="Polly" Version="7.2.3" />
-      <PackageReference Include="Serilog" Version="2.12.1-dev-01587" />
-      <PackageReference Include="Serilog.Sinks.Console" Version="4.1.1-dev-00896" />
+      <PackageReference Include="Serilog" Version="3.0.0-dev-01958" />
+      <PackageReference Include="Serilog.Sinks.Console" Version="4.1.1-dev-00910" />
       <PackageReference Include="Serilog.Sinks.File" Version="5.0.1-dev-00947" />
     </ItemGroup>
 
