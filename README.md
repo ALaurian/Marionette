@@ -10,6 +10,9 @@ https://user-images.githubusercontent.com/110975879/200892174-3b32a835-8e14-490e
 
 https://user-images.githubusercontent.com/110975879/200891613-2d3211c4-5395-405b-84e9-da4aaf61cfbc.mp4
 
+# We have a fully fledged, written from scratch wiki now!
+[You can find the link to the wiki here.](https://github.com/ALaurian/Marionette/wiki)
+
 # RPA Challenge Marionette Tutorial
 
 [You can find the video to the tutorial here.](https://www.youtube.com/watch?v=TR8a04vCjB4&feature=youtu.be&ab_channel=Chevalier)
