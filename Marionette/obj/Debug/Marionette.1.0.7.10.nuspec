@@ -17,7 +17,6 @@
         <dependency id="Serilog" version="3.0.0-dev-01958" exclude="Build,Analyzers" />
         <dependency id="Serilog.Sinks.Console" version="4.1.1-dev-00910" exclude="Build,Analyzers" />
         <dependency id="Serilog.Sinks.File" version="5.0.1-dev-00947" exclude="Build,Analyzers" />
-        <dependency id="WCS.Microsoft.Vbe.Interop" version="12.0.4518.1014" exclude="Build,Analyzers" />
         <dependency id="morelinq" version="3.3.2" exclude="Build,Analyzers" />
       </group>
     </dependencies>

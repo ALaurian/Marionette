@@ -1517,15 +1517,6 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XDocument.dll": {}
         }
-      },
-      "WCS.Microsoft.Vbe.Interop/12.0.4518.1014": {
-        "type": "package",
-        "compile": {
-          "lib/Microsoft.Vbe.Interop.dll": {}
-        },
-        "runtime": {
-          "lib/Microsoft.Vbe.Interop.dll": {}
-        }
       }
     }
   },
@@ -5712,18 +5703,6 @@
         "system.xml.xdocument.4.0.11.nupkg.sha512",
         "system.xml.xdocument.nuspec"
       ]
-    },
-    "WCS.Microsoft.Vbe.Interop/12.0.4518.1014": {
-      "sha512": "Gu8f/kD2inGuK/zA/UGxQSyIf4mAlp8i/z8XIh1lcQMv7tOkqEfESgC0xy645ZSh4gZ3VhfzmEtnauKzCRivaA==",
-      "type": "package",
-      "path": "wcs.microsoft.vbe.interop/12.0.4518.1014",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/Microsoft.Vbe.Interop.dll",
-        "wcs.microsoft.vbe.interop.12.0.4518.1014.nupkg.sha512",
-        "wcs.microsoft.vbe.interop.nuspec"
-      ]
     }
   },
   "projectFileDependencyGroups": {
@@ -5738,7 +5717,6 @@
       "Serilog >= 3.0.0-dev-01958",
       "Serilog.Sinks.Console >= 4.1.1-dev-00910",
       "Serilog.Sinks.File >= 5.0.1-dev-00947",
-      "WCS.Microsoft.Vbe.Interop >= 12.0.4518.1014",
       "morelinq >= 3.3.2"
     ]
   },
@@ -5746,7 +5724,7 @@
     "C:\\Users\\lauri\\.nuget\\packages\\": {}
   },
   "project": {
-    "version": "1.0.7.9",
+    "version": "1.0.7.10",
     "restore": {
       "projectUniqueName": "C:\\Users\\lauri\\Documents\\GitHub\\Fight\\Marionette\\Marionette.csproj",
       "projectName": "Marionette",
@@ -5822,10 +5800,6 @@
             "target": "Package",
             "version": "[5.0.1-dev-00947, )"
           },
-          "WCS.Microsoft.Vbe.Interop": {
-            "target": "Package",
-            "version": "[12.0.4518.1014, )"
-          },
           "morelinq": {
             "target": "Package",
             "version": "[3.3.2, )"
@@ -5859,17 +5833,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'WCS.Microsoft.Vbe.Interop 12.0.4518.1014' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net6.0-windows10.0.17763'. This package may not be fully compatible with your project.",
-      "libraryId": "WCS.Microsoft.Vbe.Interop",
-      "targetGraphs": [
-        "net6.0-windows10.0.17763"
-      ]
-    }
-  ]
+  }
 }

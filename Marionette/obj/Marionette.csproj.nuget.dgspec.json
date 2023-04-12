@@ -5,7 +5,7 @@
   },
   "projects": {
     "C:\\Users\\lauri\\Documents\\GitHub\\Fight\\Marionette\\Marionette.csproj": {
-      "version": "1.0.7.9",
+      "version": "1.0.7.10",
       "restore": {
         "projectUniqueName": "C:\\Users\\lauri\\Documents\\GitHub\\Fight\\Marionette\\Marionette.csproj",
         "projectName": "Marionette",
@@ -80,10 +80,6 @@
             "Serilog.Sinks.File": {
               "target": "Package",
               "version": "[5.0.1-dev-00947, )"
-            },
-            "WCS.Microsoft.Vbe.Interop": {
-              "target": "Package",
-              "version": "[12.0.4518.1014, )"
             },
             "morelinq": {
               "target": "Package",

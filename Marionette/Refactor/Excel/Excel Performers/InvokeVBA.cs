@@ -4,7 +4,7 @@ namespace Marionette.Excel_Scope;
 
 public partial class Excel
 {
-    public void InvokeVBA(object sheet, string code)
+    /*public void InvokeVBA(object sheet, string code)
     {
         // Get the VBE object
         var vbe = workbook.VBProject.VBComponents;
@@ -21,5 +21,5 @@ public partial class Excel
 
         // Remove the code from the module
         codeModule.DeleteLines(lineNum, codeModule.CountOfLines - lineNum + 1);
-    }
+    }*/
 }
