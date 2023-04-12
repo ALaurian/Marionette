@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>1.0.7.09</PackageVersion>
+        <PackageVersion>1.0.7.10</PackageVersion>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
@@ -23,6 +23,7 @@
       <PackageReference Include="Serilog" Version="3.0.0-dev-01958" />
       <PackageReference Include="Serilog.Sinks.Console" Version="4.1.1-dev-00910" />
       <PackageReference Include="Serilog.Sinks.File" Version="5.0.1-dev-00947" />
+      <PackageReference Include="WCS.Microsoft.Vbe.Interop" Version="12.0.4518.1014" />
     </ItemGroup>
 
 

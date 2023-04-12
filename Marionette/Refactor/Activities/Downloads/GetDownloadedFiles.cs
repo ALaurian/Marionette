@@ -4,8 +4,9 @@ namespace Marionette.WebBrowser;
 
 public partial class MarionetteWebBrowser
 {
-    public List<IDownload> GetDownloadedFiles(string elementToVanish)
+    public List<IDownload> GetDownloadedFiles(string elementToVanish, int retries, bool lockToLastPage)
     {
+        WaitElementVanish(elementToVanish, retries, lockToLastPage);
         while (!_fileDownloadSession.Any())
         {
         }

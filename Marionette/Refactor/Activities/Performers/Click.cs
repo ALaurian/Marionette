@@ -14,16 +14,16 @@ public partial class MarionetteWebBrowser
         return true;
     }
 
-    public IElementHandle Click(string selector, bool lockToLastPage = false)
-    {
-        var element = FindElement(selector, lockToLastPage);
+        public IElementHandle Click(string selector, bool lockToLastPage = false)
+        {
+            var element = FindElement(selector, lockToLastPage);
 
-        element.ClickAsync(new ElementHandleClickOptions { Force = _force }).Wait();
+            element.ClickAsync(new ElementHandleClickOptions { Force = _force }).Wait();
 
-        Log.Information($"[{MethodBase.GetCurrentMethod().Name}][{selector}] Clicked element.");
+            Log.Information($"[{MethodBase.GetCurrentMethod().Name}][{selector}] Clicked element.");
 
-        return element;
-    }
+            return element;
+        }
 
     public IElementHandle Click(IElementHandle element)
     {

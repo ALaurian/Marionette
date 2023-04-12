@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "0Dc9KmRrym5ZMic2a1p0XyO3KfYdiDXqk/vgLHVACk9Nd12aLiRibAh+OtEZbax1pSFT166HcJafFaE7pZLQ5Q==",
+  "dgSpecHash": "I+Nrzqobg/LoxMWfTCNj6tJe78dJWkTyDh7vpxKyHDLva6aDkH/ngpn2/v4LwQyXCEzOSvccKUE0z1NO/LgQCw==",
   "success": true,
   "projectFilePath": "C:\\Users\\lauri\\Documents\\GitHub\\Fight\\Marionette\\Marionette.csproj",
   "expectedPackageFiles": [
@@ -80,7 +80,19 @@
     "C:\\Users\\lauri\\.nuget\\packages\\system.windows.extensions\\5.0.0\\system.windows.extensions.5.0.0.nupkg.sha512",
     "C:\\Users\\lauri\\.nuget\\packages\\system.xml.readerwriter\\4.0.11\\system.xml.readerwriter.4.0.11.nupkg.sha512",
     "C:\\Users\\lauri\\.nuget\\packages\\system.xml.xdocument\\4.0.11\\system.xml.xdocument.4.0.11.nupkg.sha512",
+    "C:\\Users\\lauri\\.nuget\\packages\\wcs.microsoft.vbe.interop\\12.0.4518.1014\\wcs.microsoft.vbe.interop.12.0.4518.1014.nupkg.sha512",
     "C:\\Users\\lauri\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.17763.27\\microsoft.windows.sdk.net.ref.10.0.17763.27.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'WCS.Microsoft.Vbe.Interop 12.0.4518.1014' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net6.0-windows10.0.17763'. This package may not be fully compatible with your project.",
+      "libraryId": "WCS.Microsoft.Vbe.Interop",
+      "targetGraphs": [
+        "net6.0-windows10.0.17763"
+      ]
+    }
+  ]
 }
