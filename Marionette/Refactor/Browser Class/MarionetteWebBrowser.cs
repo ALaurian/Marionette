@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
 using MoreLinq;
@@ -28,7 +29,7 @@ namespace Marionette.WebBrowser
             BrowserType browserType = BrowserType.Chrome, LoadState pageWaitType = LoadState.DOMContentLoaded)
         {
             _logger = ConfigureLogger();
-
+            
             if (connectSession)
             {
                 _browser = ConnectToExistingSession(port, browserType);
@@ -62,7 +63,7 @@ namespace Marionette.WebBrowser
                     .LaunchAsync(new BrowserTypeLaunchOptions { Headless = headlessMode }).Result,
                 _ => null
             };
-
+            
             _context = _browser.NewContextAsync().Result;
             _pages.Add(_context.NewPageAsync().Result);
             PageWaitType = pageWaitType;
