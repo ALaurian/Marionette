@@ -20,7 +20,7 @@ namespace Marionette.WebBrowser
         private IDialog _dialog;
         private readonly ILogger _logger;
         public bool _force;
-        
+
         public bool DebugMode { get; set; } = false;
         public int DebugModeDuration { get; set; } = 3;
         public LoadState PageWaitType { get; set; } = LoadState.DOMContentLoaded;
@@ -30,7 +30,7 @@ namespace Marionette.WebBrowser
             BrowserType browserType = BrowserType.Chrome, LoadState pageWaitType = LoadState.DOMContentLoaded)
         {
             _logger = ConfigureLogger();
-            
+
             if (connectSession)
             {
                 _browser = ConnectToExistingSession(port, browserType);
@@ -53,7 +53,7 @@ namespace Marionette.WebBrowser
             bool headlessMode = false)
         {
             _logger = ConfigureLogger();
-            
+
 
             var playwright = Playwright.CreateAsync().Result;
 
@@ -67,8 +67,8 @@ namespace Marionette.WebBrowser
                     .LaunchAsync(new BrowserTypeLaunchOptions { Headless = headlessMode }).Result,
                 _ => null
             };
-            
-            
+
+
             _context = _browser.NewContextAsync().Result;
             _pages.Add(_context.NewPageAsync().Result);
             PageWaitType = pageWaitType;

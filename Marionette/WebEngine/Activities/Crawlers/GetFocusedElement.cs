@@ -5,7 +5,7 @@ using Serilog;
 namespace Marionette.WebBrowser;
 
 public partial class MarionetteWebBrowser
-{
+{    
     public IElementHandle GetFocusedElement(bool lockToLastPage = true)
     {
         var element = FindElement("*:focus", lockToLastPage);

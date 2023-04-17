@@ -5,7 +5,8 @@ using Serilog;
 namespace Marionette.WebBrowser;
 
 public partial class MarionetteWebBrowser
-{
+{    
+
     public List<IElementHandle> FindAllDescendants(string selector)
     {
         var descendants = FindElement(selector).QuerySelectorAllAsync("*").Result.ToList();

@@ -6,6 +6,7 @@ namespace Marionette.WebBrowser;
 
 public partial class MarionetteWebBrowser
 {
+
     public List<IElementHandle> FindAllChildren(string selector)
     {
         var children = FindElement(selector).QuerySelectorAllAsync("xpath=child::*").Result.ToList();

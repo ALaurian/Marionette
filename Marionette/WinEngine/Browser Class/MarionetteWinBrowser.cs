@@ -8,6 +8,7 @@ namespace Marionette.WinEngine;
 
 public partial class MarionetteWinBrowser
 {
+
     private UIA3Automation _automation;
 
     private Window ActiveWindow;
@@ -23,6 +24,5 @@ public partial class MarionetteWinBrowser
     {
         _automation = new UIA3Automation();
         _desktop = _automation.GetDesktop().FindAllByXPath("*").ToList();
-
     }
 }

@@ -7,6 +7,7 @@ namespace Marionette.WebBrowser;
 
 public partial class MarionetteWebBrowser
 {
+    
     public IElementHandle WaitElementAppear(string selector, bool lockToLastPage = false, int delayBefore = 1)
     {
         Thread.Sleep(TimeSpan.FromSeconds(delayBefore));
