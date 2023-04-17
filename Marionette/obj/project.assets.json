@@ -54,7 +54,7 @@
           "build/_._": {}
         }
       },
-      "Microsoft.Bcl.AsyncInterfaces/6.0.0": {
+      "Microsoft.Bcl.AsyncInterfaces/7.0.0": {
         "type": "package",
         "compile": {
           "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll": {
@@ -170,12 +170,12 @@
           "lib/netstandard2.0/Microsoft.Office.Interop.Excel.dll": {}
         }
       },
-      "Microsoft.Playwright/1.27.2": {
+      "Microsoft.Playwright/1.32.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Bcl.AsyncInterfaces": "6.0.0",
+          "Microsoft.Bcl.AsyncInterfaces": "7.0.0",
           "System.ComponentModel.Annotations": "5.0.0",
-          "System.Text.Json": "6.0.5"
+          "System.Text.Json": "7.0.0"
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.Playwright.dll": {
@@ -1333,7 +1333,7 @@
           }
         }
       },
-      "System.Text.Encodings.Web/6.0.0": {
+      "System.Text.Encodings.Web/7.0.0": {
         "type": "package",
         "dependencies": {
           "System.Runtime.CompilerServices.Unsafe": "6.0.0"
@@ -1349,7 +1349,7 @@
           }
         },
         "build": {
-          "buildTransitive/netcoreapp3.1/_._": {}
+          "buildTransitive/net6.0/_._": {}
         },
         "runtimeTargets": {
           "runtimes/browser/lib/net6.0/System.Text.Encodings.Web.dll": {
@@ -1358,11 +1358,11 @@
           }
         }
       },
-      "System.Text.Json/6.0.5": {
+      "System.Text.Json/7.0.0": {
         "type": "package",
         "dependencies": {
           "System.Runtime.CompilerServices.Unsafe": "6.0.0",
-          "System.Text.Encodings.Web": "6.0.0"
+          "System.Text.Encodings.Web": "7.0.0"
         },
         "compile": {
           "lib/net6.0/System.Text.Json.dll": {
@@ -1375,7 +1375,7 @@
           }
         },
         "build": {
-          "buildTransitive/netcoreapp3.1/_._": {}
+          "buildTransitive/net6.0/System.Text.Json.targets": {}
         }
       },
       "System.Text.RegularExpressions/4.1.0": {
@@ -1589,23 +1589,25 @@
         "tools/install.ps1"
       ]
     },
-    "Microsoft.Bcl.AsyncInterfaces/6.0.0": {
-      "sha512": "UcSjPsst+DfAdJGVDsu346FX0ci0ah+lw3WRtn18NUwEqRt70HaOQ7lI72vy3+1LxtqI3T5GWwV39rQSrCzAeg==",
+    "Microsoft.Bcl.AsyncInterfaces/7.0.0": {
+      "sha512": "3aeMZ1N0lJoSyzqiP03hqemtb1BijhsJADdobn/4nsMJ8V1H+CrpuduUe4hlRdx+ikBQju1VGjMD1GJ3Sk05Eg==",
       "type": "package",
-      "path": "microsoft.bcl.asyncinterfaces/6.0.0",
+      "path": "microsoft.bcl.asyncinterfaces/7.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
-        "lib/net461/Microsoft.Bcl.AsyncInterfaces.dll",
-        "lib/net461/Microsoft.Bcl.AsyncInterfaces.xml",
+        "buildTransitive/net461/Microsoft.Bcl.AsyncInterfaces.targets",
+        "buildTransitive/net462/_._",
+        "lib/net462/Microsoft.Bcl.AsyncInterfaces.dll",
+        "lib/net462/Microsoft.Bcl.AsyncInterfaces.xml",
         "lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.dll",
         "lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.xml",
         "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll",
         "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.xml",
-        "microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
+        "microsoft.bcl.asyncinterfaces.7.0.0.nupkg.sha512",
         "microsoft.bcl.asyncinterfaces.nuspec",
         "useSharedDesignerContext.txt"
       ]
@@ -1885,32 +1887,28 @@
         "microsoft.office.interop.excel.nuspec"
       ]
     },
-    "Microsoft.Playwright/1.27.2": {
-      "sha512": "6PoII6hwgPOV1KmgL4W6dVpRWv8QgB8evPuBgKuUmOhzENm60KYzsQrc0D4RcGH9cPdi1AQ9A7l75e8Y5iQeYw==",
+    "Microsoft.Playwright/1.32.0": {
+      "sha512": "wqK1x8usn8bJOWLlX9HPI3sdQA/DzSW9IFBBC7uvD/cD4JKlPv8tN/ubCia+O1JDy11cOQytRUNa4vyZ6/uK7Q==",
       "type": "package",
-      "path": "microsoft.playwright/1.27.2",
+      "path": "microsoft.playwright/1.32.0",
       "files": [
         ".nupkg.metadata",
         ".playwright/node/LICENSE",
+        ".playwright/node/darwin-arm64/node",
+        ".playwright/node/darwin-arm64/playwright.sh",
+        ".playwright/node/darwin-x64/node",
+        ".playwright/node/darwin-x64/playwright.sh",
         ".playwright/node/linux-arm64/node",
         ".playwright/node/linux-arm64/playwright.sh",
         ".playwright/node/linux-x64/node",
         ".playwright/node/linux-x64/playwright.sh",
-        ".playwright/node/mac/node",
-        ".playwright/node/mac/playwright.sh",
         ".playwright/node/win32_x64/node.exe",
         ".playwright/node/win32_x64/playwright.cmd",
-        ".playwright/package/LICENSE",
-        ".playwright/package/NOTICE",
         ".playwright/package/README.md",
         ".playwright/package/ThirdPartyNotices.txt",
         ".playwright/package/api.json",
         ".playwright/package/bin/PrintDeps.exe",
         ".playwright/package/bin/README.md",
-        ".playwright/package/bin/android-driver-target.apk",
-        ".playwright/package/bin/android-driver.apk",
-        ".playwright/package/bin/container_install_deps.sh",
-        ".playwright/package/bin/container_run_server.sh",
         ".playwright/package/bin/install_media_pack.ps1",
         ".playwright/package/bin/reinstall_chrome_beta_linux.sh",
         ".playwright/package/bin/reinstall_chrome_beta_mac.sh",
@@ -1932,6 +1930,7 @@
         ".playwright/package/index.d.ts",
         ".playwright/package/index.js",
         ".playwright/package/index.mjs",
+        ".playwright/package/lib/androidServerImpl.js",
         ".playwright/package/lib/browserServerImpl.js",
         ".playwright/package/lib/cli/cli.js",
         ".playwright/package/lib/cli/driver.js",
@@ -1977,22 +1976,17 @@
         ".playwright/package/lib/client/writableStream.js",
         ".playwright/package/lib/common/debugLogger.js",
         ".playwright/package/lib/common/errors.js",
-        ".playwright/package/lib/common/netUtils.js",
         ".playwright/package/lib/common/socksProxy.js",
         ".playwright/package/lib/common/timeoutSettings.js",
         ".playwright/package/lib/common/types.js",
-        ".playwright/package/lib/common/userAgent.js",
-        ".playwright/package/lib/containers/docker.js",
-        ".playwright/package/lib/containers/dockerApi.js",
         ".playwright/package/lib/generated/consoleApiSource.js",
         ".playwright/package/lib/generated/injectedScriptSource.js",
         ".playwright/package/lib/generated/recorderSource.js",
         ".playwright/package/lib/generated/utilityScriptSource.js",
-        ".playwright/package/lib/grid/githubGridFactory.js",
-        ".playwright/package/lib/grid/gridAgent.js",
-        ".playwright/package/lib/grid/gridBrowserWorker.js",
-        ".playwright/package/lib/grid/gridServer.js",
-        ".playwright/package/lib/grid/simpleGridFactory.js",
+        ".playwright/package/lib/image_tools/colorUtils.js",
+        ".playwright/package/lib/image_tools/compare.js",
+        ".playwright/package/lib/image_tools/imageChannel.js",
+        ".playwright/package/lib/image_tools/stats.js",
         ".playwright/package/lib/inProcessFactory.js",
         ".playwright/package/lib/inprocess.js",
         ".playwright/package/lib/outofprocess.js",
@@ -2012,6 +2006,7 @@
         ".playwright/package/lib/server/browserType.js",
         ".playwright/package/lib/server/chromium/appIcon.png",
         ".playwright/package/lib/server/chromium/chromium.js",
+        ".playwright/package/lib/server/chromium/chromiumSwitches.js",
         ".playwright/package/lib/server/chromium/crAccessibility.js",
         ".playwright/package/lib/server/chromium/crApp.js",
         ".playwright/package/lib/server/chromium/crBrowser.js",
@@ -2061,6 +2056,7 @@
         ".playwright/package/lib/server/dom.js",
         ".playwright/package/lib/server/download.js",
         ".playwright/package/lib/server/electron/electron.js",
+        ".playwright/package/lib/server/electron/loader.js",
         ".playwright/package/lib/server/fetch.js",
         ".playwright/package/lib/server/fileChooser.js",
         ".playwright/package/lib/server/firefox/ffAccessibility.js",
@@ -2072,6 +2068,7 @@
         ".playwright/package/lib/server/firefox/ffPage.js",
         ".playwright/package/lib/server/firefox/firefox.js",
         ".playwright/package/lib/server/formData.js",
+        ".playwright/package/lib/server/frameSelectors.js",
         ".playwright/package/lib/server/frames.js",
         ".playwright/package/lib/server/har/harRecorder.js",
         ".playwright/package/lib/server/har/harTracer.js",
@@ -2079,10 +2076,6 @@
         ".playwright/package/lib/server/index.js",
         ".playwright/package/lib/server/input.js",
         ".playwright/package/lib/server/instrumentation.js",
-        ".playwright/package/lib/server/isomorphic/cssParser.js",
-        ".playwright/package/lib/server/isomorphic/cssTokenizer.js",
-        ".playwright/package/lib/server/isomorphic/locatorGenerators.js",
-        ".playwright/package/lib/server/isomorphic/selectorParser.js",
         ".playwright/package/lib/server/isomorphic/utilityScriptSerializers.js",
         ".playwright/package/lib/server/javascript.js",
         ".playwright/package/lib/server/macEditingCommands.js",
@@ -2105,12 +2098,12 @@
         ".playwright/package/lib/server/recorder/utils.js",
         ".playwright/package/lib/server/registry/browserFetcher.js",
         ".playwright/package/lib/server/registry/dependencies.js",
-        ".playwright/package/lib/server/registry/download.js",
         ".playwright/package/lib/server/registry/index.js",
         ".playwright/package/lib/server/registry/nativeDeps.js",
         ".playwright/package/lib/server/registry/oopDownloadMain.js",
         ".playwright/package/lib/server/screenshotter.js",
         ".playwright/package/lib/server/selectors.js",
+        ".playwright/package/lib/server/socksInterceptor.js",
         ".playwright/package/lib/server/trace/recorder/snapshotter.js",
         ".playwright/package/lib/server/trace/recorder/snapshotterInjected.js",
         ".playwright/package/lib/server/trace/recorder/tracing.js",
@@ -2131,30 +2124,53 @@
         ".playwright/package/lib/server/webkit/wkWorkers.js",
         ".playwright/package/lib/third_party/diff_match_patch.js",
         ".playwright/package/lib/third_party/pixelmatch.js",
+        ".playwright/package/lib/utils/ascii.js",
         ".playwright/package/lib/utils/comparators.js",
+        ".playwright/package/lib/utils/crypto.js",
+        ".playwright/package/lib/utils/debug.js",
+        ".playwright/package/lib/utils/env.js",
         ".playwright/package/lib/utils/eventsHelper.js",
         ".playwright/package/lib/utils/fileUtils.js",
+        ".playwright/package/lib/utils/glob.js",
+        ".playwright/package/lib/utils/happy-eyeballs.js",
+        ".playwright/package/lib/utils/headers.js",
         ".playwright/package/lib/utils/hostPlatform.js",
         ".playwright/package/lib/utils/httpServer.js",
         ".playwright/package/lib/utils/index.js",
+        ".playwright/package/lib/utils/isomorphic/cssParser.js",
+        ".playwright/package/lib/utils/isomorphic/cssTokenizer.js",
+        ".playwright/package/lib/utils/isomorphic/locatorGenerators.js",
+        ".playwright/package/lib/utils/isomorphic/locatorParser.js",
+        ".playwright/package/lib/utils/isomorphic/locatorUtils.js",
+        ".playwright/package/lib/utils/isomorphic/selectorParser.js",
         ".playwright/package/lib/utils/isomorphic/stringUtils.js",
+        ".playwright/package/lib/utils/isomorphic/traceUtils.js",
         ".playwright/package/lib/utils/linuxUtils.js",
         ".playwright/package/lib/utils/manualPromise.js",
         ".playwright/package/lib/utils/mimeType.js",
         ".playwright/package/lib/utils/multimap.js",
+        ".playwright/package/lib/utils/network.js",
         ".playwright/package/lib/utils/processLauncher.js",
         ".playwright/package/lib/utils/processLauncherCleanupEntrypoint.js",
+        ".playwright/package/lib/utils/profiler.js",
+        ".playwright/package/lib/utils/rtti.js",
         ".playwright/package/lib/utils/spawnAsync.js",
         ".playwright/package/lib/utils/stackTrace.js",
+        ".playwright/package/lib/utils/task.js",
+        ".playwright/package/lib/utils/time.js",
         ".playwright/package/lib/utils/timeoutRunner.js",
+        ".playwright/package/lib/utils/traceUtils.js",
+        ".playwright/package/lib/utils/userAgent.js",
         ".playwright/package/lib/utils/zipFile.js",
         ".playwright/package/lib/utils/zones.js",
         ".playwright/package/lib/utilsBundle.js",
         ".playwright/package/lib/utilsBundleImpl.js",
         ".playwright/package/lib/webpack/htmlReport/index.html",
-        ".playwright/package/lib/webpack/recorder/assets/codicon.dcd00fb4.ttf",
-        ".playwright/package/lib/webpack/recorder/assets/index.be943575.js",
-        ".playwright/package/lib/webpack/recorder/assets/index.ff9b1db9.css",
+        ".playwright/package/lib/webpack/recorder/assets/codeMirrorModule-5d0f417c.css",
+        ".playwright/package/lib/webpack/recorder/assets/codeMirrorModule-7cdf3090.js",
+        ".playwright/package/lib/webpack/recorder/assets/codicon-dcd00fb4.ttf",
+        ".playwright/package/lib/webpack/recorder/assets/index-26e56fd7.css",
+        ".playwright/package/lib/webpack/recorder/assets/index-aa88d5c3.js",
         ".playwright/package/lib/webpack/recorder/icon-16x16.png",
         ".playwright/package/lib/webpack/recorder/icon-192x192.png",
         ".playwright/package/lib/webpack/recorder/icon-256x256.png",
@@ -2162,6 +2178,10 @@
         ".playwright/package/lib/webpack/recorder/icon-384x384.png",
         ".playwright/package/lib/webpack/recorder/icon-512x512.png",
         ".playwright/package/lib/webpack/recorder/index.html",
+        ".playwright/package/lib/webpack/traceViewer/assets/codeMirrorModule-3678cec2.js",
+        ".playwright/package/lib/webpack/traceViewer/assets/workbench-b198d476.js",
+        ".playwright/package/lib/webpack/traceViewer/assets/xtermModule-0fb1e5c9.js",
+        ".playwright/package/lib/webpack/traceViewer/codeMirrorModule.5d0f417c.css",
         ".playwright/package/lib/webpack/traceViewer/codicon.dcd00fb4.ttf",
         ".playwright/package/lib/webpack/traceViewer/icon-16x16.png",
         ".playwright/package/lib/webpack/traceViewer/icon-192x192.png",
@@ -2169,10 +2189,15 @@
         ".playwright/package/lib/webpack/traceViewer/icon-32x32.png",
         ".playwright/package/lib/webpack/traceViewer/icon-384x384.png",
         ".playwright/package/lib/webpack/traceViewer/icon-512x512.png",
+        ".playwright/package/lib/webpack/traceViewer/index.a18c30b0.js",
         ".playwright/package/lib/webpack/traceViewer/index.html",
-        ".playwright/package/lib/webpack/traceViewer/main.24b347b6.css",
-        ".playwright/package/lib/webpack/traceViewer/main.740bbc63.js",
+        ".playwright/package/lib/webpack/traceViewer/popout.html",
         ".playwright/package/lib/webpack/traceViewer/sw.bundle.js",
+        ".playwright/package/lib/webpack/traceViewer/watch.2eaed85c.css",
+        ".playwright/package/lib/webpack/traceViewer/watch.575ca3b3.js",
+        ".playwright/package/lib/webpack/traceViewer/watch.html",
+        ".playwright/package/lib/webpack/traceViewer/workbench.abfdb308.css",
+        ".playwright/package/lib/webpack/traceViewer/xtermModule.6428296b.css",
         ".playwright/package/lib/zipBundle.js",
         ".playwright/package/lib/zipBundleImpl.js",
         ".playwright/package/package.json",
@@ -2188,7 +2213,7 @@
         "icon.png",
         "lib/netstandard2.0/Microsoft.Playwright.dll",
         "lib/netstandard2.0/Microsoft.Playwright.xml",
-        "microsoft.playwright.1.27.2.nupkg.sha512",
+        "microsoft.playwright.1.32.0.nupkg.sha512",
         "microsoft.playwright.nuspec"
       ]
     },
@@ -5222,42 +5247,47 @@
         "system.text.encoding.extensions.nuspec"
       ]
     },
-    "System.Text.Encodings.Web/6.0.0": {
-      "sha512": "Vg8eB5Tawm1IFqj4TVK1czJX89rhFxJo9ELqc/Eiq0eXy13RK00eubyU6TJE6y+GQXjyV5gSfiewDUZjQgSE0w==",
+    "System.Text.Encodings.Web/7.0.0": {
+      "sha512": "OP6umVGxc0Z0MvZQBVigj4/U31Pw72ITihDWP9WiWDm+q5aoe0GaJivsfYGq53o6dxH7DcXWiCTl7+0o2CGdmg==",
       "type": "package",
-      "path": "system.text.encodings.web/6.0.0",
+      "path": "system.text.encodings.web/7.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net461/System.Text.Encodings.Web.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net6.0/_._",
         "buildTransitive/netcoreapp2.0/System.Text.Encodings.Web.targets",
-        "buildTransitive/netcoreapp3.1/_._",
-        "lib/net461/System.Text.Encodings.Web.dll",
-        "lib/net461/System.Text.Encodings.Web.xml",
+        "lib/net462/System.Text.Encodings.Web.dll",
+        "lib/net462/System.Text.Encodings.Web.xml",
         "lib/net6.0/System.Text.Encodings.Web.dll",
         "lib/net6.0/System.Text.Encodings.Web.xml",
-        "lib/netcoreapp3.1/System.Text.Encodings.Web.dll",
-        "lib/netcoreapp3.1/System.Text.Encodings.Web.xml",
+        "lib/net7.0/System.Text.Encodings.Web.dll",
+        "lib/net7.0/System.Text.Encodings.Web.xml",
         "lib/netstandard2.0/System.Text.Encodings.Web.dll",
         "lib/netstandard2.0/System.Text.Encodings.Web.xml",
         "runtimes/browser/lib/net6.0/System.Text.Encodings.Web.dll",
         "runtimes/browser/lib/net6.0/System.Text.Encodings.Web.xml",
-        "system.text.encodings.web.6.0.0.nupkg.sha512",
+        "runtimes/browser/lib/net7.0/System.Text.Encodings.Web.dll",
+        "runtimes/browser/lib/net7.0/System.Text.Encodings.Web.xml",
+        "system.text.encodings.web.7.0.0.nupkg.sha512",
         "system.text.encodings.web.nuspec",
         "useSharedDesignerContext.txt"
       ]
     },
-    "System.Text.Json/6.0.5": {
-      "sha512": "SSH+YYrMpvLcy7Orzb5K1tSyffnFacWahyxCCjYH1PbSHdAF4dekmIetBurFKgtTHDmwEe/J2Csi/7niRH6d/g==",
+    "System.Text.Json/7.0.0": {
+      "sha512": "DaGSsVqKsn/ia6RG8frjwmJonfos0srquhw09TlT8KRw5I43E+4gs+/bZj4K0vShJ5H9imCuXupb4RmS+dBy3w==",
       "type": "package",
-      "path": "system.text.json/6.0.5",
+      "path": "system.text.json/7.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "LICENSE.TXT",
+        "README.md",
         "THIRD-PARTY-NOTICES.TXT",
         "analyzers/dotnet/roslyn3.11/cs/System.Text.Json.SourceGeneration.dll",
         "analyzers/dotnet/roslyn3.11/cs/cs/System.Text.Json.SourceGeneration.resources.dll",
@@ -5287,18 +5317,34 @@
         "analyzers/dotnet/roslyn4.0/cs/tr/System.Text.Json.SourceGeneration.resources.dll",
         "analyzers/dotnet/roslyn4.0/cs/zh-Hans/System.Text.Json.SourceGeneration.resources.dll",
         "analyzers/dotnet/roslyn4.0/cs/zh-Hant/System.Text.Json.SourceGeneration.resources.dll",
-        "build/System.Text.Json.targets",
+        "analyzers/dotnet/roslyn4.4/cs/System.Text.Json.SourceGeneration.dll",
+        "analyzers/dotnet/roslyn4.4/cs/cs/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/de/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/es/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/fr/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/it/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/ja/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/ko/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/pl/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/pt-BR/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/ru/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/tr/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/zh-Hans/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/zh-Hant/System.Text.Json.SourceGeneration.resources.dll",
+        "buildTransitive/net461/System.Text.Json.targets",
+        "buildTransitive/net462/System.Text.Json.targets",
+        "buildTransitive/net6.0/System.Text.Json.targets",
         "buildTransitive/netcoreapp2.0/System.Text.Json.targets",
-        "buildTransitive/netcoreapp3.1/_._",
-        "lib/net461/System.Text.Json.dll",
-        "lib/net461/System.Text.Json.xml",
+        "buildTransitive/netstandard2.0/System.Text.Json.targets",
+        "lib/net462/System.Text.Json.dll",
+        "lib/net462/System.Text.Json.xml",
         "lib/net6.0/System.Text.Json.dll",
         "lib/net6.0/System.Text.Json.xml",
-        "lib/netcoreapp3.1/System.Text.Json.dll",
-        "lib/netcoreapp3.1/System.Text.Json.xml",
+        "lib/net7.0/System.Text.Json.dll",
+        "lib/net7.0/System.Text.Json.xml",
         "lib/netstandard2.0/System.Text.Json.dll",
         "lib/netstandard2.0/System.Text.Json.xml",
-        "system.text.json.6.0.5.nupkg.sha512",
+        "system.text.json.7.0.0.nupkg.sha512",
         "system.text.json.nuspec",
         "useSharedDesignerContext.txt"
       ]
@@ -5710,7 +5756,7 @@
       "FlaUI.Core >= 4.0.0",
       "FlaUI.UIA3 >= 4.0.0",
       "Microsoft.Office.Interop.Excel >= 15.0.4795.1001",
-      "Microsoft.Playwright >= 1.27.2",
+      "Microsoft.Playwright >= 1.32.0",
       "Microsoft.Playwright.NUnit >= 1.27.2",
       "MySqlConnector >= 2.3.0-beta.1",
       "Polly >= 7.2.3",
@@ -5724,7 +5770,7 @@
     "C:\\Users\\lauri\\.nuget\\packages\\": {}
   },
   "project": {
-    "version": "1.0.7.37",
+    "version": "1.0.7.51",
     "restore": {
       "projectUniqueName": "C:\\Users\\lauri\\Documents\\GitHub\\Fight\\Marionette\\Marionette.csproj",
       "projectName": "Marionette",
@@ -5774,7 +5820,7 @@
           },
           "Microsoft.Playwright": {
             "target": "Package",
-            "version": "[1.27.2, )"
+            "version": "[1.32.0, )"
           },
           "Microsoft.Playwright.NUnit": {
             "target": "Package",

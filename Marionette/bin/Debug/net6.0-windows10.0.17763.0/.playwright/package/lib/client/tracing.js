@@ -4,11 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Tracing = void 0;
-
 var _artifact = require("./artifact");
-
 var _channelOwner = require("./channelOwner");
-
 /**
  * Copyright (c) Microsoft Corporation.
  *
@@ -24,72 +21,108 @@ var _channelOwner = require("./channelOwner");
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 class Tracing extends _channelOwner.ChannelOwner {
   static from(channel) {
     return channel._object;
   }
-
   constructor(parent, type, guid, initializer) {
     super(parent, type, guid, initializer);
+    this._includeSources = false;
+    this._tracesDir = void 0;
+    this._stacksId = void 0;
+    this._isTracing = false;
   }
-
   async start(options = {}) {
-    await this._wrapApiCall(async () => {
+    this._includeSources = !!options.sources;
+    const traceName = await this._wrapApiCall(async () => {
       await this._channel.tracingStart(options);
-      await this._channel.tracingStartChunk({
+      const response = await this._channel.tracingStartChunk({
+        name: options.name,
         title: options.title
       });
+      return response.traceName;
     });
+    await this._startCollectingStacks(traceName);
   }
-
   async startChunk(options = {}) {
-    await this._channel.tracingStartChunk(options);
+    const {
+      traceName
+    } = await this._channel.tracingStartChunk(options);
+    await this._startCollectingStacks(traceName);
   }
-
+  async _startCollectingStacks(traceName) {
+    if (!this._isTracing) {
+      this._isTracing = true;
+      this._connection.setIsTracing(true);
+    }
+    const result = await this._connection.localUtils()._channel.tracingStarted({
+      tracesDir: this._tracesDir,
+      traceName
+    });
+    this._stacksId = result.stacksId;
+  }
   async stopChunk(options = {}) {
     await this._doStopChunk(options.path);
   }
-
   async stop(options = {}) {
     await this._wrapApiCall(async () => {
       await this._doStopChunk(options.path);
       await this._channel.tracingStop();
     });
   }
-
   async _doStopChunk(filePath) {
-    var _result$sourceEntries;
-
-    const isLocal = !this._connection.isRemote();
-    let mode = 'doNotSave';
-
-    if (filePath) {
-      if (isLocal) mode = 'compressTraceAndSources';else mode = 'compressTrace';
+    if (this._isTracing) {
+      this._isTracing = false;
+      this._connection.setIsTracing(false);
     }
-
-    const result = await this._channel.tracingStopChunk({
-      mode
-    });
-
     if (!filePath) {
       // Not interested in artifacts.
+      await this._channel.tracingStopChunk({
+        mode: 'discard'
+      });
+      if (this._stacksId) await this._connection.localUtils()._channel.traceDiscarded({
+        stacksId: this._stacksId
+      });
       return;
-    } // The artifact may be missing if the browser closed while stopping tracing.
+    }
+    const isLocal = !this._connection.isRemote();
+    if (isLocal) {
+      const result = await this._channel.tracingStopChunk({
+        mode: 'entries'
+      });
+      await this._connection.localUtils()._channel.zip({
+        zipFile: filePath,
+        entries: result.entries,
+        mode: 'write',
+        stacksId: this._stacksId,
+        includeSources: this._includeSources
+      });
+      return;
+    }
+    const result = await this._channel.tracingStopChunk({
+      mode: 'archive'
+    });
 
+    // The artifact may be missing if the browser closed while stopping tracing.
+    if (!result.artifact) {
+      if (this._stacksId) await this._connection.localUtils()._channel.traceDiscarded({
+        stacksId: this._stacksId
+      });
+      return;
+    }
 
-    if (!result.artifact) return; // Save trace to the final local file.
-
+    // Save trace to the final local file.
     const artifact = _artifact.Artifact.from(result.artifact);
-
     await artifact.saveAs(filePath);
-    await artifact.delete(); // Add local sources to the remote trace if necessary.
-
-    if ((_result$sourceEntries = result.sourceEntries) !== null && _result$sourceEntries !== void 0 && _result$sourceEntries.length) await this._connection.localUtils()._channel.zip({
+    await artifact.delete();
+    await this._connection.localUtils()._channel.zip({
       zipFile: filePath,
-      entries: result.sourceEntries
+      entries: [],
+      mode: 'append',
+      stacksId: this._stacksId,
+      includeSources: this._includeSources
     });
   }
-
 }
-
 exports.Tracing = Tracing;

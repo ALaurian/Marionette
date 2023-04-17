@@ -4,9 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.ZipFile = void 0;
-
 var _zipBundle = require("../zipBundle");
-
 /**
  * Copyright (c) Microsoft Corporation.
  *
@@ -22,6 +20,7 @@ var _zipBundle = require("../zipBundle");
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 class ZipFile {
   constructor(fileName) {
     this._fileName = void 0;
@@ -31,7 +30,6 @@ class ZipFile {
     this._fileName = fileName;
     this._openedPromise = this._open();
   }
-
   async _open() {
     await new Promise((fulfill, reject) => {
       _zipBundle.yauzl.open(this._fileName, {
@@ -41,28 +39,21 @@ class ZipFile {
           reject(e);
           return;
         }
-
         this._zipFile = z;
-
         this._zipFile.on('entry', entry => {
           this._entries.set(entry.fileName, entry);
         });
-
         this._zipFile.on('end', fulfill);
       });
     });
   }
-
   async entries() {
     await this._openedPromise;
     return [...this._entries.keys()];
   }
-
   async read(entryPath) {
     await this._openedPromise;
-
     const entry = this._entries.get(entryPath);
-
     if (!entry) throw new Error(`${entryPath} not found in file ${this._fileName}`);
     return new Promise((resolve, reject) => {
       this._zipFile.openReadStream(entry, (error, readStream) => {
@@ -70,20 +61,15 @@ class ZipFile {
           reject(error || 'Entry not found');
           return;
         }
-
         const buffers = [];
         readStream.on('data', data => buffers.push(data));
         readStream.on('end', () => resolve(Buffer.concat(buffers)));
       });
     });
   }
-
   close() {
     var _this$_zipFile;
-
     (_this$_zipFile = this._zipFile) === null || _this$_zipFile === void 0 ? void 0 : _this$_zipFile.close();
   }
-
 }
-
 exports.ZipFile = ZipFile;

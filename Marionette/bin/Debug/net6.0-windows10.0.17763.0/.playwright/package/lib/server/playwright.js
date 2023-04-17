@@ -5,27 +5,16 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Playwright = void 0;
 exports.createPlaywright = createPlaywright;
-
 var _android = require("./android/android");
-
 var _backendAdb = require("./android/backendAdb");
-
 var _chromium = require("./chromium/chromium");
-
 var _electron = require("./electron/electron");
-
 var _firefox = require("./firefox/firefox");
-
 var _selectors = require("./selectors");
-
 var _webkit = require("./webkit/webkit");
-
 var _instrumentation = require("./instrumentation");
-
 var _debugLogger = require("../common/debugLogger");
-
 var _debugController = require("./debugController");
-
 /**
  * Copyright (c) Microsoft Corporation.
  *
@@ -41,6 +30,7 @@ var _debugController = require("./debugController");
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 class Playwright extends _instrumentation.SdkObject {
   constructor(sdkLanguage, isInternalPlaywright) {
     super({
@@ -81,23 +71,17 @@ class Playwright extends _instrumentation.SdkObject {
     this.selectors = this.options.selectors;
     this.debugController = new _debugController.DebugController(this);
   }
-
   async hideHighlight() {
     await Promise.all([...this._allPages].map(p => p.hideHighlight().catch(() => {})));
   }
-
   allBrowsers() {
     return [...this._allBrowsers];
   }
-
   allPages() {
     return [...this._allPages];
   }
-
 }
-
 exports.Playwright = Playwright;
-
 function createPlaywright(sdkLanguage, isInternalPlaywright = false) {
   return new Playwright(sdkLanguage, isInternalPlaywright);
 }

@@ -4,4 +4,5 @@ public enum BrowserType
 {
     Chrome,
     Firefox,
+    WebKit,
 }

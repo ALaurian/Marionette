@@ -3,20 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.addInternalStackPrefix = void 0;
+exports.captureLibraryStackTrace = captureLibraryStackTrace;
 exports.captureRawStack = captureRawStack;
-exports.captureStackTrace = captureStackTrace;
-exports.isInternalFileName = isInternalFileName;
 exports.rewriteErrorMessage = rewriteErrorMessage;
 exports.splitErrorMessage = splitErrorMessage;
-
 var _path = _interopRequireDefault(require("path"));
-
 var _utilsBundle = require("../utilsBundle");
-
 var _ = require("./");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * Copyright (c) Microsoft Corporation.
  *
@@ -32,94 +27,66 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 function rewriteErrorMessage(e, newMessage) {
   var _e$stack;
-
   const lines = (((_e$stack = e.stack) === null || _e$stack === void 0 ? void 0 : _e$stack.split('\n')) || []).filter(l => l.startsWith('    at '));
   e.message = newMessage;
   const errorTitle = `${e.name}: ${e.message}`;
   if (lines.length) e.stack = `${errorTitle}\n${lines.join('\n')}`;
   return e;
 }
-
 const CORE_DIR = _path.default.resolve(__dirname, '..', '..');
-
-const CORE_LIB = _path.default.join(CORE_DIR, 'lib');
-
-const CORE_SRC = _path.default.join(CORE_DIR, 'src');
-
-const TEST_DIR_SRC = _path.default.resolve(CORE_DIR, '..', 'playwright-test');
-
-const TEST_DIR_LIB = _path.default.resolve(CORE_DIR, '..', '@playwright', 'test');
-
 const COVERAGE_PATH = _path.default.join(CORE_DIR, '..', '..', 'tests', 'config', 'coverage.js');
-
+const internalStackPrefixes = [CORE_DIR];
+const addInternalStackPrefix = prefix => internalStackPrefixes.push(prefix);
+exports.addInternalStackPrefix = addInternalStackPrefix;
 function captureRawStack() {
   const stackTraceLimit = Error.stackTraceLimit;
   Error.stackTraceLimit = 30;
   const error = new Error();
-  const stack = error.stack;
+  const stack = error.stack || '';
   Error.stackTraceLimit = stackTraceLimit;
-  return stack;
+  return stack.split('\n');
 }
-
-function isInternalFileName(file, functionName) {
-  // Node 16+ has node:internal.
-  if (file.startsWith('internal') || file.startsWith('node:')) return true; // EventEmitter.emit has 'events.js' file.
-
-  if (file === 'events.js' && functionName !== null && functionName !== void 0 && functionName.endsWith('emit')) return true;
-  return false;
-}
-
-function captureStackTrace(rawStack) {
+function captureLibraryStackTrace(rawStack) {
   const stack = rawStack || captureRawStack();
   const isTesting = (0, _.isUnderTest)();
-  let parsedFrames = stack.split('\n').map(line => {
-    const {
-      frame,
-      fileName
-    } = (0, _utilsBundle.parseStackTraceLine)(line);
-    if (!frame || !frame.file || !fileName) return null;
-    if (!process.env.PWDEBUGIMPL && isInternalFileName(frame.file, frame.function)) return null;
-    if (!process.env.PWDEBUGIMPL && isTesting && fileName.includes(COVERAGE_PATH)) return null;
-    const inCore = fileName.startsWith(CORE_LIB) || fileName.startsWith(CORE_SRC);
+  let parsedFrames = stack.map(line => {
+    const frame = (0, _utilsBundle.parseStackTraceLine)(line);
+    if (!frame || !frame.file) return null;
+    if (!process.env.PWDEBUGIMPL && isTesting && frame.file.includes(COVERAGE_PATH)) return null;
+    const isPlaywrightLibrary = frame.file.startsWith(CORE_DIR);
     const parsed = {
-      frame: {
-        file: fileName,
-        line: frame.line,
-        column: frame.column,
-        function: frame.function
-      },
+      frame,
       frameText: line,
-      inCore
+      isPlaywrightLibrary
     };
     return parsed;
   }).filter(Boolean);
   let apiName = '';
-  const allFrames = parsedFrames; // Deepest transition between non-client code calling into client code
-  // is the api entry.
+  const allFrames = parsedFrames;
 
+  // Deepest transition between non-client code calling into client
+  // code is the api entry.
   for (let i = 0; i < parsedFrames.length - 1; i++) {
-    if (parsedFrames[i].inCore && !parsedFrames[i + 1].inCore) {
-      const frame = parsedFrames[i].frame;
-      apiName = normalizeAPIName(frame.function);
-      if (!process.env.PWDEBUGIMPL) parsedFrames = parsedFrames.slice(i + 1);
+    const parsedFrame = parsedFrames[i];
+    if (parsedFrame.isPlaywrightLibrary && !parsedFrames[i + 1].isPlaywrightLibrary) {
+      apiName = apiName || normalizeAPIName(parsedFrame.frame.function);
       break;
     }
   }
-
   function normalizeAPIName(name) {
     if (!name) return '';
     const match = name.match(/(API|JS|CDP|[A-Z])(.*)/);
     if (!match) return name;
     return match[1].toLowerCase() + match[2];
-  } // Hide all test runner and library frames in the user stack (event handlers produce them).
+  }
 
-
-  parsedFrames = parsedFrames.filter((f, i) => {
+  // This is for the inspector so that it did not include the test runner stack frames.
+  parsedFrames = parsedFrames.filter(f => {
     if (process.env.PWDEBUGIMPL) return true;
-    if (f.frame.file.startsWith(TEST_DIR_SRC) || f.frame.file.startsWith(TEST_DIR_LIB)) return false;
-    if (f.frame.file.startsWith(CORE_DIR)) return false;
+    if (internalStackPrefixes.some(prefix => f.frame.file.startsWith(prefix))) return false;
     return true;
   });
   return {
@@ -129,7 +96,6 @@ function captureStackTrace(rawStack) {
     apiName
   };
 }
-
 function splitErrorMessage(message) {
   const separationIdx = message.indexOf(':');
   return {

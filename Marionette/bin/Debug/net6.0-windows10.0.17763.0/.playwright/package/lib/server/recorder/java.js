@@ -4,21 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.JavaLanguageGenerator = void 0;
-
 var _language = require("./language");
-
 var _utils = require("./utils");
-
-var _deviceDescriptors = _interopRequireDefault(require("../deviceDescriptors"));
-
 var _javascript = require("./javascript");
-
 var _stringUtils = require("../../utils/isomorphic/stringUtils");
-
-var _locatorGenerators = require("../isomorphic/locatorGenerators");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+var _locatorGenerators = require("../../utils/isomorphic/locatorGenerators");
 /**
  * Copyright (c) Microsoft Corporation.
  *
@@ -34,6 +24,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+const deviceDescriptors = require('../deviceDescriptorsSource.json');
 class JavaLanguageGenerator {
   constructor() {
     this.id = 'java';
@@ -41,22 +33,17 @@ class JavaLanguageGenerator {
     this.name = 'Library';
     this.highlighter = 'java';
   }
-
   generateAction(actionInContext) {
     const action = actionInContext.action;
     const pageAlias = actionInContext.frame.pageAlias;
     const formatter = new _javascript.JavaScriptFormatter(6);
-    formatter.newLine();
-
     if (action.name === 'openPage') {
       formatter.add(`Page ${pageAlias} = context.newPage();`);
       if (action.url && action.url !== 'about:blank' && action.url !== 'chrome://newtab/') formatter.add(`${pageAlias}.navigate(${quote(action.url)});`);
       return formatter.format();
     }
-
     let subject;
     let inFrameLocator = false;
-
     if (actionInContext.frame.isMainFrame) {
       subject = pageAlias;
     } else if (actionInContext.frame.selectorsChain && action.name !== 'navigate') {
@@ -68,45 +55,34 @@ class JavaLanguageGenerator {
     } else {
       subject = `${pageAlias}.frameByUrl(${quote(actionInContext.frame.url)})`;
     }
-
     const signals = (0, _language.toSignalMap)(action);
-
     if (signals.dialog) {
       formatter.add(`  ${pageAlias}.onceDialog(dialog -> {
         System.out.println(String.format("Dialog message: %s", dialog.message()));
         dialog.dismiss();
       });`);
     }
-
     const actionCall = this._generateActionCall(action, inFrameLocator);
-
     let code = `${subject}.${actionCall};`;
-
     if (signals.popup) {
       code = `Page ${signals.popup.popupAlias} = ${pageAlias}.waitForPopup(() -> {
         ${code}
       });`;
     }
-
     if (signals.download) {
-      code = `Download download = ${pageAlias}.waitForDownload(() -> {
+      code = `Download download${signals.download.downloadAlias} = ${pageAlias}.waitForDownload(() -> {
         ${code}
       });`;
     }
-
     formatter.add(code);
-    if (signals.assertNavigation) formatter.add(`assertThat(${pageAlias}).hasURL(${quote(signals.assertNavigation.url)});`);
     return formatter.format();
   }
-
   _generateActionCall(action, inFrameLocator) {
     switch (action.name) {
       case 'openPage':
         throw Error('Not reached');
-
       case 'closePage':
         return 'close()';
-
       case 'click':
         {
           let method = 'click';
@@ -120,38 +96,29 @@ class JavaLanguageGenerator {
           const optionsText = formatClickOptions(options);
           return this._asLocator(action.selector, inFrameLocator) + `.${method}(${optionsText})`;
         }
-
       case 'check':
         return this._asLocator(action.selector, inFrameLocator) + `.check()`;
-
       case 'uncheck':
         return this._asLocator(action.selector, inFrameLocator) + `.uncheck()`;
-
       case 'fill':
         return this._asLocator(action.selector, inFrameLocator) + `.fill(${quote(action.text)})`;
-
       case 'setInputFiles':
         return this._asLocator(action.selector, inFrameLocator) + `.setInputFiles(${formatPath(action.files.length === 1 ? action.files[0] : action.files)})`;
-
       case 'press':
         {
           const modifiers = (0, _utils.toModifiers)(action.modifiers);
           const shortcut = [...modifiers, action.key].join('+');
           return this._asLocator(action.selector, inFrameLocator) + `.press(${quote(shortcut)})`;
         }
-
       case 'navigate':
         return `navigate(${quote(action.url)})`;
-
       case 'select':
         return this._asLocator(action.selector, inFrameLocator) + `.selectOption(${formatSelectOption(action.options.length > 1 ? action.options : action.options[0])})`;
     }
   }
-
   _asLocator(selector, inFrameLocator) {
     return (0, _locatorGenerators.asLocator)('java', selector, inFrameLocator);
   }
-
   generateHeader(options) {
     const formatter = new _javascript.JavaScriptFormatter();
     formatter.add(`
@@ -167,36 +134,28 @@ class JavaLanguageGenerator {
           BrowserContext context = browser.newContext(${formatContextOptions(options.contextOptions, options.deviceName)});`);
     return formatter.format();
   }
-
   generateFooter(saveStorage) {
     const storageStateLine = saveStorage ? `\n      context.storageState(new BrowserContext.StorageStateOptions().setPath(${quote(saveStorage)}));\n` : '';
     return `${storageStateLine}    }
   }
 }`;
   }
-
 }
-
 exports.JavaLanguageGenerator = JavaLanguageGenerator;
-
 function formatPath(files) {
   if (Array.isArray(files)) {
     if (files.length === 0) return 'new Path[0]';
     return `new Path[] {${files.map(s => 'Paths.get(' + quote(s) + ')').join(', ')}}`;
   }
-
   return `Paths.get(${quote(files)})`;
 }
-
 function formatSelectOption(options) {
   if (Array.isArray(options)) {
     if (options.length === 0) return 'new String[0]';
     return `new String[] {${options.map(s => quote(s)).join(', ')}}`;
   }
-
   return quote(options);
 }
-
 function formatLaunchOptions(options) {
   const lines = [];
   if (!Object.keys(options).filter(key => options[key] !== undefined).length) return '';
@@ -205,14 +164,13 @@ function formatLaunchOptions(options) {
   if (typeof options.headless === 'boolean') lines.push(`  .setHeadless(false)`);
   return lines.join('\n');
 }
-
 function formatContextOptions(contextOptions, deviceName) {
   var _options$recordHar, _options$recordHar2, _options$recordHar3, _options$recordHar4, _options$recordHar5, _options$recordHar6, _options$recordHar7;
-
   const lines = [];
   if (!Object.keys(contextOptions).length && !deviceName) return '';
-  const device = deviceName ? _deviceDescriptors.default[deviceName] : {};
-  const options = { ...device,
+  const device = deviceName ? deviceDescriptors[deviceName] : {};
+  const options = {
+    ...device,
     ...contextOptions
   };
   lines.push('new Browser.NewContextOptions()');
@@ -237,7 +195,6 @@ function formatContextOptions(contextOptions, deviceName) {
   if (options.viewport) lines.push(`  .setViewportSize(${options.viewport.width}, ${options.viewport.height})`);
   return lines.join('\n');
 }
-
 function formatClickOptions(options) {
   const lines = [];
   if (options.button) lines.push(`  .setButton(MouseButton.${options.button.toUpperCase()})`);
@@ -248,7 +205,6 @@ function formatClickOptions(options) {
   lines.unshift(`new Locator.ClickOptions()`);
   return lines.join('\n');
 }
-
 function quote(text) {
   return (0, _stringUtils.escapeWithQuotes)(text, '\"');
 }

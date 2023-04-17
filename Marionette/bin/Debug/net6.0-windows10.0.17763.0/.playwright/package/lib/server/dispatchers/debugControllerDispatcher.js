@@ -4,11 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.DebugControllerDispatcher = void 0;
-
+var _utils = require("playwright-core/lib/utils");
 var _debugController = require("../debugController");
-
 var _dispatcher = require("./dispatcher");
-
 /**
  * Copyright (c) Microsoft Corporation.
  *
@@ -24,77 +22,76 @@ var _dispatcher = require("./dispatcher");
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 class DebugControllerDispatcher extends _dispatcher.Dispatcher {
   constructor(connection, debugController) {
     super(connection, debugController, 'DebugController', {});
     this._type_DebugController = void 0;
+    this._listeners = void 0;
     this._type_DebugController = true;
-
-    this._object.on(_debugController.DebugController.Events.BrowsersChanged, browsers => {
-      this._dispatchEvent('browsersChanged', {
-        browsers
-      });
-    });
-
-    this._object.on(_debugController.DebugController.Events.InspectRequested, ({
+    this._listeners = [_utils.eventsHelper.addEventListener(this._object, _debugController.DebugController.Events.StateChanged, params => {
+      this._dispatchEvent('stateChanged', params);
+    }), _utils.eventsHelper.addEventListener(this._object, _debugController.DebugController.Events.InspectRequested, ({
       selector,
-      locators
+      locator
     }) => {
       this._dispatchEvent('inspectRequested', {
         selector,
-        locators
+        locator
       });
-    });
-
-    this._object.on(_debugController.DebugController.Events.SourcesChanged, sources => {
-      this._dispatchEvent('sourcesChanged', {
-        sources
+    }), _utils.eventsHelper.addEventListener(this._object, _debugController.DebugController.Events.SourceChanged, ({
+      text,
+      header,
+      footer,
+      actions
+    }) => {
+      this._dispatchEvent('sourceChanged', {
+        text,
+        header,
+        footer,
+        actions
       });
-    });
+    }), _utils.eventsHelper.addEventListener(this._object, _debugController.DebugController.Events.Paused, ({
+      paused
+    }) => {
+      this._dispatchEvent('paused', {
+        paused
+      });
+    })];
   }
-
-  async setTrackHierarchy(params) {
-    this._object.setTrackHierarcy(params.enabled);
+  async initialize(params) {
+    this._object.initialize(params.codegenId, params.sdkLanguage);
   }
-
-  async setReuseBrowser(params) {
-    this._object.setReuseBrowser(params.enabled);
+  async setReportStateChanged(params) {
+    this._object.setReportStateChanged(params.enabled);
   }
-
   async resetForReuse() {
     await this._object.resetForReuse();
   }
-
-  async navigateAll(params) {
-    await this._object.navigateAll(params.url);
+  async navigate(params) {
+    await this._object.navigate(params.url);
   }
-
   async setRecorderMode(params) {
     await this._object.setRecorderMode(params);
   }
-
-  async highlightAll(params) {
-    await this._object.highlightAll(params.selector);
+  async highlight(params) {
+    await this._object.highlight(params.selector);
   }
-
-  async hideHighlightAll() {
-    await this._object.hideHighlightAll();
+  async hideHighlight() {
+    await this._object.hideHighlight();
   }
-
+  async resume() {
+    await this._object.resume();
+  }
   async kill() {
     await this._object.kill();
   }
-
   async closeAllBrowsers() {
     await this._object.closeAllBrowsers();
   }
-
-  _dispose() {
-    super._dispose();
-
+  _onDispose() {
+    _utils.eventsHelper.removeEventListeners(this._listeners);
     this._object.dispose();
   }
-
 }
-
 exports.DebugControllerDispatcher = DebugControllerDispatcher;

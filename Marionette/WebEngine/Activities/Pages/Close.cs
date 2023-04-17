@@ -14,4 +14,14 @@ public partial class MarionetteWebBrowser
 
         return this;
     }
+    
+    public MarionetteWebBrowser Close()
+    {
+        if (_pages.Any())
+        {
+            _pages.ForEach(x => x.CloseAsync().Wait());
+        }
+
+        return this;
+    }
 }

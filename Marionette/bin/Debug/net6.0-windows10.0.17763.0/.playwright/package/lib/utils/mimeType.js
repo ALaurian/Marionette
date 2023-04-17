@@ -3,8 +3,8 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.isJsonMimeType = isJsonMimeType;
 exports.isTextualMimeType = isTextualMimeType;
-
 /**
  * Copyright (c) Microsoft Corporation.
  *
@@ -20,6 +20,10 @@ exports.isTextualMimeType = isTextualMimeType;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+function isJsonMimeType(mimeType) {
+  return !!mimeType.match(/^(application\/json|application\/.*?\+json|text\/(x-)?json)(;\s*charset=.*)?$/);
+}
 function isTextualMimeType(mimeType) {
   return !!mimeType.match(/^(text\/.*?|application\/(json|(x-)?javascript|xml.*?|ecmascript|graphql|x-www-form-urlencoded)|image\/svg(\+xml)?|application\/.*?(\+json|\+xml))(;\s*charset=.*)?$/);
 }

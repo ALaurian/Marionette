@@ -7,9 +7,10 @@ exports.cssEscape = cssEscape;
 exports.escapeForAttributeSelector = escapeForAttributeSelector;
 exports.escapeForTextSelector = escapeForTextSelector;
 exports.escapeWithQuotes = escapeWithQuotes;
+exports.isString = isString;
+exports.normalizeWhiteSpace = normalizeWhiteSpace;
 exports.toSnakeCase = toSnakeCase;
 exports.toTitleCase = toTitleCase;
-
 /**
  * Copyright (c) Microsoft Corporation.
  *
@@ -25,6 +26,7 @@ exports.toTitleCase = toTitleCase;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 // NOTE: this function should not be used to escape any selectors.
 function escapeWithQuotes(text, char = '\'') {
   const stringified = JSON.stringify(text);
@@ -34,23 +36,21 @@ function escapeWithQuotes(text, char = '\'') {
   if (char === '`') return char + escapedText.replace(/[`]/g, '`') + char;
   throw new Error('Invalid escape char');
 }
-
+function isString(obj) {
+  return typeof obj === 'string' || obj instanceof String;
+}
 function toTitleCase(name) {
   return name.charAt(0).toUpperCase() + name.substring(1);
 }
-
 function toSnakeCase(name) {
-  return name.replace(/([a-z0-9])([A-Z])/g, '$1_$2').toLowerCase();
+  // E.g. ignoreHTTPSErrors => ignore_https_errors.
+  return name.replace(/([a-z0-9])([A-Z])/g, '$1_$2').replace(/([A-Z])([A-Z][a-z])/g, '$1_$2').toLowerCase();
 }
-
 function cssEscape(s) {
   let result = '';
-
   for (let i = 0; i < s.length; i++) result += cssEscapeOne(s, i);
-
   return result;
 }
-
 function cssEscapeOne(s, i) {
   // https://drafts.csswg.org/cssom/#serialize-an-identifier
   const c = s.charCodeAt(i);
@@ -60,22 +60,17 @@ function cssEscapeOne(s, i) {
   if (c >= 0x0080 || c === 0x002d || c === 0x005f || c >= 0x0030 && c <= 0x0039 || c >= 0x0041 && c <= 0x005a || c >= 0x0061 && c <= 0x007a) return s.charAt(i);
   return '\\' + s.charAt(i);
 }
-
-function escapeForRegex(text) {
-  return text.replace(/[.*+?^>${}()|[\]\\]/g, '\\$&');
+function normalizeWhiteSpace(text) {
+  return text.replace(/\u200b/g, '').trim().replace(/\s+/g, ' ');
 }
-
-function escapeForTextSelector(text, exact, caseSensitive = false) {
+function escapeForTextSelector(text, exact) {
   if (typeof text !== 'string') return String(text);
-  if (exact) return '"' + text.replace(/["]/g, '\\"') + '"';
-  if (text.includes('"') || text.includes('>>') || text[0] === '/') return `/${escapeForRegex(text).replace(/\s+/g, '\\s+')}/` + (caseSensitive ? '' : 'i');
-  return text;
+  return `${JSON.stringify(text)}${exact ? 's' : 'i'}`;
 }
-
 function escapeForAttributeSelector(value, exact) {
   // TODO: this should actually be
   //   cssEscape(value).replace(/\\ /g, ' ')
   // However, our attribute selectors do not conform to CSS parsing spec,
   // so we escape them differently.
-  return `"${value.replace(/["]/g, '\\"')}"${exact ? '' : 'i'}`;
+  return `"${value.replace(/\\/g, '\\\\').replace(/["]/g, '\\"')}"${exact ? 's' : 'i'}`;
 }

@@ -1,3 +1,4 @@
-@ECHO OFF
-SETLOCAL
-"%~dp0\node.exe" "%~dp0\..\..\package\lib\cli\cli.js" %*
+@echo off
+setlocal
+if not defined PLAYWRIGHT_NODEJS_PATH set PLAYWRIGHT_NODEJS_PATH=%~dp0node.exe
+"%PLAYWRIGHT_NODEJS_PATH%" "%~dp0..\..\package\lib\cli\cli.js" %*

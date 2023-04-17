@@ -4,11 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.PipeTransport = void 0;
-
 var _utils = require("../utils");
-
 var _debugLogger = require("../common/debugLogger");
-
 /**
  * Copyright 2018 Google Inc. All rights reserved.
  * Modifications copyright (c) Microsoft Corporation.
@@ -25,6 +22,7 @@ var _debugLogger = require("../common/debugLogger");
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 class PipeTransport {
   constructor(pipeWrite, pipeRead) {
     this._pipeRead = void 0;
@@ -45,62 +43,43 @@ class PipeTransport {
     pipeWrite.on('error', e => _debugLogger.debugLogger.log('error', e));
     this.onmessage = undefined;
   }
-
   get onclose() {
     return this._onclose;
   }
-
   set onclose(onclose) {
     this._onclose = onclose;
     if (onclose && !this._pipeRead.readable) onclose();
   }
-
   send(message) {
     if (this._closed) throw new Error('Pipe has been closed');
-
     this._pipeWrite.write(JSON.stringify(message));
-
     this._pipeWrite.write('\0');
   }
-
   close() {
     throw new Error('unimplemented');
   }
-
   _dispatch(buffer) {
     let end = buffer.indexOf('\0');
-
     if (end === -1) {
       this._pendingBuffers.push(buffer);
-
       return;
     }
-
     this._pendingBuffers.push(buffer.slice(0, end));
-
     const message = Buffer.concat(this._pendingBuffers).toString();
-
     this._waitForNextTask(() => {
       if (this.onmessage) this.onmessage.call(null, JSON.parse(message));
     });
-
     let start = end + 1;
     end = buffer.indexOf('\0', start);
-
     while (end !== -1) {
       const message = buffer.toString(undefined, start, end);
-
       this._waitForNextTask(() => {
         if (this.onmessage) this.onmessage.call(null, JSON.parse(message));
       });
-
       start = end + 1;
       end = buffer.indexOf('\0', start);
     }
-
     this._pendingBuffers = [buffer.slice(start)];
   }
-
 }
-
 exports.PipeTransport = PipeTransport;

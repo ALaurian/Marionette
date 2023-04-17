@@ -4,7 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.deps = void 0;
-
 /**
  * Copyright (c) Microsoft Corporation.
  *
@@ -20,15 +19,17 @@ exports.deps = void 0;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 // - This file is used to execute 'npx playwright install-deps'
 // - The reverse mappings "lib2package" are generated with the following script:
 //     ./utils/linux-browser-dependencies/run.sh ubuntu:20.04
+
 const deps = {
   'ubuntu18.04': {
     tools: ['xvfb', 'fonts-noto-color-emoji', 'ttf-unifont', 'libfontconfig', 'libfreetype6', 'xfonts-cyrillic', 'xfonts-scalable', 'fonts-liberation', 'fonts-ipafont-gothic', 'fonts-wqy-zenhei', 'fonts-tlwg-loma-otf', 'ttf-ubuntu-font-family'],
     chromium: ['fonts-liberation', 'libasound2', 'libatk-bridge2.0-0', 'libatk1.0-0', 'libatspi2.0-0', 'libcairo2', 'libcups2', 'libdbus-1-3', 'libdrm2', 'libegl1', 'libgbm1', 'libglib2.0-0', 'libgtk-3-0', 'libnspr4', 'libnss3', 'libpango-1.0-0', 'libx11-6', 'libx11-xcb1', 'libxcb1', 'libxcomposite1', 'libxdamage1', 'libxext6', 'libxfixes3', 'libxrandr2', 'libxshmfence1'],
     firefox: ['ffmpeg', 'libatk1.0-0', 'libcairo-gobject2', 'libcairo2', 'libdbus-1-3', 'libdbus-glib-1-2', 'libfontconfig1', 'libfreetype6', 'libgdk-pixbuf2.0-0', 'libglib2.0-0', 'libgtk-3-0', 'libpango-1.0-0', 'libpangocairo-1.0-0', 'libpangoft2-1.0-0', 'libx11-6', 'libx11-xcb1', 'libxcb-shm0', 'libxcb1', 'libxcomposite1', 'libxcursor1', 'libxdamage1', 'libxext6', 'libxfixes3', 'libxi6', 'libxrender1', 'libxt6', 'libxtst6'],
-    webkit: ['gstreamer1.0-libav', 'gstreamer1.0-plugins-bad', 'gstreamer1.0-plugins-base', 'gstreamer1.0-plugins-good', 'libatk-bridge2.0-0', 'libatk1.0-0', 'libbrotli1', 'libcairo2', 'libegl1', 'libenchant1c2a', 'libepoxy0', 'libevdev2', 'libfontconfig1', 'libfreetype6', 'libgdk-pixbuf2.0-0', 'libgl1', 'libgles2', 'libglib2.0-0', 'libgstreamer-gl1.0-0', 'libgstreamer1.0-0', 'libgtk-3-0', 'libharfbuzz-icu0', 'libharfbuzz0b', 'libhyphen0', 'libicu60', 'libjpeg-turbo8', 'libnotify4', 'libopenjp2-7', 'libopus0', 'libpango-1.0-0', 'libpng16-16', 'libsecret-1-0', 'libvpx5', 'libwayland-client0', 'libwayland-egl1', 'libwayland-server0', 'libwebp6', 'libwebpdemux2', 'libwoff1', 'libx11-6', 'libxcomposite1', 'libxdamage1', 'libxkbcommon0', 'libxml2', 'libxslt1.1', 'libevent-2.1-6'],
+    webkit: [],
     lib2package: {
       'libasound.so.2': 'libasound2',
       'libatk-1.0.so.0': 'libatk1.0-0',
@@ -407,7 +408,8 @@ deps['ubuntu20.04-arm64'] = {
   chromium: [...deps['ubuntu20.04'].chromium],
   firefox: [...deps['ubuntu20.04'].firefox],
   webkit: [...deps['ubuntu20.04'].webkit],
-  lib2package: { ...deps['ubuntu20.04'].lib2package
+  lib2package: {
+    ...deps['ubuntu20.04'].lib2package
   }
 };
 deps['ubuntu22.04-arm64'] = {
@@ -415,6 +417,16 @@ deps['ubuntu22.04-arm64'] = {
   chromium: [...deps['ubuntu22.04'].chromium],
   firefox: [...deps['ubuntu22.04'].firefox],
   webkit: [...deps['ubuntu22.04'].webkit],
-  lib2package: { ...deps['ubuntu22.04'].lib2package
+  lib2package: {
+    ...deps['ubuntu22.04'].lib2package
+  }
+};
+deps['debian11-arm64'] = {
+  tools: [...deps['debian11'].tools],
+  chromium: [...deps['debian11'].chromium],
+  firefox: [...deps['debian11'].firefox],
+  webkit: [...deps['debian11'].webkit],
+  lib2package: {
+    ...deps['debian11'].lib2package
   }
 };

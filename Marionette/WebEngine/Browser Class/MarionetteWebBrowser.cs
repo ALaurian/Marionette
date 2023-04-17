@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
 using MoreLinq;
+using NUnit.Framework;
 using Serilog;
 
 namespace Marionette.WebBrowser
@@ -52,6 +53,7 @@ namespace Marionette.WebBrowser
             bool headlessMode = false)
         {
             _logger = ConfigureLogger();
+            
 
             var playwright = Playwright.CreateAsync().Result;
 
@@ -61,8 +63,11 @@ namespace Marionette.WebBrowser
                     .LaunchAsync(new BrowserTypeLaunchOptions { Headless = headlessMode }).Result,
                 BrowserType.Firefox => playwright.Firefox
                     .LaunchAsync(new BrowserTypeLaunchOptions { Headless = headlessMode }).Result,
+                BrowserType.WebKit => playwright.Webkit
+                    .LaunchAsync(new BrowserTypeLaunchOptions { Headless = headlessMode }).Result,
                 _ => null
             };
+            
             
             _context = _browser.NewContextAsync().Result;
             _pages.Add(_context.NewPageAsync().Result);

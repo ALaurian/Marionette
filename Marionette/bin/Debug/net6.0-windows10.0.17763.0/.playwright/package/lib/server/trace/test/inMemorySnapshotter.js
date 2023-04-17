@@ -4,13 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.InMemorySnapshotter = void 0;
-
 var _snapshotStorage = require("../../../../../trace-viewer/src/snapshotStorage");
-
 var _snapshotter = require("../recorder/snapshotter");
-
 var _harTracer = require("../../har/harTracer");
-
 /**
  * Copyright (c) Microsoft Corporation.
  *
@@ -26,6 +22,7 @@ var _harTracer = require("../../har/harTracer");
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 class InMemorySnapshotter extends _snapshotStorage.BaseSnapshotStorage {
   constructor(context) {
     super();
@@ -41,37 +38,25 @@ class InMemorySnapshotter extends _snapshotStorage.BaseSnapshotStorage {
       skipScripts: true
     });
   }
-
   async initialize() {
     await this._snapshotter.start();
-
     this._harTracer.start();
   }
-
   async reset() {
     await this._snapshotter.reset();
     await this._harTracer.flush();
-
     this._harTracer.stop();
-
     this._harTracer.start();
-
     this.clear();
   }
-
   async dispose() {
     this._snapshotter.dispose();
-
     await this._harTracer.flush();
-
     this._harTracer.stop();
   }
-
-  async captureSnapshot(page, snapshotName, element) {
+  async captureSnapshot(page, callId, snapshotName, element) {
     if (this._frameSnapshots.has(snapshotName)) throw new Error('Duplicate snapshot name: ' + snapshotName);
-
-    this._snapshotter.captureSnapshot(page, snapshotName, element).catch(() => {});
-
+    this._snapshotter.captureSnapshot(page, callId, snapshotName, element).catch(() => {});
     return new Promise(fulfill => {
       const disposable = this.onSnapshotEvent(renderer => {
         if (renderer.snapshotName === snapshotName) {
@@ -81,33 +66,24 @@ class InMemorySnapshotter extends _snapshotStorage.BaseSnapshotStorage {
       });
     });
   }
-
   onEntryStarted(entry) {}
-
   onEntryFinished(entry) {
     this.addResource(entry);
   }
-
   onContentBlob(sha1, buffer) {
     this._blobs.set(sha1, buffer);
   }
-
   onSnapshotterBlob(blob) {
     this._blobs.set(blob.sha1, blob.buffer);
   }
-
   onFrameSnapshot(snapshot) {
     this.addFrameSnapshot(snapshot);
   }
-
   async resourceContent(sha1) {
     throw new Error('Not implemented');
   }
-
   async resourceContentForTest(sha1) {
     return this._blobs.get(sha1);
   }
-
 }
-
 exports.InMemorySnapshotter = InMemorySnapshotter;

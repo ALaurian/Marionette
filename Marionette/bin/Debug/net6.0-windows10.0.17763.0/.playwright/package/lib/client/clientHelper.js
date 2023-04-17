@@ -5,13 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.envObjectToArray = envObjectToArray;
 exports.evaluationScript = evaluationScript;
-
 var _fs = _interopRequireDefault(require("fs"));
-
 var _utils = require("../utils");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * Copyright 2017 Google Inc. All rights reserved.
  * Modifications copyright (c) Microsoft Corporation.
@@ -28,35 +24,30 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 function envObjectToArray(env) {
   const result = [];
-
   for (const name in env) {
     if (!Object.is(env[name], undefined)) result.push({
       name,
       value: String(env[name])
     });
   }
-
   return result;
 }
-
 async function evaluationScript(fun, arg, addSourceUrl = true) {
   if (typeof fun === 'function') {
     const source = fun.toString();
     const argString = Object.is(arg, undefined) ? 'undefined' : JSON.stringify(arg);
     return `(${source})(${argString})`;
   }
-
   if (arg !== undefined) throw new Error('Cannot evaluate a string with arguments');
   if ((0, _utils.isString)(fun)) return fun;
   if (fun.content !== undefined) return fun.content;
-
   if (fun.path !== undefined) {
     let source = await _fs.default.promises.readFile(fun.path, 'utf8');
     if (addSourceUrl) source += '\n//# sourceURL=' + fun.path.replace(/\n/g, '');
     return source;
   }
-
   throw new Error('Either path or content property must be present');
 }

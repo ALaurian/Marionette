@@ -1,4 +1,5 @@
-﻿using Microsoft.Playwright;
+﻿using System.Data;
+using Microsoft.Playwright;
 
 namespace Marionette.WebBrowser;
 
