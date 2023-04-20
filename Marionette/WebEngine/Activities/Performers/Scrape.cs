@@ -5,8 +5,7 @@ namespace Marionette.WebBrowser;
 
 public partial class MarionetteWebBrowser
 {
-    
-        public DataTable Scrape(IPage page, string selector)
+    public DataTable Scrape(IPage page, string selector)
         {
             var dataTable = new DataTable();
             var rows = page.QuerySelectorAllAsync(selector + "/tbody/tr").Result;
