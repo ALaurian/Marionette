@@ -20,9 +20,6 @@ public partial class Orchestrator
             AND Ended = '{In_Job.Ended}';";
         
         // Execute the delete row SQL statement
-        using (MySqlCommand command = new MySqlCommand(deleteRowSql, Connection))
-        {
-            command.ExecuteNonQuery();
-        }
+        ExecuteNonQuery(deleteRowSql);
     }
 }

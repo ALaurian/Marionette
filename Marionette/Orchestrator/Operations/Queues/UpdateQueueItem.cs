@@ -31,9 +31,6 @@ public partial class Orchestrator
             AND ItemKey = '{In_QueueItem.ItemKey}';";
 
         // Execute the update row SQL statement
-        using (MySqlCommand command = new MySqlCommand(updateRowSql, Connection))
-        {
-            command.ExecuteNonQuery();
-        }
+        ExecuteNonQuery(updateRowSql);
     }
 }

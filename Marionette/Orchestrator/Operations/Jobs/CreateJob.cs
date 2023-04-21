@@ -35,10 +35,6 @@ public partial class Orchestrator
             );";
 
         // Execute the insert row SQL statement
-        using (MySqlCommand command = new MySqlCommand(insertRowSql, Connection))
-        {
-            command.ExecuteNonQuery();
-        }
+        ExecuteNonQuery(insertRowSql);
     }
-    
 }

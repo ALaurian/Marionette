@@ -10,9 +10,6 @@ public partial class Orchestrator
         string dropTableSql = $"DROP TABLE IF EXISTS {QueueName};";
 
         // Execute the drop table SQL statement
-        using (MySqlCommand command = new MySqlCommand(dropTableSql, Connection))
-        {
-            command.ExecuteNonQuery();
-        }
+        ExecuteNonQuery(dropTableSql);
     }
 }

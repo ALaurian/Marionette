@@ -10,11 +10,8 @@ public partial class Orchestrator
         string table = tableName;
         string sql = $"SELECT * FROM {table}";
 
-        using var command = new MySqlCommand(sql, Connection);
-        using var adapter = new MySqlDataAdapter(command);
-
-        var dataTable = new DataTable();
-        adapter.Fill(dataTable);
+        ReturnAdapter(sql, out var adapter);
+        Fill(adapter, out var dataTable);
 
         return dataTable;
     }

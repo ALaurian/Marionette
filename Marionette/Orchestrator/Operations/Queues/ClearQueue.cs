@@ -14,9 +14,6 @@ public partial class Orchestrator
         string deleteRowsSql = $@"DELETE FROM {QueueName};";
 
         // Execute the delete rows SQL statement
-        using (MySqlCommand command = new MySqlCommand(deleteRowsSql, Connection))
-        {
-            command.ExecuteNonQuery();
-        }
+        ExecuteNonQuery(deleteRowsSql);
     }
 }

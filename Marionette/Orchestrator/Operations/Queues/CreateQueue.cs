@@ -29,9 +29,6 @@ public partial class Orchestrator
 
 
         // Execute the create table SQL statement
-        using (MySqlCommand command = new MySqlCommand(createTableSql, Connection))
-        {
-            command.ExecuteNonQuery();
-        }
+        ExecuteNonQuery(createTableSql);
     }
 }

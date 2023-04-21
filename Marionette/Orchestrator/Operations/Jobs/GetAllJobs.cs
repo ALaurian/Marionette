@@ -11,35 +11,36 @@ public partial class Orchestrator
         string selectRowsSql = $@"SELECT * FROM jobs;";
 
         // Execute the select rows SQL statement
-        using (MySqlCommand command = new MySqlCommand(selectRowsSql, Connection))
+        ExecuteReader(selectRowsSql, out var reader);
+
+        List<Job> jobs = new List<Job>();
+
+        NextRow:
+        Read(reader, out var hasRows);
+
+        if (hasRows)
         {
-            using (MySqlDataReader reader = command.ExecuteReader())
-            {
-                List<Job> jobs = new List<Job>();
-                while (reader.Read())
-                {
-                    JobType.TryParse(reader["JobType"].ToString(), out JobType jobType);
-                    RuntimeType.TryParse(reader["RuntimeType"].ToString(), out RuntimeType runtimeType);
-                    JobState.TryParse(reader["State"].ToString(), out JobState jobState);
-                    JobPriority.TryParse(reader["Priority"].ToString(), out JobPriority jobPriority);
+            JobType.TryParse(reader["JobType"].ToString(), out JobType jobType);
+            RuntimeType.TryParse(reader["RuntimeType"].ToString(), out RuntimeType runtimeType);
+            JobState.TryParse(reader["State"].ToString(), out JobState jobState);
+            JobPriority.TryParse(reader["Priority"].ToString(), out JobPriority jobPriority);
 
-                    //Create the job object using the constructor
-                    Job job = new Job(reader.GetString("Process"),
-                        reader.GetString("Machine"),
-                        reader.GetString("Hostname"),
-                        reader.GetString("HostIdentity"),
-                        jobType,
-                        runtimeType,
-                        jobState,
-                        jobPriority,
-                        reader.GetString("Started"),
-                        reader.GetString("Ended"));
+            //Create the job object using the constructor
+            Job job = new Job(reader.GetString("Process"),
+                reader.GetString("Machine"),
+                reader.GetString("Hostname"),
+                reader.GetString("HostIdentity"),
+                jobType,
+                runtimeType,
+                jobState,
+                jobPriority,
+                reader.GetString("Started"),
+                reader.GetString("Ended"));
 
-                    jobs.Add(job);
-                }
-
-                return jobs;
-            }
+            jobs.Add(job);
+            goto NextRow;
         }
+        
+        return jobs;
     }
 }
