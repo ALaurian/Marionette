@@ -2,7 +2,7 @@
   <img width="150" height="150" src="https://cdn-icons-png.flaticon.com/512/3473/3473718.png">
 </p>
 
-#Discord server
+# Discord server
 We now have a discord that you can access from here: https://discord.com/invite/e2w4kdvB.
 
 # What is Marionette?
