@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>1.0.7.71</PackageVersion>
+        <PackageVersion>1.0.7.73</PackageVersion>
         <LangVersion>latest</LangVersion>
         <HasRuntimeOutput>true</HasRuntimeOutput>
     </PropertyGroup>

@@ -10,33 +10,6 @@ namespace Marionette.Orchestrator
     public class QueueItem : INotifyPropertyChanged
     {
         private bool DisableNotifyPropertyChanged = true;
-        public QueueItem(string assignedTo, string deferDate, string dueDate, int id, Guid itemkey, string lastProcessingOn,
-            Dictionary<string,object> output, QueueItemPriority priority, string progress, string queueName, string reference,
-            int retryno, string reviewStatus,
-            Dictionary<string,object> specificContent, string startTransactionTime,QueueItemStatus status,
-            Orchestrator orchestrator)
-        {
-            
-            AssignedTo = assignedTo;
-            DeferDate = deferDate;
-            DueDate = dueDate;
-            Id = id;
-            ItemKey = itemkey;
-            LastProcessingOn = lastProcessingOn;
-            Output = output;
-            Priority = priority;
-            Progress = progress;
-            QueueName = queueName;
-            Reference = reference;
-            RetryNo = retryno;
-            ReviewStatus = reviewStatus;
-            SpecificContent = specificContent;
-            StartTransactionTime = startTransactionTime;
-            Status = status;
-            Orchestrator = orchestrator;
-            DisableNotifyPropertyChanged = false;
-        }
-        
         private string _assignedTo;
         private string _deferDate;
         private string _dueDate;
@@ -53,6 +26,7 @@ namespace Marionette.Orchestrator
         private Dictionary<string, object> _specificContent;
         private string _startTransactionTime;
         private QueueItemStatus _status;
+        public Orchestrator Orchestrator;
 
         public string AssignedTo
         {
@@ -214,39 +188,43 @@ namespace Marionette.Orchestrator
             }
         }
 
+        public QueueItem(string assignedTo, string deferDate, string dueDate, int id, Guid itemkey,
+            string lastProcessingOn,
+            Dictionary<string, object> output, QueueItemPriority priority, string progress, string queueName,
+            string reference,
+            int retryno, string reviewStatus,
+            Dictionary<string, object> specificContent, string startTransactionTime, QueueItemStatus status,
+            Orchestrator orchestrator)
+        {
+            _assignedTo = assignedTo;
+            _deferDate = deferDate;
+            _dueDate = dueDate;
+            _id = id;
+            _itemKey = itemkey;
+            _lastProcessingOn = lastProcessingOn;
+            _output = output;
+            _priority = priority;
+            _progress = progress;
+            _queueName = queueName;
+            _reference = reference;
+            _retryNo = retryno;
+            _reviewStatus = reviewStatus;
+            _specificContent = specificContent;
+            _startTransactionTime = startTransactionTime;
+            _status = status;
+            Orchestrator = orchestrator;
+            DisableNotifyPropertyChanged = false;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-            // Call UpdateQueueItem method whenever a property is changed
-            if (IsInitialized() && DisableNotifyPropertyChanged == false)
-            {
-                Orchestrator.UpdateQueueItem(this, QueueName);
-            }
+            Orchestrator.UpdateQueueItem(this, QueueName);
         }
 
-        private bool IsInitialized()
-        {
-            return AssignedTo != null &&
-                   DeferDate != null &&
-                   DueDate != null &&
-                   Id != null &&
-                   ItemKey != null &&
-                   LastProcessingOn != null &&
-                   Output != null &&
-                   Priority != null &&
-                   Progress != null &&
-                   QueueName != null &&
-                   Reference != null &&
-                   RetryNo != null &&
-                   ReviewStatus != null &&
-                   SpecificContent != null &&
-                   StartTransactionTime != null &&
-                   Status != null;
-        }
-        
-        public Orchestrator Orchestrator;
+
     }
 }

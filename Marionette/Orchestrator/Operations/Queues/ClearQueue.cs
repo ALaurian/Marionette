@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.Cryptography;
+using Marionette.Orchestrator.Enums;
 using MySqlConnector;
 
 namespace Marionette.Orchestrator;
