@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>Marionette</id>
-    <version>1.0.7.59</version>
+    <version>1.0.7.61</version>
     <authors>Marionette</authors>
     <description>Package Description</description>
     <dependencies>

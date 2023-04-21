@@ -16,9 +16,9 @@ public partial class MarionetteWebBrowser
         {
         }
 
-        var downloadedFilesList = _downloadedFiles;
+        _downloadedFilesOut = _downloadedFiles;
         _downloadedFiles = new List<IDownload>();
-        return downloadedFilesList;
+        return _downloadedFilesOut;
     }
 
     public List<IDownload> GetDownloadedFiles()
@@ -31,8 +31,8 @@ public partial class MarionetteWebBrowser
         {
         }
 
-        var downloadedFilesList = _downloadedFiles;
+        _downloadedFilesOut = _downloadedFiles;
         _downloadedFiles = new List<IDownload>();
-        return downloadedFilesList;
+        return _downloadedFilesOut;
     }
 }

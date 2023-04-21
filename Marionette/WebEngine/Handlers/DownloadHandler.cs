@@ -12,6 +12,6 @@ public partial class MarionetteWebBrowser
         var waiter = download.PathAsync();
         _downloadedFiles.Add(download);
         Log.Information("Downloaded file: {0}.", download.SuggestedFilename);
-        _fileDownloadSession.Remove(_fileDownloadSession.First());
+        _fileDownloadSession.Remove(await download.PathAsync());
     }
 }

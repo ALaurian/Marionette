@@ -223,12 +223,10 @@ namespace Marionette.Orchestrator
             // Call UpdateQueueItem method whenever a property is changed
             if (IsInitialized() && DisableNotifyPropertyChanged == false)
             {
-                Orchestrator.UpdateQueueItem(this,QueueName);
+                Orchestrator.UpdateQueueItem(this, QueueName);
             }
-
-            
         }
-        
+
         private bool IsInitialized()
         {
             return AssignedTo != null &&

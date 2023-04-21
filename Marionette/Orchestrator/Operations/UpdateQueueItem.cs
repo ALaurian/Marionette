@@ -7,11 +7,9 @@ public partial class Orchestrator
 {
     public void UpdateQueueItem(QueueItem In_QueueItem, string QueueName)
     {
-        
         var output = JsonConvert.SerializeObject(In_QueueItem.Output);
         var specificContent = JsonConvert.SerializeObject(In_QueueItem.SpecificContent);
-
-
+        
         // Define SQL statement to update a row in the queue table
         string updateRowSql = $@"
         UPDATE {QueueName}

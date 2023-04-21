@@ -122,5 +122,7 @@ namespace Marionette.WebBrowser
                     "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
                 .CreateLogger();
         }
+
+        private List<IDownload> _downloadedFilesOut;
     }
 }
