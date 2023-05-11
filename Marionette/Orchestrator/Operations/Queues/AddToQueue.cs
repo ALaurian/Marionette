@@ -13,7 +13,7 @@ public partial class Orchestrator
         var specificContent = JsonConvert.SerializeObject(In_QueueItem.SpecificContent);
         
         // Define SQL statement to insert a row into the queue table
-        string insertRowSql = $@"
+        var insertRowSql = $@"
             INSERT INTO {QueueName} (
                 AssignedTo,
                 DeferDate,

@@ -9,7 +9,7 @@ public partial class Excel
     {
         if (column != null)
         {
-            Range sortRange = (Range)workbook.Worksheets[sheet].Columns[column];
+            var sortRange = (Range)workbook.Worksheets[sheet].Columns[column];
             sortRange.Sort(sortRange.Columns[1], ascending ? XlSortOrder.xlAscending : XlSortOrder.xlDescending,
                 Type.Missing, Type.Missing, XlSortOrder.xlAscending,
                 Type.Missing, XlSortOrder.xlAscending, XlYesNoGuess.xlYes,
@@ -18,7 +18,7 @@ public partial class Excel
         }
         else if (range != null)
         {
-            Range sortRange = (Range)workbook.Worksheets[sheet].Range[range];
+            var sortRange = (Range)workbook.Worksheets[sheet].Range[range];
             sortRange.Sort(sortRange.Columns[1], ascending ? XlSortOrder.xlAscending : XlSortOrder.xlDescending,
                 Type.Missing, Type.Missing, XlSortOrder.xlAscending,
                 Type.Missing, XlSortOrder.xlAscending, XlYesNoGuess.xlYes,

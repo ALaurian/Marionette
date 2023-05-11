@@ -14,9 +14,9 @@ public partial class Excel
         var column = workbook.Worksheets[sheet].Columns[index];
         var values = column.Value2 as object[,];
 
-        List<object> result = new List<object>();
+        var result = new List<object>();
 
-        for (int i = 1; i <= values.GetLength(0); i++)
+        for (var i = 1; i <= values.GetLength(0); i++)
         {
             result.Add(values[i, 1]);
         }

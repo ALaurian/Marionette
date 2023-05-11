@@ -24,7 +24,7 @@ public partial class Excel
         }
 
         var searchResult = searchRange.Find(searchValue, LookIn: XlFindLookIn.xlValues);
-        int replaceCount = 0;
+        var replaceCount = 0;
 
         while (searchResult != null)
         {

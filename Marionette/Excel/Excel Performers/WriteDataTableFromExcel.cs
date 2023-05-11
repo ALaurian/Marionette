@@ -22,7 +22,7 @@ public partial class Excel
             var headerRange =
                 (object[,])ws.Range[ws.Cells[headerAt, 1], ws.Cells[headerAt, lastColumnWithValue]].Value2;
 
-            for (int i = 1; i <= headerRange.Length; i++)
+            for (var i = 1; i <= headerRange.Length; i++)
             {
                 string columnName;
                 try
@@ -39,7 +39,7 @@ public partial class Excel
         }
         else
         {
-            for (int i = 1; i <= lastColumnWithValue; i++)
+            for (var i = 1; i <= lastColumnWithValue; i++)
             {
                 newDataTable.Columns.Add(GetExcelColumnName(i), typeof(string));
             }
@@ -48,11 +48,11 @@ public partial class Excel
         var dataRange = (object[,])ws.Range[ws.Cells[headerAt + 1, 1], ws.Cells[lastRowWithValue, lastColumnWithValue]]
             .Value2;
 
-        for (int i = 1; i <= dataRange.GetLength(0); i++)
+        for (var i = 1; i <= dataRange.GetLength(0); i++)
         {
             var newRow = newDataTable.NewRow();
 
-            for (int j = 1; j <= dataRange.GetLength(1); j++)
+            for (var j = 1; j <= dataRange.GetLength(1); j++)
             {
                 newRow[j - 1] = dataRange[i, j]?.ToString() ?? "";
             }

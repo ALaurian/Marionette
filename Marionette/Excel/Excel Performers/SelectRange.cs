@@ -8,7 +8,7 @@ public partial class Excel
     public void SelectRange(object sheet, string range)
     {
         Worksheet targetSheet = workbook.Worksheets[sheet];
-        Range targetRange = targetSheet.Range[range];
+        var targetRange = targetSheet.Range[range];
 
         if (targetRange == null)
         {

@@ -7,7 +7,7 @@ public partial class MarionetteWinBrowser
 {
     public string GetText()
     {
-        string text = string.Empty;
+        var text = string.Empty;
 
         var retryPolicy = Policy
             .Handle<Exception>()

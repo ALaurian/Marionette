@@ -7,7 +7,7 @@ public partial class Orchestrator
     public void CreateQueue(string QueueName)
     {
         // Define SQL statement to create the table
-        string createTableSql = $@"
+        var createTableSql = $@"
                 CREATE TABLE {QueueName} (
                     AssignedTo TEXT,
                     DeferDate TEXT,

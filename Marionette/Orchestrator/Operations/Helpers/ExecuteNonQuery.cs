@@ -4,15 +4,15 @@ namespace Marionette.Orchestrator;
 
 public partial class Orchestrator
 {
-    private void ExecuteNonQuery(string sqlCommand)
+    internal void ExecuteNonQuery(string sqlCommand)
     {
-        bool connectionAvailable = false;
+        var connectionAvailable = false;
 
         while (!connectionAvailable)
         {
             try
             {
-                using (MySqlCommand command = new MySqlCommand(sqlCommand, Connection))
+                using (var command = new MySqlCommand(sqlCommand, Connection))
                 {
                     command.ExecuteNonQuery();
                 }

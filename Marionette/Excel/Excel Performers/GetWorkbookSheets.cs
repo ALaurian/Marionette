@@ -6,7 +6,7 @@ public partial class Excel
 {
     public List<string> GetWorkbookSheets()
     {
-        List<string> sheetNames = new List<string>();
+        var sheetNames = new List<string>();
         foreach (Worksheet sheet in workbook.Worksheets)
         {
             sheetNames.Add(sheet.Name);

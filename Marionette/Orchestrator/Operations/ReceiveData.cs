@@ -7,12 +7,13 @@ public partial class Orchestrator
 {
     public DataTable ReceiveData(string tableName)
     {
-        string table = tableName;
-        string sql = $"SELECT * FROM {table}";
+        var table = tableName;
+        var sql = $"SELECT * FROM {table}";
 
         ReturnAdapter(sql, out var adapter);
         Fill(adapter, out var dataTable);
 
+        adapter.Dispose();
         return dataTable;
     }
 }

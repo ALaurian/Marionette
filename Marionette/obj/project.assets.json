@@ -2,6 +2,19 @@
   "version": 3,
   "targets": {
     "net6.0-windows10.0.17763": {
+      "Cronos/0.7.1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Cronos.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Cronos.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "FlaUI.Core/4.0.0": {
         "type": "package",
         "dependencies": {
@@ -1521,6 +1534,25 @@
     }
   },
   "libraries": {
+    "Cronos/0.7.1": {
+      "sha512": "aa2DY3qGBnwX7/jW4c17PyRlIeAtc5nYTlAPekc0113jcbBuz9vQkQaQ9NG+TNGlAj4esFxh8OuKUv4vmAODbw==",
+      "type": "package",
+      "path": "cronos/0.7.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "cronos.0.7.1.nupkg.sha512",
+        "cronos.nuspec",
+        "lib/net40/Cronos.dll",
+        "lib/net40/Cronos.xml",
+        "lib/net45/Cronos.dll",
+        "lib/net45/Cronos.xml",
+        "lib/netstandard1.0/Cronos.dll",
+        "lib/netstandard1.0/Cronos.xml",
+        "lib/netstandard2.0/Cronos.dll",
+        "lib/netstandard2.0/Cronos.xml"
+      ]
+    },
     "FlaUI.Core/4.0.0": {
       "sha512": "8GPCvcmRezKwgnYSULs1rU2iC+XvwiRE01ydU0/Uk+QAGzmvCwbMaCXDWJBLtRx0JXek5m21G7jGHTq3WkbTXA==",
       "type": "package",
@@ -5753,6 +5785,7 @@
   },
   "projectFileDependencyGroups": {
     "net6.0-windows10.0.17763": [
+      "Cronos >= 0.7.1",
       "FlaUI.Core >= 4.0.0",
       "FlaUI.UIA3 >= 4.0.0",
       "Microsoft.Office.Interop.Excel >= 15.0.4795.1001",
@@ -5770,7 +5803,7 @@
     "C:\\Users\\lauri\\.nuget\\packages\\": {}
   },
   "project": {
-    "version": "1.0.7.70",
+    "version": "1.0.8.41",
     "restore": {
       "projectUniqueName": "C:\\Users\\lauri\\Documents\\GitHub\\Fight\\Marionette\\Marionette.csproj",
       "projectName": "Marionette",
@@ -5806,6 +5839,10 @@
       "net6.0-windows10.0.17763": {
         "targetAlias": "net6.0-windows10.0.17763.0",
         "dependencies": {
+          "Cronos": {
+            "target": "Package",
+            "version": "[0.7.1, )"
+          },
           "FlaUI.Core": {
             "target": "Package",
             "version": "[4.0.0, )"

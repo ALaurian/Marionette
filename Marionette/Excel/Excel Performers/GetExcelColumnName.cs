@@ -4,11 +4,11 @@ public partial class Excel
 {
     private string GetExcelColumnName(int columnNumber)
     {
-        string columnName = "";
+        var columnName = "";
 
         while (columnNumber > 0)
         {
-            int modulo = (columnNumber - 1) % 26;
+            var modulo = (columnNumber - 1) % 26;
             columnName = Convert.ToChar('A' + modulo) + columnName;
             columnNumber = (columnNumber - modulo) / 26;
         }
@@ -18,12 +18,12 @@ public partial class Excel
     
     private string GetExcelColumnNameModern(int columnNumber)
     {
-        char[] columnName = new char[3];
-        int index = 2;
+        var columnName = new char[3];
+        var index = 2;
 
         while (columnNumber > 0)
         {
-            int modulo = (columnNumber - 1) % 26;
+            var modulo = (columnNumber - 1) % 26;
             columnName[index--] = (char)('A' + modulo);
             columnNumber = (columnNumber - modulo) / 26;
         }

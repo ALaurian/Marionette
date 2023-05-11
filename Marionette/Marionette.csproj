@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>1.0.7.80</PackageVersion>
+        <PackageVersion>1.0.8.41</PackageVersion>
         <LangVersion>latest</LangVersion>
         <HasRuntimeOutput>true</HasRuntimeOutput>
     </PropertyGroup>
@@ -13,6 +13,7 @@
 
 
     <ItemGroup>
+      <PackageReference Include="Cronos" Version="0.7.1" />
       <PackageReference Include="FlaUI.Core" Version="4.0.0" />
       <PackageReference Include="FlaUI.UIA3" Version="4.0.0" />
       <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />

@@ -1,4 +1,5 @@
 ﻿using Marionette.Orchestrator.Enums;
+using Marionette.Orchestrator.Operations.Helpers;
 using MySqlConnector;
 
 namespace Marionette.Orchestrator;
@@ -7,40 +8,33 @@ public partial class Orchestrator
 {
     public List<Job> GetAllJobs()
     {
-        // Define SQL statement to select all rows from the jobs table
-        string selectRowsSql = $@"SELECT * FROM jobs;";
+        var jobs = new List<Job>();
 
-        // Execute the select rows SQL statement
-        ExecuteReader(selectRowsSql, out var reader);
-
-        List<Job> jobs = new List<Job>();
-
-        NextRow:
-        Read(reader, out var hasRows);
-
-        if (hasRows)
+        var sql = "SELECT * FROM Jobs";
+        using (var cmd = new MySqlCommand(sql, Connection))
         {
-            JobType.TryParse(reader["JobType"].ToString(), out JobType jobType);
-            RuntimeType.TryParse(reader["RuntimeType"].ToString(), out RuntimeType runtimeType);
-            JobState.TryParse(reader["State"].ToString(), out JobState jobState);
-            JobPriority.TryParse(reader["Priority"].ToString(), out JobPriority jobPriority);
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var job = new Job(
+                        DatabaseObjectHandler.Deserialize<Process>(reader["Process"].ToString()),
+                        DatabaseObjectHandler.Deserialize<Machine>(reader["Machine"].ToString()),
+                        (JobType)Enum.Parse(typeof(JobType), reader["JobType"].ToString()),
+                        (RuntimeType)Enum.Parse(typeof(RuntimeType), reader["RuntimeType"].ToString()),
+                        (JobState)Enum.Parse(typeof(JobState), reader["State"].ToString()),
+                        (JobPriority)Enum.Parse(typeof(JobPriority), reader["Priority"].ToString()),
+                        reader["Started"].ToString(),
+                        reader["Ended"].ToString(),
+                        this,
+                        true
+                    );
 
-            //Create the job object using the constructor
-            Job job = new Job(reader.GetString("Process"),
-                reader.GetString("Machine"),
-                reader.GetString("Hostname"),
-                reader.GetString("HostIdentity"),
-                jobType,
-                runtimeType,
-                jobState,
-                jobPriority,
-                reader.GetString("Started"),
-                reader.GetString("Ended"));
-
-            jobs.Add(job);
-            goto NextRow;
+                    jobs.Add(job);
+                }
+            }
         }
-        
+
         return jobs;
     }
 }

@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "VdiBy60ZstDsD3CnPTd2aAllQybLo/wf/ud06Xxg6VTLbPghkFBI1fyv/zpO5heCxsmks48y9Axx9xhsTRAMTA==",
+  "dgSpecHash": "K7Op/0LAXIBhNh2nwLDfxSJjdTekizCbk/NkFmvPGZGoZLrDGlyTO2SwwjNnV+ELyysx1qB8qCWNmKr/3nnHxA==",
   "success": true,
   "projectFilePath": "C:\\Users\\lauri\\Documents\\GitHub\\Fight\\Marionette\\Marionette.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\lauri\\.nuget\\packages\\cronos\\0.7.1\\cronos.0.7.1.nupkg.sha512",
     "C:\\Users\\lauri\\.nuget\\packages\\flaui.core\\4.0.0\\flaui.core.4.0.0.nupkg.sha512",
     "C:\\Users\\lauri\\.nuget\\packages\\flaui.uia3\\4.0.0\\flaui.uia3.4.0.0.nupkg.sha512",
     "C:\\Users\\lauri\\.nuget\\packages\\interop.uiautomationclient\\10.19041.0\\interop.uiautomationclient.10.19041.0.nupkg.sha512",

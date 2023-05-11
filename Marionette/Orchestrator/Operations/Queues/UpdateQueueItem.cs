@@ -11,7 +11,7 @@ public partial class Orchestrator
         var specificContent = JsonConvert.SerializeObject(In_QueueItem.SpecificContent);
         
         // Define SQL statement to update a row in the queue table
-        string updateRowSql = $@"
+        var updateRowSql = $@"
         UPDATE {QueueName}
         SET
             AssignedTo = '{In_QueueItem.AssignedTo}',

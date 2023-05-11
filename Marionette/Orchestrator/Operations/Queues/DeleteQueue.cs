@@ -7,7 +7,7 @@ public partial class Orchestrator
     public void DeleteQueue(string QueueName)
     {
         // Define SQL statement to drop the table
-        string dropTableSql = $"DROP TABLE IF EXISTS {QueueName};";
+        var dropTableSql = $"DROP TABLE IF EXISTS {QueueName};";
 
         // Execute the drop table SQL statement
         ExecuteNonQuery(dropTableSql);

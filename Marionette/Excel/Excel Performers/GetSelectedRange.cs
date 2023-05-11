@@ -8,7 +8,7 @@ public partial class Excel
     public Range GetSelectedRange()
     {
         Worksheet activeWorksheet = workbook.ActiveSheet;
-        Range selectedRange = activeWorksheet.Application.Selection as Range;
+        var selectedRange = activeWorksheet.Application.Selection as Range;
 
         if (selectedRange == null)
         {

@@ -5,7 +5,7 @@
   },
   "projects": {
     "C:\\Users\\lauri\\Documents\\GitHub\\Fight\\Marionette\\Marionette.csproj": {
-      "version": "1.0.7.70",
+      "version": "1.0.8.41",
       "restore": {
         "projectUniqueName": "C:\\Users\\lauri\\Documents\\GitHub\\Fight\\Marionette\\Marionette.csproj",
         "projectName": "Marionette",
@@ -41,6 +41,10 @@
         "net6.0-windows10.0.17763": {
           "targetAlias": "net6.0-windows10.0.17763.0",
           "dependencies": {
+            "Cronos": {
+              "target": "Package",
+              "version": "[0.7.1, )"
+            },
             "FlaUI.Core": {
               "target": "Package",
               "version": "[4.0.0, )"

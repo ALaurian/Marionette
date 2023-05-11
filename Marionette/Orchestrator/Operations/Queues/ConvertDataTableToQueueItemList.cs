@@ -8,11 +8,11 @@ public partial class Orchestrator
 {
     public List<QueueItem> ConvertDataTableToQueueItemList(DataTable dataTable)
     {
-        List<QueueItem> queueItems = new List<QueueItem>();
+        var queueItems = new List<QueueItem>();
 
         foreach (DataRow row in dataTable.Rows)
         {
-            QueueItem queueItem = new QueueItem(
+            var queueItem = new QueueItem(
                 row["AssignedTo"].ToString(),
                 row["DeferDate"].ToString(),
                 row["DueDate"].ToString(),

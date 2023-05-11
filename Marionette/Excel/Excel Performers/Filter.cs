@@ -19,7 +19,7 @@ public partial class Excel
         var worksheet = workbook.Worksheets[sheet];
         var targetRange = worksheet.Range[range];
 
-        for (int i = 0; i < multipleCriteria.Length; i++)
+        for (var i = 0; i < multipleCriteria.Length; i++)
         {
             targetRange.AutoFilter(i + 1, multipleCriteria[i]);
         }

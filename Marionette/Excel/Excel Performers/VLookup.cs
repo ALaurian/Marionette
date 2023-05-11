@@ -9,7 +9,7 @@ public partial class Excel
     public object VLookup(object sheet, object lookupValue, string lookupRange, int returnColumnIndex,
         bool exactMatch = true)
     {
-        Range range = (Range)workbook.Worksheets[sheet].Range[lookupRange];
+        var range = (Range)workbook.Worksheets[sheet].Range[lookupRange];
         if (exactMatch)
         {
             range = range.Find(lookupValue, Type.Missing, XlFindLookIn.xlValues,

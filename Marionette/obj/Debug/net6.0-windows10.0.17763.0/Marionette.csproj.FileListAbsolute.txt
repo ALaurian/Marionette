@@ -425,3 +425,4 @@ C:\Users\lauri\Documents\GitHub\Fight\Marionette\bin\Debug\net6.0-windows10.0.17
 C:\Users\lauri\Documents\GitHub\Fight\Marionette\bin\Debug\net6.0-windows10.0.17763.0\WinRT.Runtime.dll
 C:\Users\lauri\Documents\GitHub\Fight\Marionette\obj\Debug\net6.0-windows10.0.17763.0\Marionette.csproj.CopyComplete
 C:\Users\lauri\Documents\GitHub\Fight\Marionette\obj\Debug\net6.0-windows10.0.17763.0\Marionette.genruntimeconfig.cache
+C:\Users\lauri\Documents\GitHub\Fight\Marionette\bin\Debug\net6.0-windows10.0.17763.0\Cronos.dll

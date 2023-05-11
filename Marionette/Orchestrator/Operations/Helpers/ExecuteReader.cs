@@ -4,16 +4,16 @@ namespace Marionette.Orchestrator;
 
 public partial class Orchestrator
 {
-    private void ExecuteReader(string sqlCommand, out MySqlDataReader dataReader)
+    internal void ExecuteReader(string sqlCommand, out MySqlDataReader dataReader)
     {
-        bool connectionAvailable = false;
+        var connectionAvailable = false;
         dataReader = null;
 
         while (!connectionAvailable)
         {
             try
             {
-                using (MySqlCommand command = new MySqlCommand(sqlCommand, Connection))
+                using (var command = new MySqlCommand(sqlCommand, Connection))
                 {
                     dataReader = command.ExecuteReader();
                 }

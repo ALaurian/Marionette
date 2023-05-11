@@ -25,9 +25,9 @@ public partial class Excel
             throw new ArgumentException("Invalid column parameter");
         }
 
-        int firstRow = 0;
+        var firstRow = 0;
 
-        for (int row = 1; row <= lastRow; row++)
+        for (var row = 1; row <= lastRow; row++)
         {
             if (range.Cells[row, 1].Value2 != null)
             {
@@ -36,7 +36,7 @@ public partial class Excel
             }
         }
 
-        for (int row = lastRow; row >= 1; row--)
+        for (var row = lastRow; row >= 1; row--)
         {
             if (range.Cells[row, 1].Value2 != null)
             {

@@ -7,7 +7,7 @@ public partial class Orchestrator
 {
     private void Fill(MySqlDataAdapter adapter, out DataTable dataTable)
     {
-        bool connectionAvailable = false;
+        var connectionAvailable = false;
 
         dataTable = new DataTable();
         while (!connectionAvailable)

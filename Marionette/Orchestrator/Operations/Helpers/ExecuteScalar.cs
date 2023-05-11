@@ -4,17 +4,20 @@ namespace Marionette.Orchestrator;
 
 public partial class Orchestrator
 {
-    private void ExecuteScalar(string sqlCommand, out object result)
+    internal void ExecuteScalar(string sqlCommand, out object result)
     {
-        bool connectionAvailable = false;
+        var connectionAvailable = false;
         result = null;
         while (!connectionAvailable)
         {
             try
             {
-                MySqlCommand command = new MySqlCommand(sqlCommand, Connection);
-
-                result = command.ExecuteScalar();
+                
+                using (var command = new MySqlCommand(sqlCommand, Connection))
+                {
+                    result = command.ExecuteScalar();
+                }
+                
                 connectionAvailable = true;
             }
             catch (MySqlException ex)

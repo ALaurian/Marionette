@@ -27,7 +27,7 @@ public partial class MarionetteWinBrowser
         {
             RefreshDesktop();
             ActiveWindow = _desktop
-                .FirstOrDefault(x =>
+                .First(x =>
                     (Name == null || x.Name == Name) &&
                     (ClassName == null || x.ClassName == ClassName) &&
                     (x.ControlType == ControlType) &&
