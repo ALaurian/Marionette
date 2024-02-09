@@ -12,7 +12,7 @@ public partial class MarionetteWebBrowser
 
         element.DblClickAsync(new ElementHandleDblClickOptions { Force = _force }).Wait();
 
-        Log.Information($"[{MethodBase.GetCurrentMethod().Name}] [{selector}] Double clicked element.");
+        _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}] [{selector}] Double clicked element.");
 
         return element;
     }
@@ -21,7 +21,7 @@ public partial class MarionetteWebBrowser
     {
         element.DblClickAsync(new ElementHandleDblClickOptions { Force = _force }).Wait();
 
-        Log.Information($"[{MethodBase.GetCurrentMethod().Name}] Double clicked element.");
+        _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}] Double clicked element.");
 
         return element;
     }

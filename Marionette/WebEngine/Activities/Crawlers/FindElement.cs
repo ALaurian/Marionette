@@ -34,7 +34,7 @@ public partial class MarionetteWebBrowser
                     }
                     catch (Exception e)
                     {
-                        Log.Error($"Error finding element {selector}");
+                        _logger.LogMessage($"Error finding element {selector}");
                     }
 
 
@@ -44,7 +44,7 @@ public partial class MarionetteWebBrowser
                         if (DebugMode)
                             Highlight(element, DebugModeDuration);
 
-                        Log.Warning($"[{MethodBase.GetCurrentMethod().Name}] Found element: {selector}");
+                        _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}] Found element: {selector}");
                         return element;
                     }
 
@@ -66,7 +66,7 @@ public partial class MarionetteWebBrowser
                         }
                         catch (Exception e)
                         {
-                            Log.Error($"Error finding element {selector}");
+                            _logger.LogMessage($"Error finding element {selector}");
                         }
 
                         if (element is not null)
@@ -74,7 +74,7 @@ public partial class MarionetteWebBrowser
                             if (DebugMode)
                                 Highlight(element, DebugModeDuration);
 
-                            Log.Warning($"[{MethodBase.GetCurrentMethod().Name}] Found element: {selector}");
+                            _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}] Found element: {selector}");
                             return element;
                         }
 

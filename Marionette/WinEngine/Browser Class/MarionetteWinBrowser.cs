@@ -12,8 +12,8 @@ public partial class MarionetteWinBrowser
     private UIA3Automation _automation;
 
     private Window ActiveWindow;
-    private AutomationElement ActiveElement;
-    private List<AutomationElement> ActiveElements;
+    public AutomationElement ActiveElement;
+    public List<AutomationElement> ActiveElements;
 
     private List<AutomationElement> _desktop;
 

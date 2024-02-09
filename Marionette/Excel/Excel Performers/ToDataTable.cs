@@ -7,7 +7,7 @@ namespace Marionette.Excel_Scope;
 public partial class Excel
 {
    
-    public DataTable WriteDataTableFromExcel(object sheet, int headerAt = 1, bool headerless = false)
+    public DataTable ToDataTable(object sheet, int headerAt = 1, bool headerless = false)
     {
         var ws = workbook.Worksheets[sheet];
         ws.Activate();

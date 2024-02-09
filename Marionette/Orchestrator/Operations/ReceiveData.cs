@@ -10,8 +10,8 @@ public partial class Orchestrator
         var table = tableName;
         var sql = $"SELECT * FROM {table}";
 
-        ReturnAdapter(sql, out var adapter);
-        Fill(adapter, out var dataTable);
+        var adapter = ReturnAdapter(sql);
+        var dataTable = Fill(adapter);
 
         adapter.Dispose();
         return dataTable;

@@ -4,14 +4,14 @@ namespace Marionette.Orchestrator.Operations.Helpers;
 
 public static class DictionaryObjectExtensions
 {
-    public static Dictionary<string, object> ToPublicDictionary<T>(this T obj)
+    public static Dictionary<string, string> ToPublicDictionary<T>(this T obj)
     {
-        var dict = new Dictionary<string, object>();
+        var dict = new Dictionary<string, string>();
 
         var publicProperties = obj.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
         foreach (var publicProperty in publicProperties)
         {
-            var valueType = publicProperty.GetType();
+            var valueType = publicProperty.GetValue(obj).GetType();
             if (valueType.IsPrimitive || valueType.IsEnum || valueType == typeof(string))
             {
                 dict.Add(publicProperty.Name, publicProperty.GetValue(obj).ToString());
@@ -25,33 +25,35 @@ public static class DictionaryObjectExtensions
         return dict;
     }
 
-    public static Dictionary<string, object> ToPrivateDictionary<T>(this T obj)
+    public static Dictionary<string, string> ToPrivateDictionary<T>(this T obj)
     {
-        var dict = new Dictionary<string, object>();
+        var dict = new Dictionary<string, string>();
 
+        var privateFields = obj.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
+            .Where(x => x.Name.StartsWith("_prev"));
         var publicProperties = obj.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
-        foreach (var publicProperty in publicProperties)
+
+        foreach (var privateProperty in privateFields)
         {
-            var privateProperty = obj.GetType().GetProperty($"_prev{publicProperty.Name}",
-                BindingFlags.NonPublic | BindingFlags.Instance);
             if (privateProperty != null)
             {
                 var value = privateProperty.GetValue(obj);
                 if (value != null)
                 {
                     var valueType = value.GetType();
+                    
                     if (valueType.IsPrimitive || valueType.IsEnum || valueType == typeof(string))
                     {
-                        dict.Add(publicProperty.Name, value.ToString());
+                        dict.Add(privateProperty.Name, value.ToString());
                     }
                     else
                     {
-                        dict.Add(publicProperty.Name, value.Serialize());
+                        dict.Add(privateProperty.Name, value.Serialize());
                     }
                 }
             }
         }
-
+        
         return dict;
     }
 }

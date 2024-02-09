@@ -12,14 +12,14 @@ public partial class MarionetteWebBrowser
     {
         Thread.Sleep(TimeSpan.FromSeconds(delayBefore));
         var retry = Policy.HandleResult<IElementHandle>(x => x == null)
-            .WaitAndRetry(3, retryAttempt => TimeSpan.FromSeconds(1))
+            .WaitAndRetry(1, retryAttempt => TimeSpan.FromMilliseconds(1000))
             .Execute(() => FindElement(selector, lockToLastPage));
 
-        if (retry is null)
-            Log.Information($"[{MethodBase.GetCurrentMethod().Name}] Element {selector} appeared.", selector);
-        if (retry is not null)
-            Log.Information($"[{MethodBase.GetCurrentMethod().Name}] Element {selector} did not appear.", selector);
-
+        if (retry == null)
+            _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}] Element {selector} did not appear.", selector);
+        if (retry != null)
+            _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}] Element {selector} did appeared.", selector);
+        
         return retry;
     }
 }

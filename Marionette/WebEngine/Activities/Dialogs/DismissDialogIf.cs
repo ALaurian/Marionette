@@ -8,7 +8,7 @@ public partial class MarionetteWebBrowser
     {
         if (_dialog != null && dialogTexts.Any(x => _dialog.Message.Contains(x)))
         {
-            Log.Information("Dismissing dialog: {Message}", _dialog.Message);
+            _logger.LogMessage("Dismissing dialog: {Message}", _dialog.Message);
             _dialog.DismissAsync().Wait();
             _dialog = null;
             return true;

@@ -13,11 +13,11 @@ public partial class MarionetteWebBrowser
         if (element.IsCheckedAsync().Result)
         {
             element.UncheckAsync().Wait();
-            Log.Information($"[{MethodBase.GetCurrentMethod().Name}][{selector}] Unchecked checkbox.");
+            _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}][{selector}] Unchecked checkbox.");
         }
         else
         {
-            Log.Information($"[{MethodBase.GetCurrentMethod().Name}][{selector}] Checkbox is already unchecked.");
+            _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}][{selector}] Checkbox is already unchecked.");
         }
 
         return element;

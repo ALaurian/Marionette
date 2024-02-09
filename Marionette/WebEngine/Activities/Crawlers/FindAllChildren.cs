@@ -11,13 +11,11 @@ public partial class MarionetteWebBrowser
     {
         var children = FindElement(selector).QuerySelectorAllAsync("xpath=child::*").Result.ToList();
 
-        Log.Information(
-            $"[{MethodBase.GetCurrentMethod().Name}]    Found {children.Count} children of {selector}");
+        _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}]    Found {children.Count} children of {selector}");
         children.ForEach(x =>
         {
             var boundingBox = x.BoundingBoxAsync().Result;
-            Log.Information(
-                $"[{MethodBase.GetCurrentMethod().Name}]  Found child at X: {boundingBox.X} Y: {boundingBox.Y}.");
+            _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}]  Found child at X: {boundingBox.X} Y: {boundingBox.Y}.");
         });
         return children;
     }
@@ -26,13 +24,11 @@ public partial class MarionetteWebBrowser
     {
         var children = element.QuerySelectorAllAsync("xpath=child::*").Result.ToList();
 
-        Log.Information(
-            $"[{MethodBase.GetCurrentMethod().Name}]    Found {children.Count} children of element");
+        _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}]    Found {children.Count} children of element");
         children.ForEach(x =>
         {
             var boundingBox = x.BoundingBoxAsync().Result;
-            Log.Information(
-                $"[{MethodBase.GetCurrentMethod().Name}]  Found child at X: {boundingBox.X} Y: {boundingBox.Y}.");
+            _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}]  Found child at X: {boundingBox.X} Y: {boundingBox.Y}.");
         });
         return children;
     }

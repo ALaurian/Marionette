@@ -10,6 +10,12 @@ namespace Marionette.WinEngine;
 
 public partial class MarionetteWinBrowser
 {
+
+    public Window SetActiveWindow(AutomationElement element)
+    {
+        ActiveWindow = element.AsWindow();
+        return ActiveWindow;
+    }
     public Window SetActiveWindow(FrameworkType frameworkType, string Name = null, string ClassName = null, ControlType ControlType = ControlType.Window)
     {
         var retryPolicy = Policy

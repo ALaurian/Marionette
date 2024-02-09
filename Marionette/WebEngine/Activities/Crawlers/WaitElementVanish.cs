@@ -14,9 +14,9 @@ public partial class MarionetteWebBrowser
             .Execute(() => FindElement(selector, lockToLastPage, 1));
 
         if (retry is null)
-            Log.Information($"[{MethodBase.GetCurrentMethod().Name}] Element {selector} vanished.", selector);
+            _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}] Element {selector} vanished.", selector);
         if (retry is not null)
-            Log.Information($"[{MethodBase.GetCurrentMethod().Name}] Element {selector} did not vanish.", selector);
+            _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}] Element {selector} did not vanish.", selector);
 
         return retry;
     }

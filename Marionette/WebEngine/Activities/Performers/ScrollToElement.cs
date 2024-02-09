@@ -12,7 +12,7 @@ public partial class MarionetteWebBrowser
 
         element.ScrollIntoViewIfNeededAsync().Wait();
 
-        Log.Information($"[{MethodBase.GetCurrentMethod().Name}][{selector}] Scrolled to element.");
+        _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}][{selector}] Scrolled to element.");
 
         return element;
     }
@@ -21,7 +21,7 @@ public partial class MarionetteWebBrowser
     {
         element.ScrollIntoViewIfNeededAsync().Wait();
 
-        Log.Information($"[{MethodBase.GetCurrentMethod().Name}] Scrolled to element.");
+        _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}] Scrolled to element.");
 
         return element;
     }

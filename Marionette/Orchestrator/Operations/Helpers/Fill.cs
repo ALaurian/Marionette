@@ -5,11 +5,11 @@ namespace Marionette.Orchestrator;
 
 public partial class Orchestrator
 {
-    private void Fill(MySqlDataAdapter adapter, out DataTable dataTable)
+    private DataTable Fill(MySqlDataAdapter adapter)
     {
         var connectionAvailable = false;
 
-        dataTable = new DataTable();
+        var dataTable = new DataTable();
         while (!connectionAvailable)
         {
             try
@@ -22,5 +22,7 @@ public partial class Orchestrator
                 Thread.Sleep(1000);
             }
         }
+
+        return dataTable;
     }
 }

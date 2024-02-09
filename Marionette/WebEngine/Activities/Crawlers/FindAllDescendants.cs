@@ -11,13 +11,11 @@ public partial class MarionetteWebBrowser
     {
         var descendants = FindElement(selector).QuerySelectorAllAsync("*").Result.ToList();
 
-        Log.Information(
-            $"[{MethodBase.GetCurrentMethod().Name}]    Found {descendants.Count} descendants of {selector}");
+        _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}]    Found {descendants.Count} descendants of {selector}");
         descendants.ForEach(x =>
         {
             var boundingBox = x.BoundingBoxAsync().Result;
-            Log.Information(
-                $"[{MethodBase.GetCurrentMethod().Name}]  Found descendant at X: {boundingBox.X} Y: {boundingBox.Y}.");
+            _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}]  Found descendant at X: {boundingBox.X} Y: {boundingBox.Y}.");
         });
         return descendants;
     }
@@ -26,13 +24,11 @@ public partial class MarionetteWebBrowser
     {
         var descendants = element.QuerySelectorAllAsync("*").Result.ToList();
 
-        Log.Information(
-            $"[{MethodBase.GetCurrentMethod().Name}]    Found {descendants.Count} descendants of element");
+        _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}]    Found {descendants.Count} descendants of element");
         descendants.ForEach(x =>
         {
             var boundingBox = x.BoundingBoxAsync().Result;
-            Log.Information(
-                $"[{MethodBase.GetCurrentMethod().Name}]  Found descendant at X: {boundingBox.X} Y: {boundingBox.Y}.");
+            _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}]  Found descendant at X: {boundingBox.X} Y: {boundingBox.Y}.");
         });
         return descendants;
     }

@@ -1,4 +1,5 @@
 ﻿using FlaUI.Core.AutomationElements;
+using FlaUI.UIA3.Patterns;
 using Polly;
 
 namespace Marionette.WinEngine;
@@ -24,7 +25,8 @@ public partial class MarionetteWinBrowser
             {
                 if (simulateType)
                 {
-                    ActiveElement.AsTextBox().Enter(text);
+                    //ActiveElement.AsTextBox().Enter(text);
+                    ((ValuePattern)ActiveElement.Patterns.Value.Pattern).SetValue(text);
                 }
                 else
                 {

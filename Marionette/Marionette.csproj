@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>1.0.8.41</PackageVersion>
+        <PackageVersion>1.0.9.32</PackageVersion>
         <LangVersion>latest</LangVersion>
         <HasRuntimeOutput>true</HasRuntimeOutput>
     </PropertyGroup>
@@ -20,7 +20,7 @@
       <PackageReference Include="Microsoft.Playwright" Version="1.32.0" />
       <PackageReference Include="Microsoft.Playwright.NUnit" Version="1.27.2" />
       <PackageReference Include="morelinq" Version="3.3.2" />
-      <PackageReference Include="MySqlConnector" Version="2.3.0-beta.1" />
+      <PackageReference Include="MySqlConnector" Version="2.3.0-beta.3" />
       <PackageReference Include="Polly" Version="7.2.3" />
       <PackageReference Include="Serilog" Version="3.0.0-dev-01958" />
       <PackageReference Include="Serilog.Sinks.Console" Version="4.1.1-dev-00910" />
@@ -34,6 +34,21 @@
         <HintPath>..\..\..\..\Downloads\Microsoft.Office.Interop.Excel\Microsoft.Office.Interop.Excel.dll</HintPath>
         <EmbedInteropTypes>true</EmbedInteropTypes>
       </Reference>
+
+
+
+
+
+
     </ItemGroup>
+
+
+
+
+
+
+
+
+
 
 </Project>

@@ -19,7 +19,7 @@ public partial class MarionetteWebBrowser
                     element = FindElement(selector, lockToLastPage);
                     if (element.IsVisibleAsync().Result == false)
                         return null;
-                    Log.Information($"[{MethodBase.GetCurrentMethod().Name}] Element {selector} appeared.", selector);
+                    _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}] Element {selector} appeared.", selector);
                 }
                 catch (Exception e)
                 {

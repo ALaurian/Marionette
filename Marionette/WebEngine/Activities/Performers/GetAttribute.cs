@@ -14,8 +14,7 @@ public partial class MarionetteWebBrowser
 
         attrValue = element.GetAttributeAsync(attributeName).Result;
 
-        Log.Information(
-            $"[{MethodBase.GetCurrentMethod().Name}] [{selector}] Got attribute '{attributeName}' with value '{attrValue}'.");
+        _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}] [{selector}] Got attribute '{attributeName}' with value '{attrValue}'.");
 
         return attrValue;
     }
@@ -24,8 +23,7 @@ public partial class MarionetteWebBrowser
     {
         var attrValue = element.GetAttributeAsync(attributeName).Result;
 
-        Log.Information(
-            $"[{MethodBase.GetCurrentMethod().Name}] Got attribute '{attributeName}' with value '{attrValue}'.");
+        _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}] Got attribute '{attributeName}' with value '{attrValue}'.");
 
         return attrValue;
     }

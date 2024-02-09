@@ -4,7 +4,7 @@ namespace Marionette.Orchestrator;
 
 public static partial class RecordBase
 {
-    public static void DeleteRecord(string tableName, Dictionary<string, object> filters, Orchestrator _orchestrator)
+    public static void DeleteRecord(string tableName, Dictionary<string, string> filters, Orchestrator _orchestrator)
     {
         var filterConditions = string.Join(" AND ", filters.Select(filter => $"{filter.Key} = @{filter.Key}"));
 

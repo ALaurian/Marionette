@@ -1,9 +1,15 @@
-﻿using Polly;
+﻿using FlaUI.Core.AutomationElements;
+using Polly;
 
 namespace Marionette.WinEngine;
 
 public partial class MarionetteWinBrowser
 {
+    public MarionetteWinBrowser SetActiveElement(AutomationElement element)
+    {
+        ActiveElement = element;
+        return this;
+    }
     public MarionetteWinBrowser SetActiveElement(string xPath)
     {
         var retryPolicy = Policy

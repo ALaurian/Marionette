@@ -34,6 +34,7 @@ public partial class Excel
                 Visible = true,
                 DisplayAlerts = false
             };
+            
             try
             {
                 workbook.Close();
@@ -43,7 +44,19 @@ public partial class Excel
                 // ignored
             }
 
-            workbook = excelApp.Workbooks.Open(filePath);
+            try
+            {
+                workbook = excelApp.Workbooks.Open(filePath);
+            }
+            catch (Exception e)
+            {
+                //create excel file with file path
+                excelApp.Workbooks.Add();
+                excelApp.Workbooks[1].SaveAs(filePath);
+                excelApp.Workbooks[1].Close();
+                workbook = excelApp.Workbooks.Open(filePath);
+            }
+            
         }
         catch (Exception e)
         {

@@ -16,22 +16,19 @@ public partial class MarionetteWebBrowser
 
         if (element.TextContentAsync().Result != "")
         {
-            Log.Information(
-                $"[{MethodBase.GetCurrentMethod().Name}] [{selector}] Got text '{element.TextContentAsync().Result}'.");
+            _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}] [{selector}] Got text '{element.TextContentAsync().Result}'.");
             return element.TextContentAsync().Result;
         }
 
         if (element.GetAttributeAsync("value").Result != "")
         {
-            Log.Information(
-                $"[{MethodBase.GetCurrentMethod().Name}] [{selector}] Got text '{element.GetAttributeAsync("value").Result}'.");
+            _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}] [{selector}] Got text '{element.GetAttributeAsync("value").Result}'.");
             return element.GetAttributeAsync("value").Result;
         }
 
         if (element.InnerTextAsync().Result != "")
         {
-            Log.Information(
-                $"[{MethodBase.GetCurrentMethod().Name}] [{selector}] Got text '{element.InnerTextAsync().Result}'.");
+            _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}] [{selector}] Got text '{element.InnerTextAsync().Result}'.");
             return element.InnerTextAsync().Result;
         }
 
@@ -42,20 +39,19 @@ public partial class MarionetteWebBrowser
     {
         if (element.TextContentAsync().Result != "")
         {
-            Log.Information($"[{MethodBase.GetCurrentMethod().Name}] Got text '{element.TextContentAsync().Result}'.");
+            _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}] Got text '{element.TextContentAsync().Result}'.");
             return element.TextContentAsync().Result;
         }
 
         if (element.GetAttributeAsync("value").Result != "")
         {
-            Log.Information(
-                $"[{MethodBase.GetCurrentMethod().Name}] Got text '{element.GetAttributeAsync("value").Result}'.");
+            _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}] Got text '{element.GetAttributeAsync("value").Result}'.");
             return element.GetAttributeAsync("value").Result;
         }
 
         if (element.InnerTextAsync().Result != "")
         {
-            Log.Information($"[{MethodBase.GetCurrentMethod().Name}] Got text '{element.InnerTextAsync().Result}'.");
+            _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}] Got text '{element.InnerTextAsync().Result}'.");
             return element.InnerTextAsync().Result;
         }
 

@@ -4,11 +4,12 @@ namespace Marionette.Orchestrator;
 
 public static partial class RecordBase
 {
-    public static void UpdateRecord(string tableName, Dictionary<string, object> values,
-        Dictionary<string, object> filters, Orchestrator _orchestrator)
+    public static void UpdateRecord(string tableName, Dictionary<string, string> values,
+        Dictionary<string, string> filters, Orchestrator _orchestrator)
     {
         var updateColumns = string.Join(", ", values.Select(v => $"{v.Key}=@{v.Key}"));
-        var filterConditions = string.Join(" AND ", filters.Select(filter => $"{filter.Key} = @{filter.Key}"));
+        var filterConditions = string.Join(" AND ",
+            filters.Select(filter => $"{filter.Key.Replace("_prev", "")} = @{filter.Key}"));
 
         var updateRowSql = $@"UPDATE {tableName} SET {updateColumns} WHERE {filterConditions}";
 

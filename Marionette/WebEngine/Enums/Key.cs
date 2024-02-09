@@ -1,6 +1,6 @@
 ﻿namespace Marionette.WebBrowser;
 
-public enum Key
+public enum MarionetteKey
 {
     ArrowLeft, ArrowRight, ArrowUp, ArrowDown,
     Backspace,

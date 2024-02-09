@@ -11,8 +11,7 @@ public partial class MarionetteWebBrowser
         var element = FindElement("*:focus", lockToLastPage);
         var boundingBox = element.BoundingBoxAsync().Result;
 
-        Log.Warning(
-            $"[{MethodBase.GetCurrentMethod().Name}] Found focused element at X: {boundingBox.X} Y: {boundingBox.Y}.");
+        _logger.LogMessage($"[{MethodBase.GetCurrentMethod().Name}] Found focused element at X: {boundingBox.X} Y: {boundingBox.Y}.");
         return element;
     }
 }

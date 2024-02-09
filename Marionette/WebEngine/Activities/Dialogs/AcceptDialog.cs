@@ -8,7 +8,7 @@ public partial class MarionetteWebBrowser
     {
         if (_dialog != null)
         {
-            Log.Information("Accepting dialog: {Message}", _dialog.Message);
+            _logger.LogMessage("Accepting dialog: {Message}", _dialog.Message);
             _dialog.AcceptAsync().Wait();
             _dialog = null;
             return true;

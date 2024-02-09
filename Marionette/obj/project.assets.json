@@ -541,7 +541,7 @@
           }
         }
       },
-      "MySqlConnector/2.3.0-beta.1": {
+      "MySqlConnector/2.3.0-beta.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "7.0.0"
@@ -2834,10 +2834,10 @@
         "morelinq.nuspec"
       ]
     },
-    "MySqlConnector/2.3.0-beta.1": {
-      "sha512": "nQ7nW4TFp1rE1HowCWOGRKrBPcKIWMOFQBs/1cI76REm4X6cQ808E5aMgW4VdvPM6y17LPFvakmwWuU65CXMpg==",
+    "MySqlConnector/2.3.0-beta.3": {
+      "sha512": "lI8KNSKd/BWPX71NGgtDpXDMvDKENrLOfQBiiLho21m/50V66sC3eh2VfUqJ83vvGEygktprT+8RFLrH/eVmRw==",
       "type": "package",
-      "path": "mysqlconnector/2.3.0-beta.1",
+      "path": "mysqlconnector/2.3.0-beta.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2855,7 +2855,7 @@
         "lib/netstandard2.1/MySqlConnector.dll",
         "lib/netstandard2.1/MySqlConnector.xml",
         "logo.png",
-        "mysqlconnector.2.3.0-beta.1.nupkg.sha512",
+        "mysqlconnector.2.3.0-beta.3.nupkg.sha512",
         "mysqlconnector.nuspec"
       ]
     },
@@ -5791,7 +5791,7 @@
       "Microsoft.Office.Interop.Excel >= 15.0.4795.1001",
       "Microsoft.Playwright >= 1.32.0",
       "Microsoft.Playwright.NUnit >= 1.27.2",
-      "MySqlConnector >= 2.3.0-beta.1",
+      "MySqlConnector >= 2.3.0-beta.3",
       "Polly >= 7.2.3",
       "Serilog >= 3.0.0-dev-01958",
       "Serilog.Sinks.Console >= 4.1.1-dev-00910",
@@ -5800,19 +5800,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\lauri\\.nuget\\packages\\": {}
+    "C:\\Users\\Laurian\\.nuget\\packages\\": {}
   },
   "project": {
-    "version": "1.0.8.41",
+    "version": "1.0.9.28",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lauri\\Documents\\GitHub\\Fight\\Marionette\\Marionette.csproj",
+      "projectUniqueName": "C:\\Users\\Laurian\\Documents\\GitHub\\Marionette\\Marionette\\Marionette.csproj",
       "projectName": "Marionette",
-      "projectPath": "C:\\Users\\lauri\\Documents\\GitHub\\Fight\\Marionette\\Marionette.csproj",
-      "packagesPath": "C:\\Users\\lauri\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lauri\\Documents\\GitHub\\Fight\\Marionette\\obj\\",
+      "projectPath": "C:\\Users\\Laurian\\Documents\\GitHub\\Marionette\\Marionette\\Marionette.csproj",
+      "packagesPath": "C:\\Users\\Laurian\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Laurian\\Documents\\GitHub\\Marionette\\Marionette\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\lauri\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Laurian\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5820,7 +5820,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Users\\lauri\\Documents\\GitHub\\Fight\\Marionette\\bin\\Debug": {},
+        "C:\\Users\\Laurian\\Documents\\GitHub\\Marionette\\Marionette\\bin\\Debug": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -5865,7 +5865,7 @@
           },
           "MySqlConnector": {
             "target": "Package",
-            "version": "[2.3.0-beta.1, )"
+            "version": "[2.3.0-beta.3, )"
           },
           "Polly": {
             "target": "Package",
@@ -5902,7 +5902,7 @@
         "downloadDependencies": [
           {
             "name": "Microsoft.Windows.SDK.NET.Ref",
-            "version": "[10.0.17763.27, 10.0.17763.27]"
+            "version": "[10.0.17763.29, 10.0.17763.29]"
           }
         ],
         "frameworkReferences": {
@@ -5913,7 +5913,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
       }
     }
   }

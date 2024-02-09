@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using Marionette.Logger;
 using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
 using MoreLinq;
@@ -18,19 +19,45 @@ namespace Marionette.WebBrowser
         private List<IDownload> _downloadedFiles = new();
         private List<string> _fileDownloadSession = new();
         private IDialog _dialog;
-        private readonly ILogger _logger;
         public bool _force;
+
+        private MarionetteLogger _logger = new();
 
         public bool DebugMode { get; set; } = false;
         public int DebugModeDuration { get; set; } = 3;
         public LoadState PageWaitType { get; set; } = LoadState.DOMContentLoaded;
-
+        
+        public void enableWriteConsole()
+        {
+            _logger._enabledWriteConsole = true;
+        }
+        
+        public void disableWriteConsole()
+        {
+            _logger._enabledWriteConsole = false;
+        }
+        
+        public void enableWriteToFile()
+        {
+            //get the name of the executable running
+            string fileName = Process.GetCurrentProcess().MainModule.FileName;
+            //get the name of the process without the extension
+            string processName = System.IO.Path.GetFileNameWithoutExtension(fileName);
+            
+            Console.WriteLine(processName + " executing...");
+            
+            _logger.currentTime = processName + " " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            _logger._enabledWriteToFile = true;
+        }
+        
+        public void disableWriteToFile()
+        {
+            _logger._enabledWriteToFile = false;
+        }
         public MarionetteWebBrowser(bool connectSession, int port = 8080,
             string browserPath = @"C:\Program Files\Google\Chrome\Application\chrome.exe",
             BrowserType browserType = BrowserType.Chrome, LoadState pageWaitType = LoadState.DOMContentLoaded)
         {
-            _logger = ConfigureLogger();
-
             if (connectSession)
             {
                 _browser = ConnectToExistingSession(port, browserType);
@@ -46,15 +73,12 @@ namespace Marionette.WebBrowser
             _pages[0].Download += DownloadHandler;
             _pages[0].Dialog += DialogHandler;
 
-            _logger.Information("WebBrowser connected to port {port}. With {browserType} browser.", port, browserType);
         }
 
         public MarionetteWebBrowser(BrowserType browserType, LoadState pageWaitType = LoadState.DOMContentLoaded,
             bool headlessMode = false)
         {
-            _logger = ConfigureLogger();
-
-
+            
             var playwright = Playwright.CreateAsync().Result;
 
             _browser = browserType switch
@@ -74,12 +98,12 @@ namespace Marionette.WebBrowser
             PageWaitType = pageWaitType;
             _pages[0].Download += DownloadHandler;
             _pages[0].Dialog += DialogHandler;
-
-            _logger.Information("WebBrowser was successfully started.");
+            
         }
 
         private IBrowser ConnectToExistingSession(int port, BrowserType browserType)
         {
+            
             var playwright = Playwright.CreateAsync().Result;
 
             return browserType switch
@@ -111,18 +135,7 @@ namespace Marionette.WebBrowser
                 _ => null
             };
         }
-
-        private ILogger ConfigureLogger()
-        {
-            return new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .WriteTo.Console()
-                .WriteTo.File("MarionetteLog.txt", rollingInterval: RollingInterval.Infinite,
-                    outputTemplate:
-                    "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
-                .CreateLogger();
-        }
-
+        
         private List<IDownload> _downloadedFilesOut;
     }
 }
